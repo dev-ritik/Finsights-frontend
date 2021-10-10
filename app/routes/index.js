@@ -100,8 +100,6 @@ import Register from './Pages/Register';
 import Success from './Pages/Success';
 import Timeline from './Pages/Timeline';
 
-import Icons from './Icons';
-
 // ----------- Layout Imports ---------------
 import { DefaultNavbar } from './../layout/components/DefaultNavbar';
 import { DefaultSidebar } from './../layout/components/DefaultSidebar';
@@ -218,8 +216,6 @@ export const RoutedContent = () => {
             <Route component={ Register } path="/pages/register" />
             <Route component={ Success } path="/pages/success" />
             <Route component={ Timeline } path="/pages/timeline" />
-
-            <Route path='/icons' exact component={Icons} />
 
             { /*    404    */ }
             <Redirect to="/pages/error-404" />

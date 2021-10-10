@@ -8,9 +8,6 @@ import {
     SidebarTrigger
 } from './../../components';
 
-import { NavbarActivityFeed } from './NavbarActivityFeed';
-import { NavbarMessages } from './NavbarMessages';
-import { NavbarUser } from './NavbarUser';
 import { LogoThemed } from './../../routes/components/LogoThemed/LogoThemed';
 
 export const DefaultNavbar = () => (
@@ -45,9 +42,6 @@ export const DefaultNavbar = () => (
             </NavItem>
         </Nav>
         <Nav navbar className="ml-auto">
-            <NavbarActivityFeed />
-            <NavbarMessages className="ml-2" />
-            <NavbarUser className="ml-2" />
         </Nav>
     </Navbar>
 );

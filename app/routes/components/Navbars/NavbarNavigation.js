@@ -142,7 +142,6 @@ const NavbarNavigation = ({ accent, pills, ...navbarProps }) => (
                 <DropdownItem divider />
                 <DropdownItem header>Other</DropdownItem>
                 <DropdownItem tag={ Link } to="/tables/tables">Tables</DropdownItem>
-                <DropdownItem tag={ Link } to="/icons">Icons</DropdownItem>
                 <DropdownItem tag={ Link } to="/widgets">Widgets</DropdownItem>
                 <DropdownItem tag={ Link } to="/graphs/re-charts">Re Charts</DropdownItem>
             </DropdownMenu>
