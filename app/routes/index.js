@@ -6,7 +6,7 @@ import {
 } from 'react-router';
 
 // ----------- Pages Imports ---------------
-import Analytics from './Dashboards/Analytics';
+import Analytics from './Dashboards/Seasonal';
 import ProjectsDashboard from './Dashboards/Projects';
 import System from './Dashboards/System';
 import Monitor from './Dashboards/Monitor'; 
@@ -112,9 +112,9 @@ import { SidebarASidebar } from './../layout/components/SidebarASidebar';
 export const RoutedContent = () => {
     return (
         <Switch>
-            <Redirect from="/" to="/dashboards/projects" exact />
+            <Redirect from="/" to="/analysis/seasonal" exact />
             
-            <Route path="/dashboards/analytics" exact component={Analytics} />
+            <Route path="/analysis/seasonal" exact component={Analytics} />
             <Route path="/dashboards/projects" exact component={ProjectsDashboard} />
             <Route path="/dashboards/system" exact component={System} />
             <Route path="/dashboards/monitor" exact component={Monitor} />
