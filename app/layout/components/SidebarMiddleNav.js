@@ -6,6 +6,10 @@ export const SidebarMiddleNav = () => (
     <SidebarMenu>
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-home"></i>}
+            title="Home"
+        />
+        <SidebarMenu.Item
+            icon={<i className="fa fa-fw fa-line-chart"></i>}
             title="Analysis"
         >
             <SidebarMenu.Item title="Seasonal" to='/analysis/seasonal' exact />
