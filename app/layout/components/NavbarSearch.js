@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {
-    UncontrolledDropdown,
+    Button,
     DropdownToggle,
     ExtendedDropdown,
+    Input,
+    InputGroup,
+    InputGroupAddon,
     ListGroup,
     ListGroupItem,
     Media,
-    InputGroup,
-    Input,
-    InputGroupAddon,
-    Button
+    UncontrolledDropdown
 } from './../../components';
 import axios from "axios";
 
@@ -74,7 +74,8 @@ export class NavbarSearch extends Component {
                         <ExtendedDropdown.Section list>
                             <ListGroup>
                                 {this.state.stocks.map((stock, index) => (
-                                    <ListGroupItem tag={ExtendedDropdown.Link} to="/analysis/seasonal" key={index}
+                                    <ListGroupItem tag={ExtendedDropdown.Link} to={`/analysis/${stock.symbol}/seasonal`}
+                                                   key={index}
                                                    action>
                                         <Media>
                                             <Media body>

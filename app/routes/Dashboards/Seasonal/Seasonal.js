@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 import {
     Container,
@@ -12,33 +11,13 @@ import {
     DropdownItem,
     FloatGrid as Grid,
     Card,
-    Media,
-    CardBody,
-    ListGroup,
-    ListGroupItem,
-    Progress,
-    Table,
-    CardFooter,
     Button,
-    CardHeader, CardImg, HolderProvider
+    CardImg, HolderProvider
 
 } from './../../../components';
 import { applyColumn } from './../../../components/FloatGrid';
 
 import { HeaderMain } from "../../components/HeaderMain";
-
-import {
-    WebsitePerformance
-} from "../../components/Analytics/WebsitePerformance";
-import {
-    AudienceMetricsChart
-} from "./components/AudienceMetricsChart";
-import {
-    TinyAreaChart
-} from "../../components/Analytics/TinyAreaChart";
-import {
-    SimpleLineChart
-} from "./../../Graphs/ReCharts/components/SimpleLineChart";
 
 import classes from './Analytics.scss';
 
@@ -70,6 +49,10 @@ SessionByDevice.propTypes = {
 }
 
 export class Seasonal extends React.Component {
+    static propTypes = {
+        match: PropTypes.object,
+    }
+
     state = {
         layouts: _.clone(LAYOUT)
     }
@@ -165,7 +148,7 @@ export class Seasonal extends React.Component {
                                     className="mb-3"
                                 >
                                     <CardImg className="figure-img card-img"
-                                             src="https://api.finsights.ritik.ml/instrument/TCS/seasonal"
+                                             src={`https://api.finsights.ritik.ml/instrument/${this.props.match.params.symbol}/seasonal`}
                                              alt="Seasonal analysis"/>
                                 </HolderProvider.Icon>
                             </Card>

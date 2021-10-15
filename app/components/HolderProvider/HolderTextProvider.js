@@ -27,7 +27,7 @@ class HolderTextProvider extends React.Component {
     }
     static defaultProps = {
         width: '100p',
-        height: 220,
+        height: '100p',
         bg: colors['200'],
         fg: colors['500']
     }
