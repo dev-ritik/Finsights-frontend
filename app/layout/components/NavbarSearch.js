@@ -44,14 +44,13 @@ export class NavbarSearch extends Component {
             }
             const API_URL = `https://api.finsights.ritik.ml/instrument/all?query_str=${searchText}&exchange=NSE`
             axios.get(API_URL).then(res => {
-                console.log(res.data)
                 let message = ""
                 if (res.data.length === 0) {
                     message = "No results found"
                 }
                 this.setState({stocks: res.data, dropdownOpen: true, message: message});
             }).catch(function (error) {
-                console.log(error.response.data);
+                this.setState({stocks: [], dropdownOpen: true, message: error.response.data});
             });
         }, 800);
     }
@@ -77,9 +76,13 @@ export class NavbarSearch extends Component {
                                     <ListGroupItem tag={ExtendedDropdown.Link} to={`/analysis/${stock.symbol}/seasonal`}
                                                    key={index}
                                                    action>
-                                        <Media>
+                                        <Media onClick={() => {
+                                            this.setState({dropdownOpen: false})
+                                        }
+                                        }>
+
                                             <Media body>
-                                    <span className="d-flex justify-content-start">
+                                            <span className="d-flex justify-content-start">
                                         <span className="h6 pb-0 mb-0 d-flex align-items-center">
                                             {stock.symbol}
                                         </span>
