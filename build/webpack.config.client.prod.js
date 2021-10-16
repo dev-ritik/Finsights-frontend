@@ -1,14 +1,18 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-var TerserPlugin = require('terser-webpack-plugin');
-var CircularDependencyPlugin = require('circular-dependency-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-var config = require('./../config');
+const config = require('./../config');
 
-var BASE_PATH = process.env.BASE_PATH || '/';
+const BASE_PATH = process.env.BASE_PATH || '/';
+const COMMIT_HASH = require('child_process')
+    .execSync('git rev-parse --short HEAD')
+    .toString()
+    .trim();
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -45,6 +49,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             'process.env.BASE_PATH': JSON.stringify(BASE_PATH),
+            'process.env.COMMIT_HASH': JSON.stringify(COMMIT_HASH)
         })
     ],
     optimization: {

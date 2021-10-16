@@ -57,6 +57,7 @@
     "ag-grid-react": "^21.0.1",
     "axios": "^0.23.0",
     "bootstrap": "^4.3.1",
+    "child_process": "^1.0.2",
     "faker": "^4.1.0",
     "font-awesome": "^4.7.0",
     "gh-pages": "^3.2.3",
