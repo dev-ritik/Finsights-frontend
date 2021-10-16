@@ -2,50 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {
-    Container,
-    ButtonToolbar,
-    ButtonGroup,
-    UncontrolledButtonDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    FloatGrid as Grid,
-    Card,
     Button,
-    CardImg, HolderProvider
-
+    ButtonGroup,
+    ButtonToolbar,
+    Card,
+    CardImg,
+    Container,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    FloatGrid as Grid,
+    HolderProvider,
+    UncontrolledButtonDropdown
 } from './../../../components';
-import { applyColumn } from './../../../components/FloatGrid';
+import {applyColumn} from '../../../components/FloatGrid';
 
-import { HeaderMain } from "../../components/HeaderMain";
+import {HeaderMain} from "../../components/HeaderMain";
 
-import classes from './Analytics.scss';
 
 const LAYOUT = {
     // Fetches the best size going from sm to xxl
     'seasonal-analysis': {h: 14, sm: 4, md: 5, lg: 7, xl: 8, xxl: 9, minH: 8},
-}
-
-const SessionByDevice = (props) => (
-    <div className={classes['session']}>
-        <div className={classes['session__title']}>
-            { props.title }
-        </div>
-        <div className={classes['session__values']}>
-            <div className={`${classes['session__percentage']} text-${props.color}`}>
-                { props.valuePercent }%
-            </div>
-            <div className={`${classes['session__value']} text-${props.color}`}>
-                { props.value }
-            </div>
-        </div>
-    </div>
-);
-SessionByDevice.propTypes = {
-    title: PropTypes.node,
-    color: PropTypes.string,
-    valuePercent: PropTypes.string,
-    value: PropTypes.string
 }
 
 export class Seasonal extends React.Component {
@@ -53,22 +30,47 @@ export class Seasonal extends React.Component {
         match: PropTypes.object,
     }
 
-    state = {
-        layouts: _.clone(LAYOUT)
+    INITIAL_STATE = {
+        layouts: _.clone(LAYOUT),
+        exchange: 'NSE',
+        frequency: 'Month',
+        weighted: 'Weighted',
+        urlParams: '',
+    }
+
+    state = _.clone(this.INITIAL_STATE)
+
+    EXCHANGES = {
+        'NSE': 'NSE',
+        'BSE': 'BSE'
+    }
+
+    FREQUENCIES = {
+        'Semi-Month': '15d',
+        'Month': '1m',
+        'Quarter': 'q'
+    }
+
+    WEIGHTED = {
+        'Weighted': 'true',
+        'Weightless': 'false'
     }
 
     _resetLayout = () => {
-        this.setState({
-            layouts: _.clone(LAYOUT)
-        })
+        this.setState(_.clone(this.INITIAL_STATE))
+    }
+
+    performQuery() {
+        const PARAMS = `?duration=${this.FREQUENCIES[this.state.frequency]}&weighted=${this.WEIGHTED[this.state.weighted]}`
+        this.setState({urlParams: PARAMS});
     }
 
     render() {
-        const { layouts } = this.state;
+        const {layouts} = this.state;
 
         return (
             <React.Fragment>
-                <Container fluid={ false }>
+                <Container fluid={false}>
                     <div className="d-flex mt-3 mb-5">
                         <HeaderMain
                             title="Seasonal"
@@ -79,21 +81,22 @@ export class Seasonal extends React.Component {
                                 <UncontrolledButtonDropdown className="ml-auto flex-column">
                                     <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
                                         <i className="fa fa-fw fa-exchange text-body mr-2"></i>
-                                        NSE<i className="fa fa-angle-down text-body ml-2"/>
+                                        {this.state.exchange}<i className="fa fa-angle-down text-body ml-2"/>
                                     </DropdownToggle>
                                     <div className="small">
-                                        Exchange for data source
+                                        Exchange
                                     </div>
                                     <DropdownMenu>
                                         <DropdownItem header>
                                             Select Exchange:
                                         </DropdownItem>
-                                        <DropdownItem active>
-                                            NSE
-                                        </DropdownItem>
-                                        <DropdownItem>
-                                            BSE
-                                        </DropdownItem>
+                                        {/*{*/}
+                                        {/*    Object.keys(this.EXCHANGES).map((key, index) => (*/}
+                                        {/*        <DropdownItem key={index} active={this.state.exchange === key}>*/}
+                                        {/*            {key}*/}
+                                        {/*        </DropdownItem>*/}
+                                        {/*    ))*/}
+                                        {/*}*/}
                                     </DropdownMenu>
                                 </UncontrolledButtonDropdown>
                             </ButtonGroup>
@@ -101,7 +104,7 @@ export class Seasonal extends React.Component {
                                 <UncontrolledButtonDropdown className="ml-auto flex-column">
                                     <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
                                         <i className="fa fa-calendar-o text-body mr-2"></i>
-                                        1 Month<i className="fa fa-angle-down text-body ml-2"/>
+                                        {this.state.frequency}<i className="fa fa-angle-down text-body ml-2"/>
                                     </DropdownToggle>
                                     <div className="small">
                                         Group duration
@@ -110,14 +113,52 @@ export class Seasonal extends React.Component {
                                         <DropdownItem header>
                                             Select duration:
                                         </DropdownItem>
-                                        <DropdownItem active>
-                                            1 Month
+                                        {
+                                            Object.keys(this.FREQUENCIES).map((key, index) => (
+                                                <DropdownItem key={index} active={this.state.frequency === key}
+                                                              onClick={
+                                                                  () => {
+                                                                      this.setState({frequency: key});
+                                                                  }
+                                                              }>
+                                                    {key}
+                                                </DropdownItem>
+                                            ))
+                                        }
+                                    </DropdownMenu>
+                                </UncontrolledButtonDropdown>
+                            </ButtonGroup>
+                            <ButtonGroup className="align-self-start mr-2">
+                                <UncontrolledButtonDropdown className="ml-auto flex-column">
+                                    <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
+                                        {this.state.weighted}<i className="fa fa-angle-down text-body ml-2"/>
+                                    </DropdownToggle>
+                                    <div className="small">
+                                        Group duration
+                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownItem header>
+                                            Select weighted:
                                         </DropdownItem>
+                                        {
+                                            Object.keys(this.WEIGHTED).map((key, index) => (
+                                                <DropdownItem key={index} active={this.state.weighted === key}
+                                                              onClick={
+                                                                  () => {
+                                                                      this.setState({weighted: key});
+                                                                  }
+                                                              }>
+                                                    {key}
+                                                </DropdownItem>
+                                            ))
+                                        }
                                     </DropdownMenu>
                                 </UncontrolledButtonDropdown>
                             </ButtonGroup>
                             <ButtonGroup className="align-self-start">
-                                <Button color="primary" className="mb-2 mr-2 px-3">
+                                <Button color="primary" className="mb-2 mr-2 px-3" onClick={() => {
+                                    this.performQuery();
+                                }}>
                                     Apply
                                 </Button>
                             </ButtonGroup>
@@ -148,7 +189,7 @@ export class Seasonal extends React.Component {
                                     className="mb-3"
                                 >
                                     <CardImg className="figure-img card-img"
-                                             src={`https://api.finsights.ritik.ml/instrument/${this.props.match.params.symbol}/seasonal`}
+                                             src={`https://api.finsights.ritik.ml/instrument/${this.props.match.params.symbol}/seasonal${this.state.urlParams}`}
                                              alt="Seasonal analysis"/>
                                 </HolderProvider.Icon>
                             </Card>
