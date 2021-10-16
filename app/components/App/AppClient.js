@@ -1,6 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader'
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 import AppLayout from './../../layout/default';
 import { RoutedContent } from './../../routes';
