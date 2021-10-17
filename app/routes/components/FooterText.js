@@ -5,7 +5,7 @@ const COMMIT_HASH = process.env.COMMIT_HASH || '-';
 
 const FooterText = (props) => (
 	<React.Fragment>
-		v{COMMIT_HASH}
+		<code>v{COMMIT_HASH}</code>
 		<br/>
 		(C) {props.year} All Rights Reserved. Built with <i className="fa fa-fw fa-heart" aria-hidden="true"/> by <a
 		href="https://ritik.ml"
