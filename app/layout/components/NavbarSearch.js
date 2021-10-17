@@ -42,8 +42,16 @@ export class NavbarSearch extends Component {
                 this.setState({message: "Start searching with 4 letters", dropdownOpen: true});
                 return;
             }
-            const API_URL = `https://api.finsights.ritik.ml/instrument/all?query_str=${searchText}&exchange=NSE`
-            axios.get(API_URL).then(res => {
+            const API_URL = `https://api.finsights.ritik.ml/instrument/all`
+
+            axios.get(API_URL, {
+                params: {
+                    query_str: `${searchText}`,
+                    exchange: 'NSE',
+                    stock: 'true',
+                    index: 'true'
+                }
+            }).then(res => {
                 let message = ""
                 if (res.data.length === 0) {
                     message = "No results found"
@@ -53,6 +61,10 @@ export class NavbarSearch extends Component {
                 this.setState({stocks: [], dropdownOpen: true, message: error.response.data});
             });
         }, 800);
+    }
+
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     render() {
@@ -73,7 +85,8 @@ export class NavbarSearch extends Component {
                         <ExtendedDropdown.Section list>
                             <ListGroup>
                                 {this.state.stocks.map((stock, index) => (
-                                    <ListGroupItem tag={ExtendedDropdown.Link} to={`/analysis/${stock.symbol}/seasonal`}
+                                    <ListGroupItem tag={ExtendedDropdown.Link}
+                                                   to={`/analysis/${stock.instrument_type}/${stock.symbol}/seasonal`}
                                                    key={index}
                                                    action>
                                         <Media onClick={() => {
@@ -86,10 +99,11 @@ export class NavbarSearch extends Component {
                                         <span className="h6 pb-0 mb-0 d-flex align-items-center">
                                             {stock.symbol}
                                         </span>
-                                        <span className="ml-auto small">{stock.exchange}</span>
+                                        <span
+                                            className="ml-auto small"> {this.capitalize(stock.instrument_type)}, {stock.exchange}</span>
                                     </span>
                                                 <p className="mt-2 mb-1">
-                                                    {stock.issuer}
+                                                    {stock.name}
                                                 </p>
                                             </Media>
                                         </Media>

@@ -107,12 +107,12 @@ import {SidebarASidebar} from './../layout/components/SidebarASidebar';
 //------ Route Definitions --------
 // eslint-disable-next-line no-unused-vars
 export const RoutedContent = () => {
-        const SYMBOL = "([a-zA-Z0-9]{3,32})";
+        const SYMBOL = "([a-zA-Z0-9 ]{3,32})";
         return (
             <Switch>
                     <Route path="/" exact component={Home}/>
 
-                    <Route path={`/analysis/:symbol${SYMBOL}/seasonal`} exact component={Analytics}/>
+                    <Route path={`/analysis/:type(stock|index)/:symbol${SYMBOL}/seasonal`} exact component={Analytics}/>
                     <Route path="/dashboards/projects" exact component={ProjectsDashboard}/>
                     <Route path="/dashboards/system" exact component={System}/>
                     <Route path="/dashboards/monitor" exact component={Monitor}/>
