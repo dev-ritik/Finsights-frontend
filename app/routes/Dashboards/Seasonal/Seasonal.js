@@ -134,7 +134,7 @@ export class Seasonal extends React.Component {
                                         {this.state.weighted}<i className="fa fa-angle-down text-body ml-2"/>
                                     </DropdownToggle>
                                     <div className="small">
-                                        Group duration
+                                        Weight to recent?
                                     </div>
                                     <DropdownMenu>
                                         <DropdownItem header>
