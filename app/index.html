@@ -7,7 +7,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title><%= config.options.title || 'React Dashboard'%></title>
+  <title>Finsights</title>
 
   <% if (config.files.favicon) { %>
   <link rel="shortcut icon" href="<%= config.files.favicon%>">
@@ -74,6 +74,13 @@
 	    animation: spin .5s linear infinite;
     }
   </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KVXR236YBX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KVXR236YBX');
+    </script>
 </head>
 <body>
   <!-- START Loader -->
