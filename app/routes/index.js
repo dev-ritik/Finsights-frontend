@@ -3,6 +3,7 @@ import {Redirect, Route, Switch} from 'react-router';
 
 // ----------- Pages Imports ---------------
 import Home from './Dashboards/Home';
+import News from './Dashboards/News';
 import Analytics from './Dashboards/Seasonal';
 import ProjectsDashboard from './Dashboards/Projects';
 import System from './Dashboards/System';
@@ -111,6 +112,7 @@ export const RoutedContent = () => {
         return (
             <Switch>
                     <Route path="/" exact component={Home}/>
+                    <Route path="/news" exact component={News}/>
 
                     <Route path={`/analysis/:type(stock|index)/:symbol${SYMBOL}/seasonal`} exact component={Analytics}/>
                     <Route path="/dashboards/projects" exact component={ProjectsDashboard}/>
