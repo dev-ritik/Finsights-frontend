@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes, {number, string} from 'prop-types';
-import {Media} from './../../../components';
+import {Media, UncontrolledTooltip} from './../../../components';
+import {Collapse} from "reactstrap";
 
 function timeSince(timeStamp) {
     // Src: https://gist.github.com/valarpirai/27ed1b874142ade9b1d0
@@ -129,11 +130,18 @@ function timeSince(timeStamp) {
     }
 }
 
-function get_post_url(slug) {
-    return `https://reddit.com${slug}`
+const get_post_url = slug => `https://reddit.com${slug}`;
+
+function truncate(text) {
+    if (text.length > 75) {
+        return text.substring(0, 75) + "...";
+    } else {
+        return text;
+    }
 }
 
 function Reddit(props) {
+    const [open, setOpen] = useState(true);
     return <Media className={`mb-4 ${props.mediaClassName}`}>
         {/*<Media left className="mr-3">*/}
         {/*    <Avatar.Image*/}
@@ -165,14 +173,26 @@ function Reddit(props) {
                     {timeSince(props.created)}
                 </span>
             </div>
-            <p className="mb-1">
-                {props.body}
-            </p>
-            <div>
-                <span className={"mr-2 " + (props.reddit_score >= 0 ? 'text-success' : 'text-danger')}>
+            <div onClick={function () {
+                return setOpen(!open);
+            }}>
+                <Collapse isOpen={open}>
+                    <p className="mb-1">
+                        {truncate(props.body)}
+                    </p>
+                </Collapse>
+                <Collapse isOpen={!open}>
+                    <p className="mb-1">
+                        {props.body}
+                    </p>
+                    <span className={"mr-2 " + (props.reddit_score >= 0 ? 'text-success' : 'text-danger')} id="RedditScore">
                     {props.reddit_score}
-                </span>
-                <i className="fa fa-angle-up text-success"/> <i className="fa fa-angle-down text-danger"/>
+                    </span>
+                    <i className="fa fa-angle-up text-success"/> <i className="fa fa-angle-down text-danger"/>
+                    <UncontrolledTooltip placement="left" target="RedditScore">
+                        Reddit Score
+                    </UncontrolledTooltip>
+                </Collapse>
             </div>
         </Media>
     </Media>
