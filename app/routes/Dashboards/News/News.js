@@ -15,6 +15,7 @@ import {ChatCardFooter} from "../../components/Chat/ChatCardFooter";
 import axios from "axios";
 import {Reddit} from "../../components/Post/Reddit";
 import {API_URL} from "../../../constants";
+import {Twitter} from "../../components/Post/Twitter";
 
 
 export class News extends React.Component {
@@ -22,11 +23,15 @@ export class News extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: []
+            redditPosts: [],
+            twitterPosts: [],
         };
         axios.get(`${API_URL}/news/reddit`).then(res => {
-            this.setState({posts: res.data});
+            this.setState({redditPosts: res.data});
         });
+        axios.get(`${API_URL}/news/twitter`).then(res => {
+            this.setState({twitterPosts: res.data});
+        })
     }
 
     render() {
@@ -42,7 +47,7 @@ export class News extends React.Component {
                             Reddit
                         </CardTitle>
                         <ListGroup flush>
-                            {this.state.posts.map(function (data, index) {
+                            {this.state.redditPosts.map(function (data, index) {
                                 return <ListGroupItem key={index}><Reddit {...data}/></ListGroupItem>;
                             })}
                         </ListGroup>
@@ -56,6 +61,11 @@ export class News extends React.Component {
                         <CardTitle tag="h6" className="mb-4">
                             Twitter
                         </CardTitle>
+                        <ListGroup flush>
+                            {this.state.twitterPosts.map(function (data, index) {
+                                return <ListGroupItem key={index}><Twitter {...data}/></ListGroupItem>;
+                            })}
+                        </ListGroup>
                     </CardBody>
                 </Card>
                 <Card className="mb-3">
