@@ -18,6 +18,7 @@ import {
 import {applyColumn} from '../../../components/FloatGrid';
 
 import {HeaderMain} from "../../components/HeaderMain";
+import {API_URL} from "../../../constants";
 
 
 const LAYOUT = {
@@ -189,7 +190,7 @@ export class Seasonal extends React.Component {
                                     className="mb-3"
                                 >
                                     <CardImg className="figure-img card-img"
-                                             src={`https://api.finsights.ritik.ml/instrument/${this.props.match.params.symbol}/seasonal${this.state.urlParams}`}
+                                             src={`${API_URL}/instrument/${this.props.match.params.symbol}/seasonal${this.state.urlParams}`}
                                              alt="Seasonal analysis"/>
                                 </HolderProvider.Icon>
                             </Card>

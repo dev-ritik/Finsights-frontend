@@ -14,6 +14,7 @@ import {HeaderMain} from "../../components/HeaderMain";
 import {ChatCardFooter} from "../../components/Chat/ChatCardFooter";
 import axios from "axios";
 import {Reddit} from "../../components/Post/Reddit";
+import {API_URL} from "../../../constants";
 
 
 export class News extends React.Component {
@@ -23,7 +24,7 @@ export class News extends React.Component {
         this.state = {
             posts: []
         };
-        axios.get('https://api.finsights.ritik.ml/news/reddit').then(res => {
+        axios.get(`${API_URL}/news/reddit`).then(res => {
             this.setState({posts: res.data});
         });
     }

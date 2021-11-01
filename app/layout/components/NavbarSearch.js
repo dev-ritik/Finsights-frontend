@@ -16,6 +16,7 @@ import {
 import axios from "axios";
 
 import './../../styles/components/search.scss';
+import {API_URL} from "../../constants";
 
 export class NavbarSearch extends Component {
     static propTypes = {
@@ -42,9 +43,8 @@ export class NavbarSearch extends Component {
                 this.setState({message: "Start searching with 4 letters", dropdownOpen: true});
                 return;
             }
-            const API_URL = `https://api.finsights.ritik.ml/instrument/all`
 
-            axios.get(API_URL, {
+            axios.get( `${API_URL}/instrument/all`, {
                 params: {
                     query_str: `${searchText}`,
                     exchange: 'NSE',
