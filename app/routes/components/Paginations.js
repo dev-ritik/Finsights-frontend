@@ -8,20 +8,28 @@ export class Paginations extends React.Component {
     render() {
         return (
             <Pagination aria-label="Page navigation example" className="d-flex justify-content-center">
-                <PaginationItem>
+                <PaginationItem onClick={() => {
+                    if (this.props.active > 1){
+                        this.props.goToPage(this.props.active - 1);
+                    }
+                }}>
                     <PaginationLink previous>
                         <i className="fa fa-fw fa-angle-left"/>
                     </PaginationLink>
                 </PaginationItem>
                 {Array.from(Array(this.props.page_count), (data, index) =>
                     <PaginationItem active={this.props.active === (index + 1)} key={index} onClick={() => {
-                        this.props.goToPage(index + 1)
+                        this.props.goToPage(index + 1);
                     }}>
                         <PaginationLink>
                             {index + 1}
                         </PaginationLink>
                     </PaginationItem>)}
-                <PaginationItem>
+                <PaginationItem onClick={() => {
+                    if (this.props.active < this.props.page_count){
+                        this.props.goToPage(this.props.active + 1);
+                    }
+                }}>
                     <PaginationLink next>
                         <i className="fa fa-fw fa-angle-right"/>
                     </PaginationLink>
