@@ -15,7 +15,6 @@ const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
 // }
 
 function Twitter(props) {
-    console.log(props)
     // const [open, setOpen] = useState(true);
     return <Media className={`mb-2 ${props.mediaClassName}`}>
         {/*<Media left className="mr-3">*/}

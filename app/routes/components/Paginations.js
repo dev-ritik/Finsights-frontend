@@ -1,40 +1,43 @@
 import React from 'react';
 
-import { 
-    Pagination,
-    PaginationItem,
-    PaginationLink
-} from 'reactstrap';
+import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import PropTypes, {number} from "prop-types";
 
-const Paginations = () => (
+export class Paginations extends React.Component {
 
-    <Pagination aria-label="Page navigation example">
-        <PaginationItem>
-            <PaginationLink previous href="#">
-                <i className="fa fa-fw fa-angle-left"></i>
-            </PaginationLink>
-        </PaginationItem>
-        <PaginationItem active>
-            <PaginationLink href="#">
-                1
-            </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-            <PaginationLink href="#">
-                2
-            </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-            <PaginationLink href="#">
-                3
-            </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-            <PaginationLink next href="#">
-                <i className="fa fa-fw fa-angle-right"></i>
-            </PaginationLink>
-        </PaginationItem>
-    </Pagination>
-)
+    render() {
+        return (
+            <Pagination aria-label="Page navigation example" className="d-flex justify-content-center">
+                <PaginationItem>
+                    <PaginationLink previous>
+                        <i className="fa fa-fw fa-angle-left"/>
+                    </PaginationLink>
+                </PaginationItem>
+                {Array.from(Array(this.props.page_count), (data, index) =>
+                    <PaginationItem active={this.props.active === (index + 1)} key={index} onClick={() => {
+                        this.props.goToPage(index + 1)
+                    }}>
+                        <PaginationLink>
+                            {index + 1}
+                        </PaginationLink>
+                    </PaginationItem>)}
+                <PaginationItem>
+                    <PaginationLink next>
+                        <i className="fa fa-fw fa-angle-right"/>
+                    </PaginationLink>
+                </PaginationItem>
+            </Pagination>
+        );
+    }
+}
 
-export { Paginations };
+Paginations.propTypes = {
+    page_count: number,
+    active: number,
+    goToPage: PropTypes.func,
+};
+Paginations.defaultProps = {
+    page_count: 1,
+    active: 1,
+    goToPage: () => null,
+};
