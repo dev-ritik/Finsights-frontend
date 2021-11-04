@@ -13,12 +13,13 @@ const Home = () => (
         <Row className="mb-5">
             <Col lg={12}>
                 <HeaderMain
-                    title="Welcome to finsights"
+                    title="Welcome to finsights :)"
                     className="mb-4 mb-lg-5"
                 />
-                <p>
-                    Use the search above :)
-                </p>
+                <ul>
+                    <li>Use the search above</li>
+                    <li>Check the news section</li>
+                </ul>
             </Col>
         </Row>
     </Container>
