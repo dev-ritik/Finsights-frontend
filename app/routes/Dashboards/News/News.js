@@ -4,6 +4,7 @@ import {Card, CardBody, CardColumns, CardTitle, Container} from './../../../comp
 import {HeaderMain} from "../../components/HeaderMain";
 import {RedditFeed} from "../../components/Feed/Reddit";
 import {TwitterFeed} from "../../components/Feed/Twitter";
+import {TelegramFeed} from "../../components/Feed/Telegram";
 
 
 export class News extends React.Component {
@@ -16,17 +17,11 @@ export class News extends React.Component {
             <CardColumns>
                 <RedditFeed/>
                 <TwitterFeed/>
+                <TelegramFeed/>
                 <Card className="mb-3">
                     <CardBody>
                         <CardTitle tag="h6" className="mb-4">
                             Youtube
-                        </CardTitle>
-                    </CardBody>
-                </Card>
-                <Card className="mb-3">
-                    <CardBody>
-                        <CardTitle tag="h6" className="mb-4">
-                            Telegram
                         </CardTitle>
                     </CardBody>
                 </Card>
