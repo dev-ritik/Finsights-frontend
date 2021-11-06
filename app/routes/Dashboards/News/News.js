@@ -1,10 +1,11 @@
 import React from 'react';
-import {Card, CardBody, CardColumns, CardTitle, Container} from './../../../components';
+import {CardColumns, Container} from './../../../components';
 
 import {HeaderMain} from "../../components/HeaderMain";
 import {RedditFeed} from "../../components/Feed/Reddit";
 import {TwitterFeed} from "../../components/Feed/Twitter";
 import {TelegramFeed} from "../../components/Feed/Telegram";
+import {YoutubeFeed} from "../../components/Feed/Youtube";
 
 
 export class News extends React.Component {
@@ -18,13 +19,7 @@ export class News extends React.Component {
                 <RedditFeed/>
                 <TwitterFeed/>
                 <TelegramFeed/>
-                <Card className="mb-3">
-                    <CardBody>
-                        <CardTitle tag="h6" className="mb-4">
-                            Youtube
-                        </CardTitle>
-                    </CardBody>
-                </Card>
+                <YoutubeFeed/>
             </CardColumns>
         </Container>;
     }

@@ -1,14 +1,12 @@
 import React from 'react';
 import {Card, CardBody, CardFooter, CardTitle, Container, ListGroup, ListGroupItem} from './../../../components';
 import axios from "axios";
-import {API_URL} from "../../../constants";
+import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
 import {Twitter} from "../Post/Twitter";
 
 
 export class TwitterFeed extends React.Component {
-
-    PER_PAGE = 10;
 
     constructor(props) {
         super(props);
@@ -23,13 +21,13 @@ export class TwitterFeed extends React.Component {
     performQuery(offset) {
         axios.get(`${API_URL}/news/twitter`, {
             params: {
-                limit: this.PER_PAGE,
+                limit: POSTS_PER_PAGE,
                 offset: offset,
             }
         }).then(res => {
             this.setState({
                 posts: res.data.results,
-                pageCount: Math.ceil(res.data.count / this.PER_PAGE),
+                pageCount: Math.ceil(res.data.count / POSTS_PER_PAGE),
             })
         });
     }
@@ -38,7 +36,7 @@ export class TwitterFeed extends React.Component {
         return <Container>
             <Card className="mb-3">
                 <CardBody>
-                    <CardTitle tag="h6" className="mb-4">
+                    <CardTitle tag="h3" className="mb-4">
                         Twitter
                     </CardTitle>
                     <ListGroup flush>
@@ -50,7 +48,7 @@ export class TwitterFeed extends React.Component {
                 <CardFooter className="justify-content-center">
                     <Paginations page_count={this.state.pageCount} active={this.state.currentPage}
                                  goToPage={(page_number) => {
-                                     const offset = (page_number - 1) * this.PER_PAGE;
+                                     const offset = (page_number - 1) * POSTS_PER_PAGE;
                                      this.setState({
                                          currentPage: page_number,
                                      });

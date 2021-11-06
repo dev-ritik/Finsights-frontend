@@ -1,17 +1,17 @@
 import React from 'react';
 import {Card, CardBody, CardFooter, CardTitle, Container, ListGroup, ListGroupItem} from './../../../components';
 import axios from "axios";
-import {Reddit} from "../Post/Reddit";
+import {Youtube} from "../Post/Youtube";
 import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
 
 
-export class RedditFeed extends React.Component {
+export class YoutubeFeed extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            redditPosts: [],
+            posts: [],
             currentPage: 1,
             pageCount: 1,
         };
@@ -19,14 +19,14 @@ export class RedditFeed extends React.Component {
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/reddit`, {
+        axios.get(`${API_URL}/news/youtube`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,
             }
         }).then(res => {
             this.setState({
-                redditPosts: res.data.results,
+                posts: res.data.results,
                 pageCount: Math.ceil(res.data.count / POSTS_PER_PAGE),
             })
         });
@@ -37,11 +37,11 @@ export class RedditFeed extends React.Component {
             <Card className="mb-3">
                 <CardBody>
                     <CardTitle tag="h3" className="mb-4">
-                        Reddit
+                        Youtube
                     </CardTitle>
                     <ListGroup flush>
-                        {this.state.redditPosts.map(function (data, index) {
-                            return <ListGroupItem key={index}><Reddit {...data}/></ListGroupItem>;
+                        {this.state.posts.map(function (data, index) {
+                            return <ListGroupItem key={index}><Youtube {...data}/></ListGroupItem>;
                         })}
                     </ListGroup>
                 </CardBody>
