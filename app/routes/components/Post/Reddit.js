@@ -56,7 +56,9 @@ function Reddit(props) {
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
-                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                            return <Badge pill color={"secondary"} className="mr-1"
+                                          href={`#/analysis/stock/${data}/news`}
+                                          key={index}>
                                 {exchangeSymbolReprToSymbol(data)}
                             </Badge>;
                         })}
@@ -68,7 +70,9 @@ function Reddit(props) {
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
-                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                            return <Badge pill color={"secondary"} className="mr-1"
+                                          href={`#/analysis/stock/${data}/news`}
+                                          key={index}>
                                 {exchangeSymbolReprToSymbol(data)}
                             </Badge>;
                         })}

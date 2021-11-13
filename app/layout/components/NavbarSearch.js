@@ -86,7 +86,7 @@ export class NavbarSearch extends Component {
                             <ListGroup>
                                 {this.state.stocks.map((stock, index) => (
                                     <ListGroupItem tag={ExtendedDropdown.Link}
-                                                   to={`/analysis/${stock.instrument_type}/${stock.symbol}/seasonal`}
+                                                   to={`/analysis/${stock.instrument_type}/NSE/${stock.symbol}/seasonal`}
                                                    key={index}
                                                    action>
                                         <Media onClick={() => {

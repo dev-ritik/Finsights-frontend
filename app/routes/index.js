@@ -114,7 +114,10 @@ export const RoutedContent = () => {
                     <Route path="/" exact component={Home}/>
                     <Route path="/news" exact component={News}/>
 
-                    <Route path={`/analysis/:type(stock|index)/:symbol${SYMBOL}/seasonal`} exact component={Analytics}/>
+                    <Route path={`/analysis/:type(stock|index)/NSE/:symbol${SYMBOL}/seasonal`} exact
+                           component={Analytics}/>
+                    <Route path={`/analysis/:type(stock|index)/NSE/:symbol${SYMBOL}/news`} exact
+                           component={News}/>
                     <Route path="/dashboards/projects" exact component={ProjectsDashboard}/>
                     <Route path="/dashboards/system" exact component={System}/>
                     <Route path="/dashboards/monitor" exact component={Monitor}/>

@@ -4,6 +4,7 @@ import axios from "axios";
 import {Reddit} from "../Post/Reddit";
 import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
+import PropTypes from "prop-types";
 
 
 export class RedditFeed extends React.Component {
@@ -14,12 +15,19 @@ export class RedditFeed extends React.Component {
             redditPosts: [],
             currentPage: 1,
             pageCount: 1,
+            symbol: this.props.symbol,
         };
         this.performQuery(0);
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/all/all/reddit`, {
+        let exchange;
+        if (this.props.symbol === "all") {
+            exchange = "all"
+        } else {
+            exchange = "NSE"
+        }
+        axios.get(`${API_URL}/news/${exchange}/${this.props.symbol}/reddit`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,
@@ -28,11 +36,15 @@ export class RedditFeed extends React.Component {
             this.setState({
                 redditPosts: res.data.results,
                 pageCount: Math.ceil(res.data.count / POSTS_PER_PAGE),
+                symbol: this.props.symbol,
             })
         });
     }
 
     render() {
+        if (this.state.symbol !== this.props.symbol) {
+            this.performQuery(0);
+        }
         return <Container>
             <Card className="mb-3">
                 <CardBody>
@@ -59,3 +71,7 @@ export class RedditFeed extends React.Component {
         </Container>;
     }
 }
+
+RedditFeed.propTypes = {
+    symbol: PropTypes.string,
+};
