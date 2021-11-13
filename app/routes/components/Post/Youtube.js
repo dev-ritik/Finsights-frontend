@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes, {number, string} from 'prop-types';
-import {Media, UncontrolledTooltip} from './../../../components';
+import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {Collapse} from "reactstrap";
-import {timeSince} from "../../../utilities";
+import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 
 const get_post_url = slug => `https://youtube.com/watch?v=${slug}`;
 
@@ -51,13 +51,27 @@ function Youtube(props) {
                 return setOpen(!open);
             }}>
                 <Collapse isOpen={open}>
-                    <p className="mb-1">
+                    <p className="mb-0">
                         {truncate(props.description)}
+                    </p>
+                    <p className="mb-1">
+                        {props.stocks.map(function (data, index) {
+                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                                {exchangeSymbolReprToSymbol(data)}
+                            </Badge>;
+                        })}
                     </p>
                 </Collapse>
                 <Collapse isOpen={!open}>
-                    <p className="mb-1">
+                    <p className="mb-0">
                         {props.description}
+                    </p>
+                    <p className="mb-1">
+                        {props.stocks.map(function (data, index) {
+                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                                {exchangeSymbolReprToSymbol(data)}
+                            </Badge>;
+                        })}
                     </p>
                     <span id="Like">
                         <i className="fa fa-thumbs-o-up mr-1"/>
@@ -114,6 +128,7 @@ Youtube.propTypes = {
     dislike_count: number,
     view_count: number,
     comment_count: number,
+    stocks: PropTypes.arrayOf(string),
     mediaClassName: PropTypes.node
 };
 Youtube.defaultProps = {
@@ -125,6 +140,7 @@ Youtube.defaultProps = {
     dislike_count: 0,
     view_count: 0,
     comment_count: 0,
+    stocks: [],
     mediaClassName: "text-empty"
 };
 

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes, {number, string} from 'prop-types';
-import {Media, UncontrolledTooltip} from './../../../components';
+import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {Collapse} from "reactstrap";
-import {timeSince} from "../../../utilities";
+import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 
 const get_post_url = slug => `https://reddit.com${slug}`;
 
@@ -51,15 +51,31 @@ function Reddit(props) {
                 return setOpen(!open);
             }}>
                 <Collapse isOpen={open}>
-                    <p className="mb-1">
+                    <p className="mb-0">
                         {truncate(props.body)}
+                    </p>
+                    <p className="mb-1">
+                        {props.stocks.map(function (data, index) {
+                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                                {exchangeSymbolReprToSymbol(data)}
+                            </Badge>;
+                        })}
                     </p>
                 </Collapse>
                 <Collapse isOpen={!open}>
-                    <p className="mb-1">
+                    <p className="mb-0">
                         {props.body}
                     </p>
-                    <span className={"mr-2 " + (props.reddit_score >= 0 ? 'text-success' : 'text-danger')} id="RedditScore">
+                    <p className="mb-1">
+                        {props.stocks.map(function (data, index) {
+                            return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                                {exchangeSymbolReprToSymbol(data)}
+                            </Badge>;
+                        })}
+                    </p>
+
+                    <span className={"mr-2 " + (props.reddit_score >= 0 ? 'text-success' : 'text-danger')}
+                          id="RedditScore">
                     {props.reddit_score}
                     </span>
                     <i className="fa fa-angle-up text-success"/> <i className="fa fa-angle-down text-danger"/>
@@ -79,6 +95,7 @@ Reddit.propTypes = {
     body: string,
     reddit_score: number,
     url: string,
+    stocks: PropTypes.arrayOf(string),
     mediaClassName: PropTypes.node
 };
 Reddit.defaultProps = {
@@ -87,6 +104,7 @@ Reddit.defaultProps = {
     body: "",
     reddit_score: 0,
     url: "/",
+    stocks: [],
     mediaClassName: "text-empty"
 };
 

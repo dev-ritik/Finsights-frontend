@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes, {number, string} from 'prop-types';
-import {Media, UncontrolledTooltip} from './../../../components';
-import {timeSince} from "../../../utilities";
+import {Badge, Media, UncontrolledTooltip} from './../../../components';
+import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 
 
 const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
@@ -41,7 +41,13 @@ function Twitter(props) {
                 <span className="h6 text-decoration-none">
                     {props.text}
                 </span>
-                <br/>
+                <p className="mb-0">
+                    {props.stocks.map(function (data, index) {
+                        return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                            {exchangeSymbolReprToSymbol(data)}
+                        </Badge>;
+                    })}
+                </p>
                 <a href={get_post_url(props.post_id)} rel="noopener noreferrer" target="_blank"
                    className="small text-decoration-none-light">
                     {timeSince(props.created)}
@@ -91,6 +97,7 @@ Twitter.propTypes = {
     like_count: number,
     reply_count: number,
     retweet_count: number,
+    stocks: PropTypes.arrayOf(string),
     mediaClassName: PropTypes.node
 };
 Twitter.defaultProps = {
@@ -100,6 +107,7 @@ Twitter.defaultProps = {
     like_count: 0,
     reply_count: 0,
     retweet_count: 0,
+    stocks: [],
     mediaClassName: "text-empty"
 };
 

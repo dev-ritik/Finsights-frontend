@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes, {number, string} from 'prop-types';
-import {Media, UncontrolledTooltip} from './../../../components';
-import {timeSince} from "../../../utilities";
+import {Badge, Media, UncontrolledTooltip} from './../../../components';
+import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 
 
 const get_post_url = (channel, id) => `https://t.me/${channel}/${id}`;
@@ -41,7 +41,13 @@ function Telegram(props) {
                 <span className="h6 text-decoration-none">
                     {props.text}
                 </span>
-                <br/>
+                <p className="mb-0">
+                    {props.stocks.map(function (data, index) {
+                        return <Badge pill color={"secondary"} className="mr-1" key={index}>
+                            {exchangeSymbolReprToSymbol(data)}
+                        </Badge>;
+                    })}
+                </p>
                 <a href={get_post_url(props.channel, props.post_id)} rel="noopener noreferrer" target="_blank"
                    className="small text-decoration-none-light">
                     {timeSince(props.created)}
@@ -82,6 +88,7 @@ Telegram.propTypes = {
     channel: string,
     forward_count: number,
     view_count: number,
+    stocks: PropTypes.arrayOf(string),
     mediaClassName: PropTypes.node
 };
 Telegram.defaultProps = {
@@ -91,6 +98,7 @@ Telegram.defaultProps = {
     channel: "",
     forward_count: 0,
     view_count: 0,
+    stocks: [],
     mediaClassName: "text-empty"
 };
 

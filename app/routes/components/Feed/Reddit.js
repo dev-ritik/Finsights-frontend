@@ -19,7 +19,7 @@ export class RedditFeed extends React.Component {
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/reddit`, {
+        axios.get(`${API_URL}/news/all/all/reddit`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,

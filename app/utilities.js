@@ -138,3 +138,7 @@ export function timeSince(timeStamp) {
         return timeString;
     }
 }
+
+export function exchangeSymbolReprToSymbol(exchangeSymbol) {
+    return exchangeSymbol.split("/")[1];
+}

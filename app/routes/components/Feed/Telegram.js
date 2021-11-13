@@ -19,7 +19,7 @@ export class TelegramFeed extends React.Component {
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/telegram`, {
+        axios.get(`${API_URL}/news/all/all/telegram`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,

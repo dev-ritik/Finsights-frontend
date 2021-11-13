@@ -19,7 +19,7 @@ export class TwitterFeed extends React.Component {
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/twitter`, {
+        axios.get(`${API_URL}/news/all/all/twitter`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,

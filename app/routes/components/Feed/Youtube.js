@@ -19,7 +19,7 @@ export class YoutubeFeed extends React.Component {
     }
 
     performQuery(offset) {
-        axios.get(`${API_URL}/news/youtube`, {
+        axios.get(`${API_URL}/news/all/all/youtube`, {
             params: {
                 limit: POSTS_PER_PAGE,
                 offset: offset,
