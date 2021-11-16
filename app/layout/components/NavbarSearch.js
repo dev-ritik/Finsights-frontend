@@ -13,21 +13,22 @@ import {
     Media,
     UncontrolledDropdown
 } from './../../components';
-import axios from "axios";
 
 import './../../styles/components/search.scss';
-import {API_URL} from "../../constants";
+import {connect} from "react-redux";
+import {hideDropdown, newSearch, newSymbolSelection} from "../../redux/SearchedSymbol";
 
-export class NavbarSearch extends Component {
+class NavbarSearch extends Component {
     static propTypes = {
         className: PropTypes.string,
-        style: PropTypes.object
-    }
-
-    state = {
-        stocks: [],
-        dropdownOpen: false,
-        message: ""
+        style: PropTypes.object,
+        history: PropTypes.object,
+        stocks: PropTypes.array,
+        message: PropTypes.string,
+        dropdownOpen: PropTypes.bool,
+        search: PropTypes.func,
+        hideDropdown: PropTypes.func,
+        newSymbolSelection: PropTypes.func,
     }
 
     constructor(props) {
@@ -37,29 +38,9 @@ export class NavbarSearch extends Component {
 
     doSearch = (searchText) => {
         if (this.timeout) clearTimeout(this.timeout);
+        console.log(42)
         this.timeout = setTimeout(() => {
-            if (searchText.length <= 3) {
-                // Ignoring small string
-                this.setState({message: "Start searching with 4 letters", dropdownOpen: true});
-                return;
-            }
-
-            axios.get( `${API_URL}/instrument/all`, {
-                params: {
-                    query_str: `${searchText}`,
-                    exchange: 'NSE',
-                    stock: 'true',
-                    index: 'true'
-                }
-            }).then(res => {
-                let message = ""
-                if (res.data.length === 0) {
-                    message = "No results found"
-                }
-                this.setState({stocks: res.data, dropdownOpen: true, message: message});
-            }).catch(function (error) {
-                this.setState({stocks: [], dropdownOpen: true, message: error.response.data});
-            });
+            this.props.search(searchText)
         }, 800);
     }
 
@@ -69,7 +50,7 @@ export class NavbarSearch extends Component {
 
     render() {
         return (
-            <UncontrolledDropdown nav inNavbar isOpen={this.state.dropdownOpen} {...this.props}>
+            <UncontrolledDropdown nav inNavbar isOpen={this.props.dropdownOpen} className={this.props.className}>
                 <DropdownToggle nav>
                     <InputGroup>
                         <Input placeholder="Search Stock..." onChange={(e) => this.doSearch(e.target.value)}/>
@@ -81,18 +62,22 @@ export class NavbarSearch extends Component {
                     </InputGroup>
                 </DropdownToggle>
                 <ExtendedDropdown right>
-                    {this.state.stocks.length > 0 ? (
+                    {this.props.stocks.length > 0 ? (
                         <ExtendedDropdown.Section list>
                             <ListGroup>
-                                {this.state.stocks.map((stock, index) => (
+                                {this.props.stocks.map((stock, index) => (
                                     <ListGroupItem tag={ExtendedDropdown.Link}
                                                    to={`/analysis/${stock.instrument_type}/NSE/${stock.symbol}/seasonal`}
                                                    key={index}
                                                    action>
                                         <Media onClick={() => {
-                                            this.setState({dropdownOpen: false})
-                                        }
-                                        }>
+                                            this.props.hideDropdown()
+                                            this.props.newSymbolSelection({
+                                                'type': `${stock.instrument_type}`,
+                                                'symbol': `${stock.symbol}`,
+                                            })
+
+                                        }}>
 
                                             <Media body>
                                             <span className="d-flex justify-content-start">
@@ -113,7 +98,7 @@ export class NavbarSearch extends Component {
                         </ExtendedDropdown.Section>
                     ) : (
                         <ExtendedDropdown.Section className="d-flex justify-content-between align-items-center">
-                            <h6 className="mb-0">{this.state.message}</h6>
+                            <h6 className="mb-0">{this.props.message}</h6>
                         </ExtendedDropdown.Section>
                     )}
 
@@ -126,3 +111,28 @@ export class NavbarSearch extends Component {
         )
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        ...ownProps,
+        message: state.searchedSymbol.message,
+        stocks: state.searchedSymbol.stocks,
+        dropdownOpen: state.searchedSymbol.dropdownOpen,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        search: (text) => {
+            dispatch(newSearch(text))
+        },
+        newSymbolSelection: (newSymbol) => {
+            dispatch(newSymbolSelection(newSymbol))
+        },
+        hideDropdown: () => {
+            dispatch(hideDropdown())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarSearch);

@@ -7,11 +7,11 @@ import {
     NavItem,
     SidebarTrigger
 } from './../../components';
-import { NavbarSearch } from './NavbarSearch';
+import NavbarSearch  from './NavbarSearch';
 
 import { LogoThemed } from './../../routes/components/LogoThemed/LogoThemed';
 
-export const DefaultNavbar = () => (
+export const DefaultNavbar = (props) => (
     <Navbar light expand="xs" fluid>
         <Nav navbar>
             <NavItem className="mr-3">
@@ -43,7 +43,7 @@ export const DefaultNavbar = () => (
             </NavItem>
         </Nav>
         <Nav navbar className="ml-auto">
-            <NavbarSearch className="ml-2 search" />
+            <NavbarSearch className="ml-2 search" {...props}/>
         </Nav>
     </Navbar>
 );
