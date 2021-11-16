@@ -12,7 +12,7 @@ import { SidebarTopA } from '../../routes/components/Sidebar/SidebarTopA'
 import { SidebarBottomA } from '../../routes/components/Sidebar/SidebarBottomA'
 import { LogoThemed } from '../../routes/components/LogoThemed/LogoThemed';
 
-export const DefaultSidebar = () => (
+export const DefaultSidebar = (props) => (
     <Sidebar>
         { /* START SIDEBAR-OVERLAY: Close (x) */ }
         <Sidebar.Close>
@@ -38,7 +38,7 @@ export const DefaultSidebar = () => (
             
             <Sidebar.Section fluid cover>
                 { /* SIDEBAR: Menu */ }
-                <SidebarMiddleNav />
+                <SidebarMiddleNav {...props}/>
             </Sidebar.Section>
 
             <SidebarBottomA />

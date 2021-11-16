@@ -1,3 +1,3 @@
-import { Seasonal } from './Seasonal';
+import Seasonal from './Seasonal';
 
 export default Seasonal;

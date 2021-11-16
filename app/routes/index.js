@@ -5,7 +5,7 @@ import {Redirect, Route, Switch} from 'react-router';
 import Home from './Dashboards/Home';
 import News from './Dashboards/News';
 import About from "./Dashboards/About";
-import Analytics from './Dashboards/Seasonal';
+import Seasonal from './Dashboards/Seasonal';
 import ProjectsDashboard from './Dashboards/Projects';
 import System from './Dashboards/System';
 import Monitor from './Dashboards/Monitor';
@@ -117,7 +117,7 @@ export const RoutedContent = () => {
                     <Route path="/about" exact component={About}/>
 
                     <Route path={`/analysis/:type(stock|index)/NSE/:symbol${SYMBOL}/seasonal`} exact
-                           component={Analytics}/>
+                           component={Seasonal}/>
                     <Route path={`/analysis/:type(stock|index)/NSE/:symbol${SYMBOL}/news`} exact
                            component={News}/>
                     <Route path="/dashboards/projects" exact component={ProjectsDashboard}/>

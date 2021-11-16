@@ -19,6 +19,8 @@ import {applyColumn} from '../../../components/FloatGrid';
 
 import {HeaderMain} from "../../components/HeaderMain";
 import {API_URL} from "../../../constants";
+import {newSymbolSelection} from "../../../redux/SearchedSymbol";
+import {connect} from "react-redux";
 
 
 const LAYOUT = {
@@ -26,9 +28,19 @@ const LAYOUT = {
     'seasonal-analysis': {h: 14, sm: 4, md: 5, lg: 7, xl: 8, xxl: 9, minH: 8},
 }
 
-export class Seasonal extends React.Component {
+class Seasonal extends React.Component {
     static propTypes = {
         match: PropTypes.object,
+        newSymbolSelection: PropTypes.func,
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = _.clone(this.INITIAL_STATE)
+        this.props.newSymbolSelection({
+            'type': `${this.props.match.params.type}`,
+            'symbol': `${this.props.match.params.symbol}`,
+        })
     }
 
     INITIAL_STATE = {
@@ -38,8 +50,6 @@ export class Seasonal extends React.Component {
         weighted: 'Weighted',
         urlParams: '',
     }
-
-    state = _.clone(this.INITIAL_STATE)
 
     EXCHANGES = {
         'NSE': 'NSE',
@@ -201,3 +211,13 @@ export class Seasonal extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        newSymbolSelection: (newSymbol) => {
+            dispatch(newSymbolSelection(newSymbol))
+        },
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Seasonal);

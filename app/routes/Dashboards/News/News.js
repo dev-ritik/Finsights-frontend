@@ -7,9 +7,19 @@ import {TwitterFeed} from "../../components/Feed/Twitter";
 import {TelegramFeed} from "../../components/Feed/Telegram";
 import {YoutubeFeed} from "../../components/Feed/Youtube";
 import PropTypes from "prop-types";
+import {newSymbolSelection} from "../../../redux/SearchedSymbol";
+import {connect} from "react-redux";
 
 
-export class News extends React.Component {
+class News extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.props.newSymbolSelection({
+            'type': `${this.props.match.params.type}`,
+            'symbol': `${this.props.match.params.symbol}`,
+        })
+    }
 
     get_symbol_slug(page_props) {
         if (typeof page_props === 'undefined' || typeof page_props.match === 'undefined'
@@ -42,6 +52,18 @@ export class News extends React.Component {
     }
 }
 
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        newSymbolSelection: (newSymbol) => {
+            dispatch(newSymbolSelection(newSymbol))
+        },
+    }
+}
+
+export default connect(null, mapDispatchToProps)(News);
+
 News.propTypes = {
     match: PropTypes.shape({params: PropTypes.any}),
+    newSymbolSelection: PropTypes.func,
 };

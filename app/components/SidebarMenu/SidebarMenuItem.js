@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 import uuid from 'uuid/v4';
 
-import { MenuContext } from './MenuContext';
+import {MenuContext} from './MenuContext';
 
 /**
  * Renders a collapse trigger or a ReactRouter Link 
  */
 const SidebarMenuItemLink = (props) => (
-    (props.to || props.href) ? (
+    (!props.runOnClick && (props.to || props.href)) ? (
         props.to ? (
-            <Link to={ props.to } className={`${props.classBase}__entry__link`}>
-                { props.children }
+            <Link to={props.to} className={`${props.classBase}__entry__link`}>
+                {props.children}
             </Link>
         ) : (
             <a
-                href={ props.href }
+                href={props.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${props.classBase}__entry__link`}
@@ -25,7 +25,7 @@ const SidebarMenuItemLink = (props) => (
                 { props.children }
             </a>
         )
-        
+
     ) : (
         <a
             href="javascript:;"
@@ -42,7 +42,8 @@ SidebarMenuItemLink.propTypes = {
     active: PropTypes.bool,
     onToggle: PropTypes.func,
     children: PropTypes.node,
-    classBase: PropTypes.string
+    classBase: PropTypes.string,
+    runOnClick: PropTypes.bool,
 }
 
 /**
@@ -69,12 +70,15 @@ export class SidebarMenuItem extends React.Component {
         ]),
         to: PropTypes.string,
         href: PropTypes.string,
+        runOnClick: PropTypes.bool, // Don't visit automatically and run onToggle func
+        onToggle: PropTypes.func,
         exact: PropTypes.bool,
         noCaret: PropTypes.bool,
     }
 
     static defaultProps = {
-        exact: true
+        exact: true,
+        visitLink: true,
     }
 
     constructor(props) {
@@ -107,8 +111,14 @@ export class SidebarMenuItem extends React.Component {
 
     toggleNode() {
         const entry = this.getEntry();
-
-        this.props.updateEntry(this.id, { open: !entry.open });
+        if (!this.props.runOnClick) {
+            // Open not in cases when it actually meant to just run onToggle
+            this.props.updateEntry(this.id, {open: !entry.open});
+        } else {
+            if (this.props.onToggle !== undefined) {
+                this.props.onToggle()
+            }
+        }
     }
 
     render() {
@@ -127,10 +137,11 @@ export class SidebarMenuItem extends React.Component {
                 })}
             >
                 <SidebarMenuItemLink
-                    to={ this.props.to || null }
-                    href={ this.props.href || null }
-                    onToggle={ this.toggleNode.bind(this) }
-                    classBase={ classBase }
+                    to={this.props.to || null}
+                    href={this.props.href || null}
+                    onToggle={this.toggleNode.bind(this)}
+                    classBase={classBase}
+                    runOnClick={this.props.runOnClick}
                 >
                     {
                         this.props.icon && React.cloneElement(this.props.icon, {

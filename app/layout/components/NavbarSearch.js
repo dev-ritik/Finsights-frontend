@@ -38,7 +38,6 @@ class NavbarSearch extends Component {
 
     doSearch = (searchText) => {
         if (this.timeout) clearTimeout(this.timeout);
-        console.log(42)
         this.timeout = setTimeout(() => {
             this.props.search(searchText)
         }, 800);
