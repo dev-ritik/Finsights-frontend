@@ -15,10 +15,12 @@ class News extends React.Component {
 
     constructor(props) {
         super(props);
-        this.props.newSymbolSelection({
-            'type': `${this.props.match.params.type}`,
-            'symbol': `${this.props.match.params.symbol}`,
-        })
+        if (this.get_symbol_slug(this.props) !== "all") {
+            this.props.newSymbolSelection({
+                'type': `${this.props.match.params.type}`,
+                'symbol': `${this.props.match.params.symbol}`,
+            })
+        }
     }
 
     get_symbol_slug(page_props) {
