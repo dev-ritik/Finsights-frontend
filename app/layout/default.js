@@ -1,22 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-    Layout,
-    ThemeSelector,
-    ThemeProvider,
-    PageConfigConsumer,
-} from './../components';
+import {Layout, ThemeProvider,} from './../components';
 
 import './../styles/bootstrap.scss';
 import './../styles/main.scss';
 import './../styles/plugins/plugins.scss';
 import './../styles/plugins/plugins.css';
 
-import {
-    RoutedNavbars,
-    RoutedSidebars,
-} from './../routes';
+import {RoutedNavbars, RoutedSidebars,} from './../routes';
 
 const favIcons = [
     { rel: 'icon', type: 'image/x-icon', href: require('./../images/favicons/favicon.ico') },
@@ -55,22 +47,14 @@ class AppLayout extends React.Component {
                     </Layout.Navbar>
                     { /* -------- Sidebar ------------*/ }
                     <Layout.Sidebar>
-                        <RoutedSidebars />
+                        <RoutedSidebars/>
                     </Layout.Sidebar>
 
-                    { /* -------- Content ------------*/ }
+                    { /* -------- Content ------------*/}
                     <Layout.Content>
-                        { children }
+                        {children}
                     </Layout.Content>
 
-                    { /* -- Theme Selector (DEMO) ----*/ }
-                    <PageConfigConsumer>
-                    {
-                        ({ sidebarHidden, navbarHidden }) => (
-                            <ThemeSelector styleDisabled={ sidebarHidden && navbarHidden } />
-                        )
-                    }
-                    </PageConfigConsumer>
                 </Layout>
             </ThemeProvider>
         );

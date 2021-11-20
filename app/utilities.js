@@ -1,15 +1,21 @@
-const allAvatars = (ctx => {
-    let keys = ctx.keys();
-    return keys.map(ctx);
-})(require.context('./images/avatars', true, /.*/));
+import {PLACEHOLDER_USERNAME} from "./constants";
+
+function hashStr(str) {
+    let hash = 0;
+    for (const chr in str) {
+        hash += chr;
+    }
+    return hash;
+}
 
 export function randomArray(arr) {
     const index = Math.round(Math.random() * (arr.length - 1));
     return arr[index];
 }
 
-export function randomAvatar() {
-    return randomArray(allAvatars);
+export function randomAvatar(name = PLACEHOLDER_USERNAME) {
+    return "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/male/" +
+        (hashStr(name) % 100 + 1) + ".png"
 }
 
 export function timeSince(timeStamp) {

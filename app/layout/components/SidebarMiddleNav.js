@@ -1,12 +1,15 @@
 import React from 'react';
 
 import {SidebarMenu} from './../../components';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import {addAlert} from "../../redux/Alert";
 
 export const SidebarMiddleNav = (props) => {
     const lastSearched = useSelector((state) => state.searchedSymbol)
+    const dispatch = useDispatch()
+
     return (
         <SidebarMenu>
             <SidebarMenu.Item
@@ -30,8 +33,11 @@ export const SidebarMiddleNav = (props) => {
             >
                 <SidebarMenu.Item title="Seasonal" to='seasonal' onToggle={() => {
                     if (lastSearched.lastSearch.symbol === "") {
-                        // TODO: Improve alerting
-                        alert("Search a Stock first!!");
+                        dispatch(addAlert({
+                            title: "Attention!",
+                            message: "Search a Stock first!!",
+                            colour: "dark"
+                        }));
                     } else {
                         if (!_.includes(props.history.location.pathname, 'seasonal')) {
                             props.history.push(`/analysis/${lastSearched.lastSearch.type}/NSE/${lastSearched.lastSearch.symbol}/seasonal`)
@@ -42,8 +48,11 @@ export const SidebarMiddleNav = (props) => {
                     title="News"
                     to='news' onToggle={() => {
                     if (lastSearched.lastSearch.symbol === "") {
-                        // TODO: Improve alerting
-                        alert("Search a Stock first!!");
+                        dispatch(addAlert({
+                            title: "Attention!",
+                            message: "Search a Stock first!!",
+                            colour: "dark"
+                        }));
                     } else {
                         props.history.push(`/analysis/${lastSearched.lastSearch.type}/NSE/${lastSearched.lastSearch.symbol}/news`)
                     }

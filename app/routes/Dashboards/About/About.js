@@ -2,6 +2,7 @@ import React from 'react';
 import {Col, Container, Row, setupPage} from './../../../components';
 
 import {HeaderMain} from "../../components/HeaderMain";
+import {ADMIN_EMAIL} from "../../../constants";
 
 
 const About = () => (
@@ -30,8 +31,8 @@ const About = () => (
                     cover as well. Please feel free to contribute to the application in any manner possible. Be it an
                     idea/ algorithm<i className="fa fa-fw fa-lightbulb-o"/>, frontend (React.js) or Backend (Django)
                     development<i className="fa fa-fw fa-code"/>, please reach us out at <a
-                    href="mailto:ritikkne@gmail.com?subject=I%20would%20love%20to%20help%20with%20Finsights"
-                    target="_blank" rel="noopener noreferrer">ritikkne@gmail.com</a>.
+                    href={`mailto:${ADMIN_EMAIL}?subject=I%20would%20love%20to%20help%20with%20Finsights`}
+                    target="_blank" rel="noopener noreferrer">{`${ADMIN_EMAIL}`}</a>.
                     If you feel that the application was of value to you, please consider funding<i
                     className="fa fa-fw fa-heart"/> the project. As low as a cup of coffee<i
                     className="fa fa-fw fa-coffee"/> a month can go a long way in keeping our motivation up.
