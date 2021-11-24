@@ -63,8 +63,8 @@ function Telegram(props) {
                     </span>
                 </span>
                 <span className="mr-2">·</span>
-                <span id="Retweet">
-                    <i className="fa fa-retweet mr-1"/>
+                <span id="Forward">
+                    <i className="fa fa-mail-forward mr-1"/>
                     <span
                         className={"mr-2 text-success"}>
                     {props.forward_count}
@@ -73,8 +73,8 @@ function Telegram(props) {
                 <UncontrolledTooltip placement="bottom" target="View">
                     Views
                 </UncontrolledTooltip>
-                <UncontrolledTooltip placement="bottom" target="Retweet">
-                    Retweets
+                <UncontrolledTooltip placement="bottom" target="Forward">
+                    Forward
                 </UncontrolledTooltip>
             </div>
         </Media>
