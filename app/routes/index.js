@@ -6,6 +6,8 @@ import Home from './Dashboards/Home';
 import News from './Dashboards/News';
 import About from "./Dashboards/About";
 import Seasonal from './Dashboards/Seasonal';
+import WishList from './Dashboards/WishList';
+import PublicWishList from './Dashboards/PublicWishlist';
 import ProjectsDashboard from './Dashboards/Projects';
 import System from './Dashboards/System';
 import Monitor from './Dashboards/Monitor';
@@ -120,6 +122,10 @@ export const RoutedContent = () => {
                            component={Seasonal}/>
                     <Route path={`/analysis/:type(stock|index)/NSE/:symbol${SYMBOL}/news`} exact
                            component={News}/>
+
+                    <Route path="/wishlist" exact component={WishList}/>
+                    <Route path="/wishlist/:id(\d+)" exact component={WishList}/>
+                    <Route path="/wishlist/public/:id(\w+)" exact component={PublicWishList}/>
 
                     <Route component={Login} path="/login"/>
                     <Route component={Register} path="/register"/>

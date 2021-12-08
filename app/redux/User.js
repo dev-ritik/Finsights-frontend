@@ -94,11 +94,7 @@ export const userInfoSlice = createSlice({
     initialState,
     reducers: {
         logout: () => {
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
-            localStorage.removeItem('fullName')
-            localStorage.removeItem('email')
-            localStorage.removeItem('phone')
+            clearLocalStorage()
             return {
                 refreshToken: null,
                 accessToken: null,
@@ -141,6 +137,72 @@ export const userInfoSlice = createSlice({
         },
     }
 })
+
+const clearLocalStorage = () => {
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('fullName')
+    localStorage.removeItem('email')
+    localStorage.removeItem('phone')
+}
+
+async function refreshAccessToken(refreshToken) {
+    return await axios.request({
+            method: 'POST',
+            url: `${API_URL}/user/refresh`,
+            data: {
+                'refresh': `${refreshToken}`
+            }
+        }
+    ).then(res => {
+        localStorage.setItem('accessToken', res.data.access);
+        return res.data.access
+    }).catch(function (error) {
+        if (!error.response && error.message === "Network Error") {
+            throw error("NETWORK ERROR")
+        } else if (error.response.status === 400 || error.response.status === 401) {
+            let message = "";
+            for (const [key, value] of Object.entries(error.response.data)) {
+                message += value + " "
+            }
+            throw error(message);
+        }
+        throw error;
+    });
+}
+
+const isTokenExpired = (token) => {
+    let decoded_token = JSON.parse(atob(token.split('.')[1]));
+    return (decoded_token.exp * 1000 - 60000) <= Date.now();
+}
+
+export const checkAndFetchValidAccessKey = async () => {
+    let accessToken = localStorage.getItem('accessToken')
+    let refreshToken = localStorage.getItem('refreshToken')
+
+    if (accessToken) {
+        if (!isTokenExpired(accessToken)) {
+            // Access token hasn't expired
+            return accessToken
+        } else {
+            if (refreshToken) {
+                if (!isTokenExpired(refreshToken)) {
+                    // Access token hasn't expired
+                    return refreshAccessToken(refreshToken)
+                }
+            }
+        }
+    } else if (refreshToken) {
+        // Check if refresh token is valid
+        if (!isTokenExpired(refreshToken)) {
+            // Access token hasn't expired
+            return refreshAccessToken(refreshToken)
+        }
+    }
+
+    clearLocalStorage()
+    throw new Error(`Token expired. Pls login`);
+}
 
 export const {logout} = userInfoSlice.actions
 
