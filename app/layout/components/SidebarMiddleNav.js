@@ -4,7 +4,7 @@ import {SidebarMenu} from './../../components';
 import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import {addAlert} from "../../redux/Alert";
+import {addNotification} from "../../redux/Notification";
 
 export const SidebarMiddleNav = (props) => {
     const lastSearched = useSelector((state) => state.searchedSymbol)
@@ -29,10 +29,10 @@ export const SidebarMiddleNav = (props) => {
             >
                 <SidebarMenu.Item title="Seasonal" to='seasonal' onToggle={() => {
                     if (lastSearched.lastSearch.symbol === "") {
-                        dispatch(addAlert({
+                        dispatch(addNotification({
                             title: "Attention!",
                             message: "Search a Stock first!!",
-                            colour: "dark"
+                            colour: "error"
                         }));
                     } else {
                         if (!_.includes(props.history.location.pathname, 'seasonal')) {
@@ -44,10 +44,10 @@ export const SidebarMiddleNav = (props) => {
                     title="News"
                     to='news' onToggle={() => {
                     if (lastSearched.lastSearch.symbol === "") {
-                        dispatch(addAlert({
+                        dispatch(addNotification({
                             title: "Attention!",
                             message: "Search a Stock first!!",
-                            colour: "dark"
+                            colour: "error"
                         }));
                     } else {
                         props.history.push(`/analysis/${lastSearched.lastSearch.type}/NSE/${lastSearched.lastSearch.symbol}/news`)
@@ -60,7 +60,7 @@ export const SidebarMiddleNav = (props) => {
                 title="Wishlist"
                 to='wishlist' onToggle={() => {
                 if (!userInfo.refreshToken) {
-                    dispatch(addAlert({
+                    dispatch(addNotification({
                         title: "Login required!",
                         message: "Please log in to access wishlist!!",
                         colour: "warning"

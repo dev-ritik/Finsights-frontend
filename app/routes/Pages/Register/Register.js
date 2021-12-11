@@ -19,7 +19,7 @@ import {ADMIN_EMAIL} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {register} from "../../../redux/User";
 import {Redirect} from "react-router";
-import {addAlert} from "../../../redux/Alert";
+import {addNotification} from "../../../redux/Notification";
 
 const initialState = {
     email: "",
@@ -36,19 +36,19 @@ const Register = () => {
 
     const attemptRegister = () => {
         if (registerState.email.trim() === "") {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Warning!",
                 message: "Enter a valid email",
                 colour: "warning"
             }));
         } else if (registerState.password1.trim() === "") {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Warning!",
                 message: "Enter a password",
                 colour: "warning"
             }));
         } else if (registerState.password2.trim() === "") {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Warning!",
                 message: "Passwords don't match",
                 colour: "warning"
@@ -63,7 +63,7 @@ const Register = () => {
 
     useEffect(() => {
         if (userInfo.refreshToken) {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Success!",
                 message: "Account created successfully",
                 colour: "success"

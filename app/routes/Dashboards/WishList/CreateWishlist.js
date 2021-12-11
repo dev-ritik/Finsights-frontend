@@ -17,13 +17,13 @@ import axios from "axios";
 import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {addAlert} from "../../../redux/Alert";
 import moment from "moment";
 import CreateWishlistItem from "./CreateWishlistItem";
 import _ from "lodash";
 import Toggle from "react-toggle";
 import {checkAndFetchValidAccessKey} from "../../../redux/User";
 import CreateWishlistHeader from "./CreateWishlistHeader";
+import {addNotification} from "../../../redux/Notification";
 
 
 const ITEM_EMPTY_DATA = {
@@ -88,10 +88,10 @@ class CreateWishlist extends React.Component {
         ).then(res => {
             this.setState({stocks: res.data.sort((a, b) => a.name.localeCompare(b.name))})
         }).catch(() => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: "Error occurred while fetching stock list",
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -196,18 +196,18 @@ class CreateWishlist extends React.Component {
                 if (error.response.status === 404) {
                     this.props.history.push(`/pages/error-404`)
                 } else {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Error occurred while fetching existing wishlist",
-                        colour: "danger"
+                        colour: "error"
                     });
                 }
             });
         }).catch(e => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: e.message,
-                colour: "danger"
+                colour: "error"
             });
         });
 
@@ -229,7 +229,7 @@ class CreateWishlist extends React.Component {
 
     submit() {
         if (!this.state.title || this.state.title === "") {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Warning!",
                 message: "Enter a title",
                 colour: "warning"
@@ -249,14 +249,14 @@ class CreateWishlist extends React.Component {
                 }
             ).then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Unknown error occurred",
-                        colour: "danger"
+                        colour: "error"
                     });
                     return
                 }
-                this.props.addAlert({
+                this.props.addNotification({
                     title: "Success!",
                     message: "Wishlist saved",
                     colour: "success"
@@ -266,34 +266,34 @@ class CreateWishlist extends React.Component {
                 })
             }).catch((error) => {
                 if (!error.response && error.message === "Network Error") {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Check your internet connection",
-                        colour: "danger"
+                        colour: "error"
                     });
                 } else if (error.response.status === 400) {
                     let message = "";
                     for (const [key, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: message,
-                        colour: "danger"
+                        colour: "error"
                     });
                 } else {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Error occurred while fetching existing wishlist",
-                        colour: "danger"
+                        colour: "error"
                     });
                 }
             });
         }).catch(e => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: e.message,
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -311,16 +311,16 @@ class CreateWishlist extends React.Component {
                 }
             ).then(() => this.props.history.push(`/wishlist`))
                 .catch(() =>
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Error occurred while fetching existing wishlist",
-                        colour: "danger"
+                        colour: "error"
                     }));
         }).catch(e => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: e.message,
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -339,10 +339,10 @@ class CreateWishlist extends React.Component {
                 }
             ).then(res => {
                 if (res.status !== 200 && res.status !== 201) {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Unknown error occurred while getting a link",
-                        colour: "danger"
+                        colour: "error"
                     });
                     return
                 }
@@ -351,34 +351,34 @@ class CreateWishlist extends React.Component {
                 })
             }).catch((error) => {
                 if (!error.response && error.message === "Network Error") {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Check your internet connection",
-                        colour: "danger"
+                        colour: "error"
                     });
                 } else if (error.response.status === 400) {
                     let message = "";
                     for (const [key, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: message,
-                        colour: "danger"
+                        colour: "error"
                     });
                 } else {
-                    this.props.addAlert({
+                    this.props.addNotification({
                         title: "Error!",
                         message: "Error occurred while getting a link",
-                        colour: "danger"
+                        colour: "error"
                     });
                 }
             });
         }).catch(e => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: e.message,
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -494,8 +494,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addAlert: (alert) => {
-            dispatch(addAlert(alert))
+        addNotification: (alert) => {
+            dispatch(addNotification(alert))
         },
     }
 }
@@ -505,7 +505,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateWishlist);
 CreateWishlist.propTypes = {
     wishlistId: PropTypes.number,
     userInfo: PropTypes.object,
-    addAlert: PropTypes.func,
+    addNotification: PropTypes.func,
     history: PropTypes.object,
 };
 

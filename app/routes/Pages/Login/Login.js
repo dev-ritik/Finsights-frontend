@@ -9,7 +9,7 @@ import {ADMIN_EMAIL} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../../redux/User";
 import {Redirect} from "react-router";
-import {addAlert} from "../../../redux/Alert";
+import {addNotification} from "../../../redux/Notification";
 
 
 const initialState = {
@@ -25,13 +25,13 @@ const Login = () => {
 
     const attemptLogin = () => {
         if (loginState.email.trim() === "") {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Warning!",
                 message: "Enter a valid email",
                 colour: "warning"
             }));
         } else if (loginState.password.trim() === "") {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Warning!",
                 message: "Enter a password",
                 colour: "warning"
@@ -43,7 +43,7 @@ const Login = () => {
 
     useEffect(() => {
         if (userInfo.refreshToken) {
-            dispatch(addAlert({
+            dispatch(addNotification({
                 title: "Success!",
                 message: "Logged in",
                 colour: "success"

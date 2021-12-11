@@ -6,8 +6,8 @@ import axios from "axios";
 import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {addAlert} from "../../../redux/Alert";
 import {checkAndFetchValidAccessKey} from "../../../redux/User";
+import {addNotification} from "../../../redux/Notification";
 
 
 class WishlistLeftNav extends React.Component {
@@ -32,17 +32,17 @@ class WishlistLeftNav extends React.Component {
             ).then(res => {
                 this.setState({wishlists: res.data})
             }).catch(() => {
-                this.props.addAlert({
+                this.props.addNotification({
                     title: "Error!",
                     message: "Error occurred while fetching existing wishlist",
-                    colour: "danger"
+                    colour: "error"
                 });
             });
         }).catch(e => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: e.message,
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -88,8 +88,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addAlert: (alert) => {
-            dispatch(addAlert(alert))
+        addNotification: (alert) => {
+            dispatch(addNotification(alert))
         },
     }
 }
@@ -98,5 +98,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(WishlistLeftNav);
 
 WishlistLeftNav.propTypes = {
     userInfo: PropTypes.object,
-    addAlert: PropTypes.func,
+    addNotification: PropTypes.func,
 };

@@ -2,11 +2,11 @@ import {Col, Form, FormGroup, Input, Label, Row} from './../../../components';
 import DatePicker from "react-datepicker";
 import {ButtonInput} from "../../Forms/DatePicker/components";
 import PropTypes from "prop-types";
-import {addAlert} from "../../../redux/Alert";
 
 import React from 'react';
 import {connect} from "react-redux";
 import _ from "lodash";
+import {addNotification} from "../../../redux/Notification";
 
 class CreateWishlistHeader extends React.Component {
 
@@ -90,10 +90,10 @@ class CreateWishlistHeader extends React.Component {
                                     selected={this.state.from}
                                     onChange={(date) => {
                                         if (this.state.to && this.state.to < date) {
-                                            this.props.addAlert({
+                                            this.props.addNotification({
                                                 title: "Error!",
                                                 message: "To date cannot be less than from date",
-                                                colour: "danger"
+                                                colour: "error"
                                             });
                                         } else {
                                             this.props.updateField('from', date)
@@ -119,10 +119,10 @@ class CreateWishlistHeader extends React.Component {
                                     selected={this.state.to}
                                     onChange={(date) => {
                                         if (this.state.from > date) {
-                                            this.props.addAlert({
+                                            this.props.addNotification({
                                                 title: "Error!",
                                                 message: "To date cannot be less than from date",
-                                                colour: "danger"
+                                                colour: "error"
                                             });
                                         } else {
                                             this.props.updateField('to', date)
@@ -173,8 +173,8 @@ class CreateWishlistHeader extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addAlert: (alert) => {
-            dispatch(addAlert(alert))
+        addNotification: (alert) => {
+            dispatch(addNotification(alert))
         },
     }
 }
@@ -186,7 +186,7 @@ CreateWishlistHeader.propTypes = {
     updateField: PropTypes.func,
     index: PropTypes.number,
     data: PropTypes.object,
-    addAlert: PropTypes.func,
+    addNotification: PropTypes.func,
 };
 
 CreateWishlistHeader.defaultProps = {

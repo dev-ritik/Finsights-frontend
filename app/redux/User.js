@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import axios from "axios";
 import {API_URL} from "../constants";
-import {addAlert} from "./Alert";
+import {addNotification} from "./Notification";
 
 
 const initialState = {
@@ -30,20 +30,20 @@ export const login = createAsyncThunk(
         })
             .catch(function (error) {
                 if (!error.response && error.message === "Network Error") {
-                    dispatch(addAlert({
+                    dispatch(addNotification({
                         title: "Error!",
                         message: "Check your internet connection",
-                        colour: "danger"
+                        colour: "error"
                     }));
                 } else if (error.response.status === 400 || error.response.status === 401) {
                     let message = "";
                     for (const [key, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
-                    dispatch(addAlert({
+                    dispatch(addNotification({
                         title: "Error!",
                         message: message,
-                        colour: "danger"
+                        colour: "error"
                     }));
                 }
                 throw error;
@@ -68,20 +68,20 @@ export const register = createAsyncThunk(
         }).then(response => response.data)
             .catch(function (error) {
                 if (!error.response && error.message === "Network Error") {
-                    dispatch(addAlert({
+                    dispatch(addNotification({
                         title: "Error!",
                         message: "Check your internet connection",
-                        colour: "danger"
+                        colour: "error"
                     }));
                 } else if (error.response.status === 400) {
                     let message = "";
                     for (const [key, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
-                    dispatch(addAlert({
+                    dispatch(addNotification({
                         title: "Error!",
                         message: message,
-                        colour: "danger"
+                        colour: "error"
                     }));
                 }
                 throw error;

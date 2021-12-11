@@ -5,11 +5,11 @@ import axios from "axios";
 import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {addAlert} from "../../../redux/Alert";
 import moment from "moment";
 import PublicWishlistItem from "./PublicWishlistItem";
 import _ from "lodash";
 import {CardTitle} from "reactstrap";
+import {addNotification} from "../../../redux/Notification";
 
 
 const INITIAL_STATE = {
@@ -54,10 +54,10 @@ class PublicWishlistDisplay extends React.Component {
         ).then(res => {
             this.setState({stocks: res.data.sort((a, b) => a.name.localeCompare(b.name))})
         }).catch(() => {
-            this.props.addAlert({
+            this.props.addNotification({
                 title: "Error!",
                 message: "Error occurred while fetching stock list",
-                colour: "danger"
+                colour: "error"
             });
         });
     }
@@ -114,10 +114,10 @@ class PublicWishlistDisplay extends React.Component {
             if (error.response.status === 404) {
                 this.props.history.push(`/pages/error-404`)
             } else {
-                this.props.addAlert({
+                this.props.addNotification({
                     title: "Error!",
                     message: "Error occurred while fetching existing wishlist",
-                    colour: "danger"
+                    colour: "error"
                 });
             }
         });
@@ -178,8 +178,8 @@ class PublicWishlistDisplay extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addAlert: (alert) => {
-            dispatch(addAlert(alert))
+        addNotification: (alert) => {
+            dispatch(addNotification(alert))
         },
     }
 }
@@ -188,7 +188,7 @@ export default connect(null, mapDispatchToProps)(PublicWishlistDisplay);
 
 PublicWishlistDisplay.propTypes = {
     publicId: PropTypes.string,
-    addAlert: PropTypes.func,
+    addNotification: PropTypes.func,
     history: PropTypes.object,
 };
 
