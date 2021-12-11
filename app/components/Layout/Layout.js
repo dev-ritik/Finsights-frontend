@@ -13,6 +13,7 @@ import { PageConfigContext } from './PageConfigContext';
 import { ThemeClass } from './../Theme';
 
 import config from './../../../config';
+import './../../images/logos/logo-big.jpeg';
 
 const findChildByType = (children, targetType) => {
     let result;
