@@ -1,27 +1,19 @@
 <!DOCTYPE html>
+<html lang="en-us">
 
-<!--[if lt IE 7 ]> <html lang="en" class="ie6" > <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="ie7" > <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="ie8" > <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="ie9" > <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <title>Finsights</title>
-
+  <meta name="description" content="For Passive investing">
   
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimal-ui">
-
   
   <link href="/app.css" rel="preload" as="style">
   <link href="/app.css" rel="stylesheet">
   
   
-  
     
   
-
-  <!-- Loader Style -->
   <style>
     @keyframes spin {
       100% {
@@ -81,7 +73,6 @@
     </script>
 </head>
 <body>
-  <!-- START Loader -->
   <div class="initial-loader-wrap">
     <div class="initial-loader">
         <div class="initial-loader__row">
@@ -109,7 +100,7 @@
                     version="1.1"
                     id="loader-circle"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    x="0px" y="0px"
                     width="30px" height="30px" viewBox="0 0 40 40" enable-background="new 0 0 40 40"
                     xml:space="preserve"
             >
@@ -134,13 +125,13 @@
 
   <script>
     (function() {
-        var bodyElement = document.querySelector('body');
+        const bodyElement = document.querySelector('body');
         bodyElement.classList.add('loading');
 
         document.addEventListener('readystatechange', function() {
             if(document.readyState === 'complete') {
-                var bodyElement = document.querySelector('body');
-                var loaderElement = document.querySelector('.initial-loader-wrap');
+                const bodyElement = document.querySelector('body');
+                const loaderElement = document.querySelector('.initial-loader-wrap');
                 bodyElement.classList.add('loaded');
                 setTimeout(function() {
                     bodyElement.removeChild(loaderElement);
@@ -150,7 +141,6 @@
         });
     })();
   </script>
-  <!-- END Loader -->
 
   <div id="root"></div>
 
