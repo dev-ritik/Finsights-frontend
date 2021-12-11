@@ -126,6 +126,10 @@ const Register = () => {
                                    })
                                }}
                         />
+                        <FormText color="muted">
+                            <i className="fa fa-info-circle mr-2"/>
+                            Required.
+                        </FormText>
                     </FormGroup>
                     <FormGroup>
                         <Label for="repeatPassword">
@@ -140,10 +144,14 @@ const Register = () => {
                                    })
                                }}
                         />
+                        <FormText color="muted">
+                            <i className="fa fa-info-circle mr-2"/>
+                            Required.
+                        </FormText>
                     </FormGroup>
                     <FormGroup>
                         <Label for="emailAddress">
-                            Email Adress
+                            Email Address
                         </Label>
                         <Input type="email" name="email" id="emailAddress" placeholder="Enter email..."
                                className="bg-white"
@@ -155,7 +163,8 @@ const Register = () => {
                                }}
                         />
                         <FormText color="muted">
-                            We&#39;ll never share your email with anyone else.
+                            <i className="fa fa-info-circle mr-2"/>
+                            Required.
                         </FormText>
                     </FormGroup>
                     <FormGroup>
