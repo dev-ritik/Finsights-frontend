@@ -1,29 +1,38 @@
 <!DOCTYPE html>
+<html lang="en-us">
 <% var config = htmlWebpackPlugin || SSRData %>
-<!--[if lt IE 7 ]> <html lang="en" class="ie6" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="ie7" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="ie8" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="ie9" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="" <% if(config.files.manifest) { %> manifest="<%= config.files.manifest %>"<% } %>> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Finsights</title>
+    <!-- Primary Meta Tags -->
+    <title>Finsights | Passive Investing</title>
+    <meta name="title" content="Finsights | Passive Investing">
+    <meta name="description" content="Get help with analysis of Indian stocks">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://finsights.ritik.ml">
+    <meta property="og:title" content="Finsights | Passive Investing">
+    <meta property="og:description" content="Get help with analysis of Indian stocks">
+    <meta property="og:image" content="/static/logo-big.svg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://finsights.ritik.ml">
+    <meta property="twitter:title" content="Finsights | Passive Investing">
+    <meta property="twitter:description" content="Get help with analysis of Indian stocks">
+    <meta property="twitter:image" content="/static/logo-big.svg">
 
   <% if (config.files.favicon) { %>
   <link rel="shortcut icon" href="<%= config.files.favicon%>">
   <% } %>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimal-ui">
-
   <% for (var css in config.files.css) { %>
   <link href="<%= config.files.css[css] %>" rel="preload" as="style">
   <link href="<%= config.files.css[css] %>" rel="stylesheet">
   <% } %>
-  
   <% if (config.options.chunks) { %>
     <%= config.options.chunks.css %>
   <% } %>
-
-  <!-- Loader Style -->
   <style>
     @keyframes spin {
       100% {
@@ -83,7 +92,6 @@
     </script>
 </head>
 <body>
-  <!-- START Loader -->
   <div class="initial-loader-wrap">
     <div class="initial-loader">
         <div class="initial-loader__row">
@@ -111,7 +119,7 @@
                     version="1.1"
                     id="loader-circle"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    x="0px" y="0px"
                     width="30px" height="30px" viewBox="0 0 40 40" enable-background="new 0 0 40 40"
                     xml:space="preserve"
             >
@@ -136,13 +144,13 @@
 
   <script>
     (function() {
-        var bodyElement = document.querySelector('body');
+        const bodyElement = document.querySelector('body');
         bodyElement.classList.add('loading');
 
         document.addEventListener('readystatechange', function() {
             if(document.readyState === 'complete') {
-                var bodyElement = document.querySelector('body');
-                var loaderElement = document.querySelector('.initial-loader-wrap');
+                const bodyElement = document.querySelector('body');
+                const loaderElement = document.querySelector('.initial-loader-wrap');
                 bodyElement.classList.add('loaded');
                 setTimeout(function() {
                     bodyElement.removeChild(loaderElement);
@@ -152,7 +160,6 @@
         });
     })();
   </script>
-  <!-- END Loader -->
 
   <div id="root"><%= config.innerHtml || '' %></div>
 
