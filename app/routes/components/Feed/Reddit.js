@@ -1,10 +1,20 @@
 import React from 'react';
-import {Card, CardBody, CardFooter, CardTitle, Container, ListGroup, ListGroupItem} from './../../../components';
+import {
+    Card,
+    CardBody,
+    CardFooter,
+    CardTitle,
+    Container,
+    ListGroup,
+    ListGroupItem,
+    UncontrolledTooltip
+} from './../../../components';
 import axios from "axios";
 import {Reddit} from "../Post/Reddit";
 import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
 import PropTypes from "prop-types";
+import {timeSince} from "../../../utilities";
 
 
 export class RedditFeed extends React.Component {
@@ -48,9 +58,17 @@ export class RedditFeed extends React.Component {
         return <Container>
             <Card className="mb-3">
                 <CardBody>
-                    <CardTitle tag="h3" className="mb-4">
-                        Reddit
-                    </CardTitle>
+                    <div className="d-flex mb-2">
+                        <CardTitle tag="h4" className="mb-4">
+                            Reddit
+                        </CardTitle>
+                        <span className="ml-auto text-right">
+                            <i className="ml-auto text-right fa fa-fw fa-info-circle" id="next_update_reddit"/>
+                        </span>
+                        <UncontrolledTooltip placement="top" target="next_update_reddit">
+                            Updating {timeSince(this.props.next_update)}
+                        </UncontrolledTooltip>
+                    </div>
                     <ListGroup flush>
                         {this.state.redditPosts.map(function (data, index) {
                             return <ListGroupItem key={index}><Reddit {...data}/></ListGroupItem>;
@@ -74,4 +92,5 @@ export class RedditFeed extends React.Component {
 
 RedditFeed.propTypes = {
     symbol: PropTypes.string,
+    next_update: PropTypes.string,
 };

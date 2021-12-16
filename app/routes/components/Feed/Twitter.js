@@ -1,10 +1,20 @@
 import React from 'react';
-import {Card, CardBody, CardFooter, CardTitle, Container, ListGroup, ListGroupItem} from './../../../components';
+import {
+    Card,
+    CardBody,
+    CardFooter,
+    CardTitle,
+    Container,
+    ListGroup,
+    ListGroupItem,
+    UncontrolledTooltip
+} from './../../../components';
 import axios from "axios";
 import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
 import {Twitter} from "../Post/Twitter";
 import PropTypes from "prop-types";
+import {timeSince} from "../../../utilities";
 
 
 export class TwitterFeed extends React.Component {
@@ -49,9 +59,17 @@ export class TwitterFeed extends React.Component {
         return <Container>
             <Card className="mb-3">
                 <CardBody>
-                    <CardTitle tag="h3" className="mb-4">
-                        Twitter
-                    </CardTitle>
+                    <div className="d-flex mb-2">
+                        <CardTitle tag="h3" className="mb-4">
+                            Twitter
+                        </CardTitle>
+                        <span className="ml-auto text-right">
+                            <i className="ml-auto text-right fa fa-fw fa-info-circle" id="next_update_twitter"/>
+                        </span>
+                        <UncontrolledTooltip placement="top" target="next_update_twitter">
+                            Updating {timeSince(this.props.next_update)}
+                        </UncontrolledTooltip>
+                    </div>
                     <ListGroup flush>
                         {this.state.posts.map(function (data, index) {
                             return <ListGroupItem key={index}><Twitter {...data}/></ListGroupItem>;
@@ -75,4 +93,5 @@ export class TwitterFeed extends React.Component {
 
 TwitterFeed.propTypes = {
     symbol: PropTypes.string,
+    next_update: PropTypes.string,
 };

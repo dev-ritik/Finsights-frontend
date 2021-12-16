@@ -9,6 +9,9 @@ import {YoutubeFeed} from "../../components/Feed/Youtube";
 import PropTypes from "prop-types";
 import {newSymbolSelection} from "../../../redux/SearchedSymbol";
 import {connect} from "react-redux";
+import axios from "axios";
+import {API_URL} from "../../../constants";
+import moment from "moment";
 
 
 class News extends React.Component {
@@ -21,6 +24,24 @@ class News extends React.Component {
                 'symbol': `${this.props.match.params.symbol}`,
             })
         }
+        this.state = {
+            redditNextUpdate: moment().toISOString(),
+            telegramNextUpdate: moment().toISOString(),
+            youtubeNextUpdate: moment().toISOString(),
+            twitterNextUpdate: moment().toISOString(),
+        };
+        this.performQuery();
+    }
+
+    performQuery() {
+        axios.get(`${API_URL}/news/next_update`).then(res => {
+            this.setState({
+                redditNextUpdate: res.data.re,
+                telegramNextUpdate: res.data.te,
+                youtubeNextUpdate: res.data.yt,
+                twitterNextUpdate: res.data.tw,
+            })
+        });
     }
 
     get_symbol_slug(page_props) {
@@ -45,10 +66,10 @@ class News extends React.Component {
                 className="mb-5 mt-4"
             />
             <CardColumns>
-                <RedditFeed symbol={this.get_symbol_slug(this.props)}/>
-                <TwitterFeed symbol={this.get_symbol_slug(this.props)}/>
-                <TelegramFeed symbol={this.get_symbol_slug(this.props)}/>
-                <YoutubeFeed symbol={this.get_symbol_slug(this.props)}/>
+                <RedditFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.redditNextUpdate}/>
+                <TwitterFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.twitterNextUpdate}/>
+                <TelegramFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.twitterNextUpdate}/>
+                <YoutubeFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.youtubeNextUpdate}/>
             </CardColumns>
         </Container>;
     }

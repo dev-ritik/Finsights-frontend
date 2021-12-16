@@ -1,10 +1,20 @@
 import React from 'react';
-import {Card, CardBody, CardFooter, CardTitle, Container, ListGroup, ListGroupItem} from './../../../components';
+import {
+    Card,
+    CardBody,
+    CardFooter,
+    CardTitle,
+    Container,
+    ListGroup,
+    ListGroupItem,
+    UncontrolledTooltip
+} from './../../../components';
 import axios from "axios";
 import {API_URL, POSTS_PER_PAGE} from "../../../constants";
 import {Paginations} from "../Paginations";
 import {Telegram} from "../Post/Telegram";
 import PropTypes from "prop-types";
+import {timeSince} from "../../../utilities";
 
 
 export class TelegramFeed extends React.Component {
@@ -48,9 +58,17 @@ export class TelegramFeed extends React.Component {
         return <Container>
             <Card className="mb-3">
                 <CardBody>
-                    <CardTitle tag="h3" className="mb-4">
-                        Telegram
-                    </CardTitle>
+                    <div className="d-flex mb-2">
+                        <CardTitle tag="h3" className="mb-4">
+                            Telegram
+                        </CardTitle>
+                        <span className="ml-auto text-right">
+                            <i className="ml-auto text-right fa fa-fw fa-info-circle" id="next_update_telegram"/>
+                        </span>
+                        <UncontrolledTooltip placement="top" target="next_update_telegram">
+                            Updating {timeSince(this.props.next_update)}
+                        </UncontrolledTooltip>
+                    </div>
                     <ListGroup flush>
                         {this.state.posts.map(function (data, index) {
                             return <ListGroupItem key={index}><Telegram {...data}/></ListGroupItem>;
@@ -74,4 +92,5 @@ export class TelegramFeed extends React.Component {
 
 TelegramFeed.propTypes = {
     symbol: PropTypes.string,
+    next_update: PropTypes.string,
 };

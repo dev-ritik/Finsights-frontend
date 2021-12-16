@@ -115,19 +115,33 @@ export function timeSince(timeStamp) {
     };
 
     if (secondsPast < 0) { // Future date
+        if (secondsPast > -60) { // Less than a minute
+            return 'after ' + (0 - secondsPast) + ' secs';
+        }
+        if (secondsPast > -3600) { // Less than an hour
+            return 'after ' + ((0 - secondsPast) / 60) + ' mins';
+        }
+        if (secondsPast >= -86400) { // Less than a day
+            return 'after ' + (Math.trunc((0 - secondsPast) / 3600)) + ' hrs';
+        }
+        if (secondsPast >= -172800) { // Less than 2 days
+            return 'tomorrow at ' + formatDate(timeStamp, "h:mmtt");
+        }
+        // TODO: Handle
         return timeStamp;
     }
+
     if (secondsPast < 60) { // Less than a minute
-        return parseInt(secondsPast) + 'secs ago';
+        return secondsPast + 'secs ago';
     }
     if (secondsPast < 3600) { // Less than an hour
-        return parseInt(secondsPast / 60) + 'mins ago';
+        return Math.trunc(secondsPast / 60) + 'mins ago';
     }
     if (secondsPast <= 86400) { // Less than a day
-        return parseInt(secondsPast / 3600) + 'hrs ago';
+        return Math.trunc(secondsPast / 3600) + 'hrs ago';
     }
     if (secondsPast <= 172800) { // Less than 2 days
-        return 'Yesderday at ' + formatDate(timeStamp, "h:mmtt");
+        return 'Yesterday at ' + formatDate(timeStamp, "h:mmtt");
     }
     if (secondsPast > 172800) { // After two days
         let timeString;
