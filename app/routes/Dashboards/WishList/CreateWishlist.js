@@ -144,7 +144,7 @@ class CreateWishlist extends React.Component {
                 item.sell_valid_till = moment(item.sell_valid_till).format("YYYY-MM-DD")
             }
 
-            if (item.buy_piece && item.buy_piece === "") {
+            if (typeof item.buy_piece !== 'undefined' && item.buy_piece !== null && item.buy_piece === "") {
                 item.buy_piece = null
             }
 
