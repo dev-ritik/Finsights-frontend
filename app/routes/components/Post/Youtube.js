@@ -84,15 +84,8 @@ function Youtube(props) {
                         </span>
                     </span>
                     <span className="mr-2">·</span>
-                    <span id="Dislike">
-                        <i className="fa fa-thumbs-o-down mr-1"/>
-                        <span
-                            className={"mr-2 text-success"}>
-                        {props.dislike_count}
-                        </span>
-                    </span>
                     <span id="View">
-                        <span className="mr-2">·</span><i className="fa fa-eye mr-1"/> <span
+                        <i className="fa fa-eye mr-1"/> <span
                         className={"mr-2 text-success"}>
                         {props.view_count}
                         </span>
@@ -105,9 +98,6 @@ function Youtube(props) {
                     </span>
                     <UncontrolledTooltip placement="bottom" target="Like">
                         Likes
-                    </UncontrolledTooltip>
-                    <UncontrolledTooltip placement="bottom" target="Dislike">
-                        Dislikes
                     </UncontrolledTooltip>
                     <UncontrolledTooltip placement="bottom" target="View">
                         Views
@@ -128,7 +118,6 @@ Youtube.propTypes = {
     title: string,
     description: string,
     like_count: number,
-    dislike_count: number,
     view_count: number,
     comment_count: number,
     stocks: PropTypes.arrayOf(string),
@@ -140,7 +129,6 @@ Youtube.defaultProps = {
     title: "",
     description: "",
     like_count: 0,
-    dislike_count: 0,
     view_count: 0,
     comment_count: 0,
     stocks: [],
