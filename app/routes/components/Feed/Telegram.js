@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Button,
     Card,
     CardBody,
     CardFooter,
@@ -55,11 +56,16 @@ export class TelegramFeed extends React.Component {
         if (this.state.symbol !== this.props.symbol) {
             this.performQuery(0);
         }
-        return <Container>
+        return <Container className="pr-0 pl-0">
             <Card className="mb-3">
-                <CardBody>
+                <CardBody className="bg-primary">
                     <div className="d-flex mb-2">
-                        <CardTitle tag="h3" className="mb-4">
+                        <span className="mr-2 text-left">
+                                <Button className="text-decoration-none align-self-center" disabled id="delete">
+                                    <i className="fa fa-lg fa-send"/>
+                                </Button>
+                            </span>
+                        <CardTitle tag="h3" className="mb-2 mt-1">
                             Telegram
                         </CardTitle>
                         <span className="ml-auto text-right">
@@ -71,7 +77,7 @@ export class TelegramFeed extends React.Component {
                     </div>
                     <ListGroup flush>
                         {this.state.posts.map(function (data, index) {
-                            return <ListGroupItem key={index}><Telegram {...data}/></ListGroupItem>;
+                            return <ListGroupItem className="p-2" key={index}><Telegram {...data}/></ListGroupItem>;
                         })}
                     </ListGroup>
                 </CardBody>
