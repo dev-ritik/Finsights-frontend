@@ -51,7 +51,7 @@ function Twitter(props) {
                 </p>
                 <a href={get_post_url(props.post_id)} rel="noopener noreferrer" target="_blank"
                    className="small text-decoration-none-light">
-                    {timeSince(props.created)}
+                    <u>{timeSince(props.created)}</u>
                 </a>
             </div>
             <div>

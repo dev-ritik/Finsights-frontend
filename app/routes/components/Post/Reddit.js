@@ -44,7 +44,7 @@ function Reddit(props) {
                 <br/>
                 <a href={get_post_url(props.url)} rel="noopener noreferrer" target="_blank"
                    className="small text-decoration-none-light">
-                    {timeSince(props.created)}
+                    <u>{timeSince(props.created)}</u>
                 </a>
             </div>
             <div onClick={function () {
