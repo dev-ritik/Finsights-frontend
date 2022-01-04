@@ -2,12 +2,10 @@ import React from 'react';
 import {NavLink as RouterNavLink} from 'react-router-dom';
 
 import {Nav, NavItem, NavLink} from './../../../components';
-import axios from "axios";
-import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {checkAndFetchValidAccessKey} from "../../../redux/User";
 import {addNotification} from "../../../redux/Notification";
+import {update} from "../../../redux/Wishlists";
 
 
 class WishlistLeftNav extends React.Component {
@@ -19,32 +17,7 @@ class WishlistLeftNav extends React.Component {
     }
 
     componentDidMount() {
-        this.performQuery()
-    }
-
-    performQuery = () => {
-        checkAndFetchValidAccessKey().then(access => {
-            axios.get(`${API_URL}/portfolio/wishlists`, {
-                    headers: {
-                        'Authorization': `Bearer ${access}`
-                    }
-                }
-            ).then(res => {
-                this.setState({wishlists: res.data})
-            }).catch(() => {
-                this.props.addNotification({
-                    title: "Error!",
-                    message: "Error occurred while fetching existing wishlist",
-                    colour: "error"
-                });
-            });
-        }).catch(e => {
-            this.props.addNotification({
-                title: "Error!",
-                message: e.message,
-                colour: "error"
-            });
-        });
+        this.props.updateWishlist()
     }
 
     render() {
@@ -56,11 +29,11 @@ class WishlistLeftNav extends React.Component {
                     <span>
                         My Wishlists
                     </span>
-                            <i className="fa fa-angle-down align-self-center ml-auto"></i>
+                            <i className="fa fa-angle-down align-self-center ml-auto"/>
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        {this.state.wishlists.map(function (wishlist) {
+                        {this.props.wishlists.map(function (wishlist) {
                             return <NavLink tag={RouterNavLink} to={`/wishlist/${wishlist.id}`} className="d-flex"
                                             key={wishlist.id}>
                                 {wishlist.title}
@@ -69,7 +42,7 @@ class WishlistLeftNav extends React.Component {
                     </NavItem>
                     <NavItem>
                         <NavLink tag={RouterNavLink} to={`/wishlist`} exact>
-                            <i className="fa fa-fw fa-plus mr-2"></i>
+                            <i className="fa fa-fw fa-plus mr-2"/>
                             Add New Wishlist
                         </NavLink>
                     </NavItem>
@@ -82,7 +55,7 @@ class WishlistLeftNav extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
-        userInfo: state.userInfo,
+        wishlists: state.wishlists
     }
 }
 
@@ -91,12 +64,16 @@ const mapDispatchToProps = (dispatch) => {
         addNotification: (alert) => {
             dispatch(addNotification(alert))
         },
+        updateWishlist: () => {
+            dispatch(update())
+        },
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WishlistLeftNav);
 
 WishlistLeftNav.propTypes = {
-    userInfo: PropTypes.object,
+    wishlists: PropTypes.array,
     addNotification: PropTypes.func,
+    updateWishlist: PropTypes.func,
 };
