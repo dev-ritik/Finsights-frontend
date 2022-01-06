@@ -11,9 +11,6 @@ import {update} from "../../../redux/Wishlists";
 class WishlistLeftNav extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            wishlists: [],
-        };
     }
 
     componentDidMount() {

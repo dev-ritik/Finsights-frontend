@@ -27,6 +27,11 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import {ListGroup, ListGroupItem, Media, UncontrolledDropdown} from "reactstrap";
 import ExtendedDropdown from "../../../components/ExtendedDropdown";
+import {connect} from "react-redux";
+import {addNotification} from "../../../redux/Notification";
+import {checkAndFetchValidAccessKey} from "../../../redux/User";
+import axios from "axios";
+import {API_URL} from "../../../constants";
 
 
 class CreateWishlistItem extends React.Component {
@@ -105,6 +110,75 @@ class CreateWishlistItem extends React.Component {
         }
     }
 
+    copyItem(targetWishlist) {
+        if (!('id' in this.props.data) || typeof this.props.data['id'] === 'undefined')
+        {
+            this.props.addNotification({
+                title: "Error!",
+                message: "Unsaved Wishlist",
+                colour: "error"
+            });
+            return
+        }
+        checkAndFetchValidAccessKey().then(access => {
+            axios.request({
+                    method: 'POST',
+                    url: `${API_URL}/portfolio/wishlistitem/${this.props.data['id']}/copy`,
+                    headers: {
+                        'Authorization': `Bearer ${access}`
+                    },
+                    data: {
+                        'wishlist_id': targetWishlist.id
+                    }
+                }
+            ).then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    this.props.addNotification({
+                        title: "Error!",
+                        message: "Unknown error occurred while getting a link",
+                        colour: "error"
+                    });
+                    return
+                }
+                this.props.addNotification({
+                    title: "Success!",
+                    message: `Copied to ${targetWishlist.title}`,
+                    colour: "success"
+                });
+            }).catch((error) => {
+                if (!error.response && error.message === "Network Error") {
+                    this.props.addNotification({
+                        title: "Error!",
+                        message: "Check your internet connection",
+                        colour: "error"
+                    });
+                } else if (error.response.status === 400) {
+                    let message = "";
+                    for (const [key, value] of Object.entries(error.response.data)) {
+                        message += value + " "
+                    }
+                    this.props.addNotification({
+                        title: "Error!",
+                        message: message,
+                        colour: "error"
+                    });
+                } else {
+                    this.props.addNotification({
+                        title: "Error!",
+                        message: "Unknown error occurred",
+                        colour: "error"
+                    });
+                }
+            });
+        }).catch(e => {
+            this.props.addNotification({
+                title: "Error!",
+                message: e.message,
+                colour: "error"
+            });
+        });
+    }
+
     toggle() {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
@@ -121,6 +195,25 @@ class CreateWishlistItem extends React.Component {
                 <div className="flex-column flex-md-row d-flex mb-2">
                     <ButtonToolbar className="ml-auto">
                         <ButtonGroup className="mr-2">
+                            <UncontrolledButtonDropdown>
+                                <DropdownToggle color="secondary" outline caret>
+                                    <i className="fa fa-fw fa-copy mr-1"/>
+                                    Copy
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem header>
+                                        Your Wishlists
+                                    </DropdownItem>
+                                    {this.props.wishlists.map((wishlist) => {
+                                        return <DropdownItem
+                                            key={wishlist.id}
+                                            onClick={() => this.copyItem(wishlist)}
+                                        >
+                                            {wishlist.title}
+                                        </DropdownItem>;
+                                    })}
+                                </DropdownMenu>
+                            </UncontrolledButtonDropdown>
                             <Button className="text-decoration-none align-self-center" color="secondary" outline
                                     active={this.state.executed}
                                     id="execute"
@@ -514,14 +607,31 @@ class CreateWishlistItem extends React.Component {
     }
 }
 
-export default CreateWishlistItem;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        ...ownProps,
+        wishlists: state.wishlists
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addNotification: (alert) => {
+            dispatch(addNotification(alert))
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CreateWishlistItem);
 
 CreateWishlistItem.propTypes = {
+    wishlists: PropTypes.array,
     stocks: PropTypes.array,
     updateFunction: PropTypes.func,
     deleteFunction: PropTypes.func,
     index: PropTypes.number,
     data: PropTypes.object,
+    addNotification: PropTypes.func,
 };
 
 CreateWishlistItem.defaultProps = {
