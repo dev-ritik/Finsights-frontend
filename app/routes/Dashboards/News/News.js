@@ -68,7 +68,7 @@ class News extends React.Component {
             <CardColumns>
                 <RedditFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.redditNextUpdate}/>
                 <TwitterFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.twitterNextUpdate}/>
-                <TelegramFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.twitterNextUpdate}/>
+                <TelegramFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.telegramNextUpdate}/>
                 <YoutubeFeed symbol={this.get_symbol_slug(this.props)} next_update={this.state.youtubeNextUpdate}/>
             </CardColumns>
         </Container>;
