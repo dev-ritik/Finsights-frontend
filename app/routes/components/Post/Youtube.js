@@ -3,6 +3,8 @@ import PropTypes, {number, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {Collapse} from "reactstrap";
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
+import DOMPurify from 'dompurify';
+import './../../../styles/custom.scss';
 
 const get_post_url = slug => `https://youtube.com/watch?v=${slug}`;
 
@@ -12,6 +14,25 @@ function truncate(text) {
     } else {
         return text;
     }
+}
+
+function format(description) {
+    //URLs starting with http://, https://, or ftp://
+    // Source: https://stackoverflow.com/a/3890175
+    const urlPattern1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    description = description.replace(urlPattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    const urlPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    description = description.replace(urlPattern2, '$1<a href="https://$2" target="_blank">$2</a>');
+
+    // Replace Hashtags
+    // Source: https://stackoverflow.com/a/32765442
+    const hashtagPattern = /([ \n])(#)([A-Za-z0-9\/\.]*)/gim;
+    description = description.replace(hashtagPattern, '$1<a href="https://www.youtube.com/hashtag/$3" target="_blank">$2$3</a>');
+
+    // Currently, YouTube API doesn't give @mention detail
+    return description
 }
 
 function Youtube(props) {
@@ -65,8 +86,8 @@ function Youtube(props) {
                     </p>
                 </Collapse>
                 <Collapse isOpen={!open}>
-                    <p className="mb-0">
-                        {props.description}
+                    <p className="mb-0 newline-format"
+                       dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(format(props.description), {USE_PROFILES: {html: true}})}}>
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {

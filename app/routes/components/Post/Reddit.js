@@ -3,6 +3,7 @@ import PropTypes, {number, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {Collapse} from "reactstrap";
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
+import DOMPurify from "dompurify";
 
 const get_post_url = slug => `https://reddit.com${slug}`;
 
@@ -65,9 +66,16 @@ function Reddit(props) {
                     </p>
                 </Collapse>
                 <Collapse isOpen={!open}>
-                    <p className="mb-0">
-                        {props.body}
-                    </p>
+                    {props.formatted_body ? (
+                        <p className="mb-0 newline-format"
+                           dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(props.formatted_body, {USE_PROFILES: {html: true}})}}>
+                        </p>
+                    ) : (
+                        <p className="mb-0 newline-format">
+                            {props.body}
+                        </p>
+                    )}
+
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
                             return <Badge pill color={"secondary"} className="mr-1"
@@ -97,6 +105,7 @@ Reddit.propTypes = {
     created: string,
     title: string,
     body: string,
+    formatted_body: string,
     reddit_score: number,
     url: string,
     stocks: PropTypes.arrayOf(string),
@@ -106,6 +115,7 @@ Reddit.defaultProps = {
     created: "",
     title: "",
     body: "",
+    formatted_body: "",
     reddit_score: 0,
     url: "/",
     stocks: [],

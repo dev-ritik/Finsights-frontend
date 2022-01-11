@@ -1,8 +1,10 @@
 import React from 'react';
-import PropTypes, {number, string} from 'prop-types';
+import PropTypes, {number, object, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
-
+import DOMPurify from 'dompurify';
+import twttr from 'twitter-text';
+import './../../../styles/custom.scss';
 
 const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
 
@@ -38,8 +40,9 @@ function Twitter(props) {
         {/*</Media>*/}
         <Media body>
             <div className="mb-2">
-                <span className="h6 text-decoration-none">
-                    {props.text}
+                {/*The index based substring replace will fail for different length of special characters by Twitter*/}
+                <span className="newline-format"
+                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(twttr.autoLink(props.text, props.entities), {USE_PROFILES: {html: true}})}}>
                 </span>
                 <p className="mb-0">
                     {props.stocks.map(function (data, index) {
@@ -94,6 +97,7 @@ function Twitter(props) {
 Twitter.propTypes = {
     created: string,
     text: string,
+    entities: object,
     post_id: string,
     like_count: number,
     reply_count: number,
@@ -104,6 +108,7 @@ Twitter.propTypes = {
 Twitter.defaultProps = {
     created: "",
     text: "",
+    entities: {},
     post_id: "",
     like_count: 0,
     reply_count: 0,

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes, {number, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
+import DOMPurify from "dompurify";
 
 
 const get_post_url = (channel, id) => `https://t.me/${channel}/${id}`;
@@ -38,9 +39,14 @@ function Telegram(props) {
         {/*</Media>*/}
         <Media body>
             <div className="mb-2">
-                <span className="h6 text-decoration-none">
+                {props.formatted_text ? (
+                    <span className="newline-format"
+                          dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(props.formatted_text, {USE_PROFILES: {html: true}})}}/>
+                ) : (
+                    <span className="newline-format">
                     {props.text}
-                </span>
+                </span>)}
+
                 <p className="mb-0">
                     {props.stocks.map(function (data, index) {
                         return <Badge pill color={"secondary"} className="mr-1" href={`#/analysis/stock/${data}/news`}
@@ -85,6 +91,7 @@ function Telegram(props) {
 Telegram.propTypes = {
     created: string,
     text: string,
+    formatted_text: string,
     post_id: string,
     channel: string,
     forward_count: number,
@@ -95,6 +102,7 @@ Telegram.propTypes = {
 Telegram.defaultProps = {
     created: "",
     text: "",
+    formatted_text: "",
     post_id: 0,
     channel: "",
     forward_count: 0,
