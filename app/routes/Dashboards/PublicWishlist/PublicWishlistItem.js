@@ -44,7 +44,7 @@ const PublicWishlistItem = (props) => {
                         <th>Action</th>
                         <th>Price(₹)</th>
                         <th>Quantity %</th>
-                        <th>Feeling</th>
+                        <th>Confidence</th>
                         <th>Execute by</th>
                     </tr>
                     </thead>
