@@ -6,9 +6,14 @@ import {CardTitle, UncontrolledTooltip} from "reactstrap";
 
 
 const PublicWishlistItem = (props) => {
-    const stocks = props.stocks.filter(item => item.stock_id === props.data.stock_id).map(({name, symbol}) => ({
+    const stocks = props.stocks.filter(item => item.stock_id === props.data.stock_id).map(({
+                                                                                               name,
+                                                                                               symbol,
+                                                                                               price
+                                                                                           }) => ({
         name,
-        symbol
+        symbol,
+        price,
     }));
 
     const buyQuantityDisplay = (buy_price, buy_piece) => {
@@ -24,7 +29,8 @@ const PublicWishlistItem = (props) => {
             <CardBody>
                 <div className="d-flex mb-2">
                     {stocks && stocks.length === 1 && (<CardTitle tag="h4">
-                        <span className={`${props.data.executed ? "text-success" : ""}`}>{stocks[0].name}</span>
+                        <span
+                            className={`${props.data.executed ? "text-success" : ""}`}>{`${stocks[0].name}`}{stocks[0].price && (` . ₹${stocks[0].price}`)}</span>
                         {props.data.executed && (<>
                             <span> <i id="executed" className="fa fa-check-circle"/></span>
                             <UncontrolledTooltip placement="bottom" target="executed">
