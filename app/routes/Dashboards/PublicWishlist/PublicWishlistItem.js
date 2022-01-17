@@ -17,7 +17,7 @@ const PublicWishlistItem = (props) => {
     }));
 
     const buyQuantityDisplay = (buy_price, buy_piece) => {
-        return `${buy_price && buy_piece ?
+        return `${buy_price && buy_piece && Number(buy_piece) > 0 && Number(buy_price) > 0 ?
             `${((Number(buy_price) * Number(buy_piece) * 100) / props.budget).toFixed(2)} % (${buy_piece})` :
             (
                 buy_piece ? buy_piece : "-"
