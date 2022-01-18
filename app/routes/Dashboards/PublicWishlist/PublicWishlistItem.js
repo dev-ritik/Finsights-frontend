@@ -106,12 +106,13 @@ const PublicWishlistItem = (props) => {
     }
 
     const WishlistChart = () => {
-        const data = [
-            {
+        const data = [];
+        if (stock) {
+            data.push({
                 dt: moment(stock.ticker_last_checked).format("MMM Do YYYY, h:mm:ss a"),
                 price: stock.price,
-            },
-        ];
+            })
+        }
 
         return (
             <ResponsiveContainer width='100%'
