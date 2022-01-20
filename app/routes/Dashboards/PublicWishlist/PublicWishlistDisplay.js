@@ -16,6 +16,9 @@ import {Button, Col, NavItem, Row} from "../../../components";
 const INITIAL_FILTER_SORT = {
     excludeExecuted: false,
     excludeNoMarketPrice: false,
+    target_achieved: false,
+    within_1_percent: false,
+    within_2_percent: false,
 }
 
 const INITIAL_STATE = {
@@ -66,11 +69,46 @@ class PublicWishlistDisplay extends React.Component {
         }
     }
 
+    addStockRelatedFields = (wishlistItem, allStocks) => {
+        this.stockIdToStock(wishlistItem, allStocks)
+
+        wishlistItem.target_achieved = false
+        wishlistItem.within_1_percent = false
+        wishlistItem.within_2_percent = false
+
+        if (wishlistItem.stock && wishlistItem.stock.price) {
+            wishlistItem.stock.price = Number(wishlistItem.stock.price)
+            // Check the market price relative to targets
+            if (wishlistItem.buy_price) {
+                if (wishlistItem.stock.price < wishlistItem.buy_price) {
+                    wishlistItem.target_achieved = true
+                }
+                if (wishlistItem.stock.price * 0.99 < wishlistItem.buy_price) {
+                    wishlistItem.within_1_percent = true
+                }
+                if (wishlistItem.stock.price * 0.98 < wishlistItem.buy_price) {
+                    wishlistItem.within_2_percent = true
+                }
+            }
+            if (wishlistItem.sell_price && wishlistItem.sell_price !== 0) {
+                if (wishlistItem.sell_price < wishlistItem.stock.price) {
+                    wishlistItem.target_achieved = true
+                }
+                if (wishlistItem.sell_price < wishlistItem.stock.price * 1.01) {
+                    wishlistItem.within_1_percent = true
+                }
+                if (wishlistItem.sell_price < wishlistItem.stock.price * 1.02) {
+                    wishlistItem.within_2_percent = true
+                }
+            }
+        }
+    }
+
     fetchStockList = () => {
         axios.get(`${API_URL}/instrument/stock/all`
         ).then(res => {
             for (const [, wishlistItem] of Object.entries(this.state.items)) {
-                this.stockIdToStock(wishlistItem, res.data)
+                this.addStockRelatedFields(wishlistItem, res.data)
             }
             this.setState({stocks: res.data})
         }).catch(() => {
@@ -111,10 +149,15 @@ class PublicWishlistDisplay extends React.Component {
                     item.sell_valid_till = moment(item.sell_valid_till, 'YYYY-MM-DD').format('MMM Do YY')
                 }
 
+                item.buy_price = Number(item.buy_price)
+                item.buy_piece = Number(item.buy_piece)
+                item.sell_price = Number(item.sell_price)
+                item.sell_quantity = Number(item.sell_quantity)
+
                 if (item.buy_price && item.buy_piece) {
-                    budget += Number(item.buy_price) * Number(item.buy_piece)
+                    budget += item.buy_price * item.buy_piece
                 }
-                this.stockIdToStock(item, this.state.stocks)
+                this.addStockRelatedFields(item, this.state.stocks)
 
                 items[index] = item
             });
@@ -154,6 +197,21 @@ class PublicWishlistDisplay extends React.Component {
             }
             if (this.state.excludeNoMarketPrice) {
                 if (!value.stock || !value.stock.price) {
+                    return false
+                }
+            }
+            if (this.state.target_achieved) {
+                if (!value.target_achieved) {
+                    return false
+                }
+            }
+            if (this.state.within_1_percent) {
+                if (!value.within_1_percent) {
+                    return false
+                }
+            }
+            if (this.state.within_2_percent) {
+                if (!value.within_2_percent) {
                     return false
                 }
             }
@@ -213,6 +271,48 @@ class PublicWishlistDisplay extends React.Component {
                                          onChange={(e) => {
                                              this.setState({
                                                  excludeNoMarketPrice: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Target
+                            </span>
+                            <i className="fa fa-line-chart align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_achieved" label="Achieved" inline
+                                         checked={this.state.target_achieved}
+                                         onChange={(e) => {
+                                             // Achieved => within 1 and 2 %
+                                             this.setState({
+                                                 target_achieved: e.target.checked,
+                                                 within_1_percent: e.target.checked,
+                                                 within_2_percent: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_1_%" label="Within 1%" inline
+                                         checked={this.state.within_1_percent}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 within_1_percent: e.target.checked,
+                                                 within_2_percent: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_2_%" label="Within 2%" inline
+                                         checked={this.state.within_2_percent}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 within_2_percent: e.target.checked,
                                              })
                                          }}
                             />

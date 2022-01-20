@@ -26,6 +26,7 @@ import {
     YAxis,
 } from 'recharts';
 import moment from "moment";
+import {Badge} from "../../../components";
 
 const PublicWishlistItem = (props) => {
     const buyQuantityDisplay = (buy_price, buy_piece) => {
@@ -130,8 +131,7 @@ const PublicWishlistItem = (props) => {
             <CardBody>
                 <div className="d-flex mb-2">
                     {props.data.stock && (<CardTitle tag="h4">
-                        <span
-                            className={`${props.data.executed ? "text-success" : ""}`}>{`${props.data.stock.name}`}{props.data.stock.price && (` . ₹${props.data.stock.price}`)}</span>
+                        <span className={`${props.data.executed ? "text-success" : ""}`}>{props.data.stock.name}</span>
                         {props.data.executed && (<>
                             <span> <i id="executed" className="fa fa-check-circle"/></span>
                             <UncontrolledTooltip placement="bottom" target="executed">
@@ -142,7 +142,37 @@ const PublicWishlistItem = (props) => {
                     </CardTitle>)}
 
                     <span className="ml-auto text-right">
-                    {props.data.exchange_id}{props.data.stock && props.data.exchange_id && (`/`)}{props.data.stock && (`${props.data.stock.symbol}`)}
+                        {props.data.target_achieved && (
+                            <>
+                                <Badge pill color="success" className="mr-2" id="target_achieved">
+                                    <i className="fa fa-fw fa-diamond mr-1"/>
+                                </Badge>
+                                <UncontrolledTooltip placement="top" target="target_achieved">
+                                    Target achieved
+                                </UncontrolledTooltip>
+                            </>
+                        )}
+                        {props.data.within_1_percent && (
+                            <>
+                                <Badge pill color="primary" className="mr-2" id="within_1_percent">
+                                    1%
+                                </Badge>
+                                <UncontrolledTooltip placement="top" target="within_1_percent">
+                                    Within 1%
+                                </UncontrolledTooltip>
+                            </>
+                        )}
+                        {props.data.within_2_percent && (
+                            <>
+                                <Badge pill color="primary" className="mr-2" id="within_2_percent">
+                                    2%
+                                </Badge>
+                                <UncontrolledTooltip placement="top" target="within_2_percent">
+                                    Within 2%
+                                </UncontrolledTooltip>
+                            </>
+                        )}
+                        {props.data.exchange_id}{props.data.stock && props.data.exchange_id && (`/`)}{props.data.stock && (`${props.data.stock.symbol}`)}
                 </span>
                 </div>
                 <UncontrolledTabs initialActiveTabId="data">
