@@ -28,23 +28,6 @@ import {
 import moment from "moment";
 
 const PublicWishlistItem = (props) => {
-    const stocks = props.stocks.filter(item => item.stock_id === props.data.stock_id).map(({
-                                                                                               name,
-                                                                                               symbol,
-                                                                                               price,
-                                                                                               ticker_last_checked,
-                                                                                           }) => ({
-        name,
-        symbol,
-        price,
-        ticker_last_checked,
-    }));
-
-    let stock = null;
-    if (stocks && stocks.length === 1) {
-        stock = stocks[0]
-    }
-
     const buyQuantityDisplay = (buy_price, buy_piece) => {
         return `${buy_price && buy_piece && Number(buy_piece) > 0 && Number(buy_price) > 0 ?
             `${((Number(buy_price) * Number(buy_piece) * 100) / props.budget).toFixed(2)} % (${buy_piece})` :
@@ -107,10 +90,10 @@ const PublicWishlistItem = (props) => {
 
     const WishlistChart = () => {
         const data = [];
-        if (stock) {
+        if (props.data.stock) {
             data.push({
-                dt: moment(stock.ticker_last_checked).format("MMM Do YYYY, h:mm:ss a"),
-                price: stock.price,
+                dt: moment(props.data.stock.ticker_last_checked).format("MMM Do YYYY, h:mm:ss a"),
+                price: props.data.stock.price,
             })
         }
 
@@ -146,9 +129,9 @@ const PublicWishlistItem = (props) => {
         <>
             <CardBody>
                 <div className="d-flex mb-2">
-                    {stock && (<CardTitle tag="h4">
+                    {props.data.stock && (<CardTitle tag="h4">
                         <span
-                            className={`${props.data.executed ? "text-success" : ""}`}>{`${stock.name}`}{stock.price && (` . ₹${stock.price}`)}</span>
+                            className={`${props.data.executed ? "text-success" : ""}`}>{`${props.data.stock.name}`}{props.data.stock.price && (` . ₹${props.data.stock.price}`)}</span>
                         {props.data.executed && (<>
                             <span> <i id="executed" className="fa fa-check-circle"/></span>
                             <UncontrolledTooltip placement="bottom" target="executed">
@@ -159,7 +142,7 @@ const PublicWishlistItem = (props) => {
                     </CardTitle>)}
 
                     <span className="ml-auto text-right">
-                    {props.data.exchange_id}{stock && props.data.exchange_id && (`/`)}{stock && (`${stock.symbol}`)}
+                    {props.data.exchange_id}{props.data.stock && props.data.exchange_id && (`/`)}{props.data.stock && (`${props.data.stock.symbol}`)}
                 </span>
                 </div>
                 <UncontrolledTabs initialActiveTabId="data">
@@ -172,7 +155,7 @@ const PublicWishlistItem = (props) => {
                                 </UncontrolledTabs.NavLink>
                             </NavItem>
                             <NavItem>
-                                {stock && stock.price &&
+                                {props.data.stock && props.data.stock.price &&
                                     <UncontrolledTabs.NavLink tabId="chart">
                                         <i className="fa fa-fw fa-bar-chart mr-2"/>
                                         Chart
@@ -180,8 +163,9 @@ const PublicWishlistItem = (props) => {
                                 }
                             </NavItem>
                             <NavItem>
-                                <NavLink href={`${stock ? `#/analysis/stock/NSE/${stock.symbol}/seasonal` : '#'}`}
-                                         target="_blank">
+                                <NavLink
+                                    href={`${props.data.stock ? `#/analysis/stock/NSE/${props.data.stock.symbol}/seasonal` : '#'}`}
+                                    target="_blank">
                                     Analysis
                                     <i className="fa fa-fw fa-external-link ml-2"/>
                                 </NavLink>

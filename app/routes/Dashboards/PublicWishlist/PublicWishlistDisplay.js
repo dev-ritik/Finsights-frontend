@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Card, CardBody, CardFooter} from './../../../components';
+import {Card, CardBody, CardFooter, CustomInput, Nav} from './../../../components';
 import axios from "axios";
 import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
@@ -10,7 +10,13 @@ import PublicWishlistItem from "./PublicWishlistItem";
 import _ from "lodash";
 import {CardTitle} from "reactstrap";
 import {addNotification} from "../../../redux/Notification";
+import {Button, Col, NavItem, Row} from "../../../components";
 
+
+const INITIAL_FILTER_SORT = {
+    excludeExecuted: false,
+    excludeNoMarketPrice: false,
+}
 
 const INITIAL_STATE = {
     wishlistID: null,
@@ -22,6 +28,8 @@ const INITIAL_STATE = {
     comment: undefined,
     items: {},
     budget: undefined,
+    sort: "Name",
+    ...INITIAL_FILTER_SORT,
 }
 
 
@@ -42,17 +50,29 @@ class PublicWishlistDisplay extends React.Component {
     componentDidUpdate(prevProps, prevState, ss) {
         if (this.props.publicId !== prevProps.publicId) {
             if (this.props.publicId !== "")
-                this.fetchWishlist(this.props.publicId)
+                this.fetchPublicWishlist(this.props.publicId)
             else {
                 this.setState(INITIAL_STATE)
             }
         }
     }
 
+    stockIdToStock = (wishlistItem, allStocks) => {
+        const stocks = allStocks.find(item => wishlistItem.stock_id === item.stock_id);
+        if (stocks) {
+            wishlistItem.stock = stocks
+        } else {
+            wishlistItem.stock = null
+        }
+    }
+
     fetchStockList = () => {
         axios.get(`${API_URL}/instrument/stock/all`
         ).then(res => {
-            this.setState({stocks: res.data.sort((a, b) => a.name.localeCompare(b.name))})
+            for (const [, wishlistItem] of Object.entries(this.state.items)) {
+                this.stockIdToStock(wishlistItem, res.data)
+            }
+            this.setState({stocks: res.data})
         }).catch(() => {
             this.props.addNotification({
                 title: "Error!",
@@ -74,7 +94,7 @@ class PublicWishlistDisplay extends React.Component {
             let items = {}
             let budget = 0;
 
-            res.data.wishlist_items.forEach(function (item, index) {
+            res.data.wishlist_items.forEach((item, index) => {
                 item.stock_id = item.stock
                 delete item.stock
 
@@ -94,6 +114,7 @@ class PublicWishlistDisplay extends React.Component {
                 if (item.buy_price && item.buy_piece) {
                     budget += Number(item.buy_price) * Number(item.buy_piece)
                 }
+                this.stockIdToStock(item, this.state.stocks)
 
                 items[index] = item
             });
@@ -124,55 +145,136 @@ class PublicWishlistDisplay extends React.Component {
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <Card className="mb-3">
-                    <CardBody>
-                        <div className="d-flex mb-2">
-                            <CardTitle tag="h4">
-                                {this.state.title}
-                            </CardTitle>
-                            <span className="ml-auto text-right">
-                                {`${this.state.from}`}
-                                {this.state.to && (
-                                    <>
+        const filteredWishlistItems = Object.entries(this.state.items).filter(([, value]) => {
+            // Implement filter
+            if (this.state.excludeExecuted) {
+                if (value.executed) {
+                    return false
+                }
+            }
+            if (this.state.excludeNoMarketPrice) {
+                if (!value.stock || !value.stock.price) {
+                    return false
+                }
+            }
+            return true;
+        })
+
+        return <React.Fragment>
+            <Row>
+                <Col lg={2}>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Sort by
+                            </span>
+                            <i className="fa fa-sort align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex p-0">
+                            <CustomInput type="select" name="select" id="sort" value={this.state.sort}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 sort: e.target.value,
+                                             })
+                                         }}>
+                                <option id="Name" value="Name">Name</option>
+                                <option id="Date" value="Date Modified">Date Modified</option>
+                            </CustomInput>
+                        </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Executed
+                            </span>
+                            <i className="fa fa-check-circle align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="radio1" name="rating" label="Exclude" inline
+                                         checked={this.state.excludeExecuted}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 excludeExecuted: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Market Price
+                            </span>
+                            <i className="fa fa-inr align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox3" label="Available" inline
+                                         checked={this.state.excludeNoMarketPrice}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 excludeNoMarketPrice: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                    </Nav>
+                    <Button color="link" block
+                            onClick={() =>
+                                this.setState({
+                                    ...INITIAL_FILTER_SORT,
+                                })}>
+                        Reset to Default
+                    </Button>
+                </Col>
+                <Col lg={9}>
+                    <Card className="mb-3">
+                        <CardBody>
+                            <div className="d-flex mb-2">
+                                <CardTitle tag="h4">
+                                    {this.state.title}
+                                </CardTitle>
+                                <span className="ml-auto text-right">
+                                    {`${this.state.from}`}
+                                    {this.state.to && <>
                                         {` to ${this.state.to}`}
                                     </>
-                                )
-                                }
-                            </span>
-                        </div>
-                        {this.state.description && this.state.description !== "" && (
-                            <p className="pb-1 mb-0">
+                                    }
+                                </span>
+                            </div>
+                            {this.state.description && this.state.description !== "" && <p className="pb-1 mb-0">
                                 {this.state.description || ""}
-                            </p>)
-                        }
-                    </CardBody>
-                    {this.state.comment && this.state.comment !== "" && (
-                        <CardFooter className="small">
+                            </p>
+                            }
+                        </CardBody>
+                        {this.state.comment && this.state.comment !== "" && <CardFooter className="small">
                             <i className="fa fa-fw fa-comment mr-2"/>
                             {this.state.comment}
-                        </CardFooter>
-                    )}
-                </Card>
-                <Card className="mb-3">
-                    {Object.entries(this.state.items).map((t, k) => {
-                            return (
-                                <React.Fragment key={k}>
-                                    <PublicWishlistItem
-                                        stocks={this.state.stocks}
-                                        data={t[1]}
-                                        budget={this.state.budget}
-                                        key={k}
-                                    />
-                                    {(k === Object.keys(this.state.items).length - 1) ? <></> : <hr/>}
-                                </React.Fragment>
-                            )
-                        }
-                    )}
-                </Card>
-            </React.Fragment>
-        )
+                        </CardFooter>}
+                    </Card>
+                    <Card className="mb-3">
+                        {filteredWishlistItems.sort(([, a], [, b]) => {
+                            // Implement sort
+                            if (!a.stock || !b.stock) {
+                                return 0
+                            }
+                            return a.stock.name.localeCompare(b.stock.name); //default return value (no sorting)
+                        })
+                            .map((t, k) => {
+                                    return <React.Fragment key={k}>
+                                        <PublicWishlistItem
+                                            stocks={this.state.stocks}
+                                            data={t[1]}
+                                            budget={this.state.budget}
+                                            key={k}
+                                        />
+                                        {(k === Object.keys(filteredWishlistItems).length - 1) ? <></> : <hr/>}
+                                    </React.Fragment>
+                                }
+                            )}
+                    </Card>
+                </Col>
+            </Row>
+        </React.Fragment>
     }
 }
 

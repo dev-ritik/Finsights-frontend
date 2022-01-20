@@ -425,6 +425,7 @@ class CreateWishlist extends React.Component {
                                                                 <a href={`#/wishlist/public/${this.state.sharable_slug}`}
                                                                    rel="noopener noreferrer" target="_blank"
                                                                    className="small text-decoration-none-light">
+                                                                    <i className="fa fa-fw fa-link mr-2"/>
                                                                     Sharable link
                                                                 </a>
                                                             </label>
