@@ -110,16 +110,21 @@ const PublicWishlistItem = (props) => {
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="dt" padding={{left: 30, right: 30}}/>
-                    <YAxis type="number"/>
+                    <YAxis type="number" domain={['auto', 'auto']}/>
                     <Tooltip/>
                     <Legend/>
-                    <ReferenceLine strokeDasharray="3 3"
-                                   y={Number(props.data.sell_price)}
-                                   label="Sell"
-                                   stroke="green"
-                                   ifOverflow="extendDomain"/>
-                    <ReferenceLine strokeDasharray="3 3" y={Number(props.data.buy_price)} label="Buy" stroke="red"
-                                   ifOverflow="extendDomain"/>
+                    {Number(props.data.sell_price) > 0 &&
+
+                        <ReferenceLine strokeDasharray="3 3"
+                                       y={Number(props.data.sell_price)}
+                                       label="Sell"
+                                       stroke="green"
+                                       ifOverflow="extendDomain"/>
+                    }
+                    {Number(props.data.buy_price) > 0 &&
+                        <ReferenceLine strokeDasharray="3 3" y={Number(props.data.buy_price)} label="Buy" stroke="red"
+                                       ifOverflow="extendDomain"/>
+                    }
                     <Line type="monotone" dataKey="price" stroke="#8884d8"/>
                 </LineChart>
             </ResponsiveContainer>
