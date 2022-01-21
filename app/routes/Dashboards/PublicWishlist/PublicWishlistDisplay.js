@@ -31,7 +31,7 @@ const INITIAL_STATE = {
     comment: undefined,
     items: {},
     budget: undefined,
-    sort: "Name",
+    sort: "Name_asc",
     ...INITIAL_FILTER_SORT,
 }
 
@@ -235,7 +235,8 @@ class PublicWishlistDisplay extends React.Component {
                                                  sort: e.target.value,
                                              })
                                          }}>
-                                <option id="Name" value="Name">Name</option>
+                                <option id="Name" value="Name_asc">Name: Ascending</option>
+                                <option id="Name" value="Name_des">Name: Descending</option>
                                 <option id="Date" value="Date Modified">Date Modified</option>
                             </CustomInput>
                         </NavItem>
@@ -354,10 +355,17 @@ class PublicWishlistDisplay extends React.Component {
                     <Card className="mb-3">
                         {filteredWishlistItems.sort(([, a], [, b]) => {
                             // Implement sort
-                            if (!a.stock || !b.stock) {
-                                return 0
+                            if (this.state.sort === "Name_asc" || this.state.sort === "Name_des" ) {
+                                if (!a.stock || !b.stock) {
+                                    return 0
+                                }
+                                if (this.state.sort === "Name_asc")
+                                    return a.stock.name.localeCompare(b.stock.name);
+                                else
+                                    return -1 * a.stock.name.localeCompare(b.stock.name);
+                            } else {
+                                return new Date(b.date_modified) - new Date(a.date_modified)
                             }
-                            return a.stock.name.localeCompare(b.stock.name); //default return value (no sorting)
                         })
                             .map((t, k) => {
                                     return <React.Fragment key={k}>
