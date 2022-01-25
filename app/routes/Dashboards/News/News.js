@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardColumns, Container} from './../../../components';
+import {CardColumns, Container, withPageConfig} from './../../../components';
 
 import {HeaderMain} from "../../components/HeaderMain";
 import PropTypes from "prop-types";
@@ -18,13 +18,22 @@ import {
     UncontrolledButtonDropdown
 } from "../../../components";
 import {Feed} from "../../components/Feed/Feed";
+import _ from "lodash";
 
+function get_symbol_slug(page_props) {
+    if (typeof page_props === 'undefined' || typeof page_props.match === 'undefined'
+        || typeof page_props.match.params === 'undefined' || typeof page_props.match.params.symbol === 'undefined') {
+        return "";
+    } else {
+        return page_props.match.params.symbol;
+    }
+}
 
 class News extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.get_symbol_slug(this.props) !== "all") {
+        if (get_symbol_slug(this.props) !== "") {
             this.props.newSymbolSelection({
                 'type': `${this.props.match.params.type}`,
                 'symbol': `${this.props.match.params.symbol}`,
@@ -52,33 +61,45 @@ class News extends React.Component {
         });
     }
 
-    get_symbol_slug(page_props) {
-        if (typeof page_props === 'undefined' || typeof page_props.match === 'undefined'
-            || typeof page_props.match.params === 'undefined' || typeof page_props.match.params.symbol === 'undefined') {
-            return "all";
-        } else {
-            return page_props.match.params.symbol;
-        }
-    }
-
     get_symbol_representation(symbol_slug) {
         if (symbol_slug === 'all')
             return "";
         return symbol_slug;
     }
 
+    getPageTitle() {
+        return `News${get_symbol_slug(this.props) === "" ? "" : ` - ${get_symbol_slug(this.props)}`}`
+    }
+
     componentDidUpdate(prevProps, prevState, ss) {
-        // Typical usage (don't forget to compare props):
-        if (this.state.refresh !== prevState.refresh ) {
+        if (this.state.refresh !== prevState.refresh) {
             this.performQuery();
         }
+        if (get_symbol_slug(this.props) !== get_symbol_slug(prevProps)) {
+            this.props.pageConfig.changeMeta({
+                pageTitle: this.getPageTitle()
+            });
+        }
     }
+
+    componentDidMount() {
+        this.prevConfig = _.pick(this.props.pageConfig,
+            ['pageTitle', 'pageDescription', 'pageKeywords']);
+        this.props.pageConfig.changeMeta({
+            pageTitle: this.getPageTitle()
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.pageConfig.changeMeta(this.prevConfig);
+    }
+
 
     render() {
         return <Container>
             <div className="d-flex mt-3 mb-5">
                 <HeaderMain
-                    title={`News${this.get_symbol_slug(this.props) === "all" ? "" : ": " + this.get_symbol_slug(this.props)}`}
+                    title={`News${get_symbol_slug(this.props) === "" ? "" : ": " + get_symbol_slug(this.props)}`}
                     className="mt-0"
                 />
                 <ButtonToolbar className="ml-auto">
@@ -126,25 +147,25 @@ class News extends React.Component {
             <CardColumns>
                 {/* Weird warning, gets fixed when we replace proptypes from variables to actual string */}
                 <Feed platform={TELEGRAM}
-                      symbol={this.get_symbol_slug(this.props)}
+                      symbol={get_symbol_slug(this.props)}
                       next_update={this.state.telegramNextUpdate}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={YOUTUBE}
-                      symbol={this.get_symbol_slug(this.props)}
+                      symbol={get_symbol_slug(this.props)}
                       next_update={this.state.youtubeNextUpdate}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={TWITTER}
-                      symbol={this.get_symbol_slug(this.props)}
+                      symbol={get_symbol_slug(this.props)}
                       next_update={this.state.twitterNextUpdate}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={REDDIT}
-                      symbol={this.get_symbol_slug(this.props)}
+                      symbol={get_symbol_slug(this.props)}
                       next_update={this.state.redditNextUpdate}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
@@ -163,9 +184,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(News);
+export default connect(null, mapDispatchToProps)(withPageConfig(News));
 
 News.propTypes = {
     match: PropTypes.shape({params: PropTypes.any}),
     newSymbolSelection: PropTypes.func,
+    pageConfig: PropTypes.object
 };

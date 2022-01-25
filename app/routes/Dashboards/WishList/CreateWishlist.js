@@ -11,7 +11,8 @@ import {
     DropdownMenu,
     DropdownToggle,
     UncontrolledButtonDropdown,
-    UncontrolledTooltip
+    UncontrolledTooltip,
+    withPageConfig
 } from './../../../components';
 import axios from "axios";
 import {API_URL} from "../../../constants";
@@ -69,6 +70,16 @@ class CreateWishlist extends React.Component {
         if (this.props.wishlistId !== -1) {
             this.fetchWishlist(this.props.wishlistId)
         }
+
+        this.prevConfig = _.pick(this.props.pageConfig,
+            ['pageTitle', 'pageDescription', 'pageKeywords']);
+        this.props.pageConfig.changeMeta({
+            pageTitle: this.getPageTitle()
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.pageConfig.changeMeta(this.prevConfig);
     }
 
     componentDidUpdate(prevProps, prevState, ss) {
@@ -81,6 +92,15 @@ class CreateWishlist extends React.Component {
                 this.setState(initialState)
             }
         }
+        if (this.state.title !== prevState.title) {
+            this.props.pageConfig.changeMeta({
+                pageTitle: this.getPageTitle()
+            });
+        }
+    }
+
+    getPageTitle() {
+        return `${this.state.title && this.state.title !== "" ? this.state.title : `Create Wishlist`}`
     }
 
     fetchStockList = () => {
@@ -506,12 +526,13 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateWishlist);
+export default connect(mapStateToProps, mapDispatchToProps)(withPageConfig(CreateWishlist));
 
 CreateWishlist.propTypes = {
     wishlistId: PropTypes.number,
     userInfo: PropTypes.object,
     addNotification: PropTypes.func,
     history: PropTypes.object,
+    pageConfig: PropTypes.object
 };
 

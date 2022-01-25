@@ -36,12 +36,15 @@ export class Feed extends React.Component {
 
     performQuery(offset, sort = this.props.sort) {
         let exchange;
-        if (this.props.symbol === "all") {
+        let symbol;
+        if (this.props.symbol === "") {
             exchange = "all"
+            symbol = "all"
         } else {
             exchange = "NSE"
+            symbol = this.props.symbol
         }
-        axios.get(`${API_URL}/news/${exchange}/${this.props.symbol}/${PLATFORM_CONSTANTS[this.props.platform].search_slug}`,
+        axios.get(`${API_URL}/news/${exchange}/${symbol}/${PLATFORM_CONSTANTS[this.props.platform].search_slug}`,
             {
                 params: {
                     limit: POSTS_PER_PAGE,

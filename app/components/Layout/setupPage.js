@@ -10,6 +10,7 @@ export const setupPage = (startupConfig) =>
                 pageConfig: PropTypes.object
             }
             componentDidMount() {
+                // This creates issue while dynamically changing page title
                 this.prevConfig = _.pick(this.props.pageConfig,
                     ['pageTitle', 'pageDescription', 'pageKeywords']);
                 this.props.pageConfig.changeMeta(startupConfig);

@@ -13,7 +13,7 @@ import {
     DropdownToggle,
     FloatGrid as Grid,
     HolderProvider,
-    UncontrolledButtonDropdown
+    UncontrolledButtonDropdown, withPageConfig
 } from './../../../components';
 import {applyColumn} from '../../../components/FloatGrid';
 
@@ -32,6 +32,7 @@ class Seasonal extends React.Component {
     static propTypes = {
         match: PropTypes.object,
         newSymbolSelection: PropTypes.func,
+        pageConfig: PropTypes.object
     }
 
     constructor(props) {
@@ -69,6 +70,30 @@ class Seasonal extends React.Component {
 
     _resetLayout = () => {
         this.setState(_.clone(this.INITIAL_STATE))
+    }
+
+    componentDidMount() {
+        this.prevConfig = _.pick(this.props.pageConfig,
+            ['pageTitle', 'pageDescription', 'pageKeywords']);
+        this.props.pageConfig.changeMeta({
+            pageTitle: this.getPageTitle()
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.pageConfig.changeMeta(this.prevConfig);
+    }
+
+    componentDidUpdate(prevProps, prevState, ss) {
+        if (this.props.match.params.symbol !== prevProps.match.params.symbol) {
+            this.props.pageConfig.changeMeta({
+                pageTitle: this.getPageTitle()
+            });
+        }
+    }
+
+    getPageTitle() {
+        return `${this.props.match.params.symbol} - Seasonal`
     }
 
     performQuery() {
@@ -220,4 +245,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Seasonal);
+export default connect(null, mapDispatchToProps)(withPageConfig(Seasonal));

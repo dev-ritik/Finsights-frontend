@@ -234,7 +234,7 @@ class Layout extends React.Component {
             >
                 <Helmet>
                     <meta charSet="utf-8" />
-                    <title>{ config.siteTitle + (this.state.pageTitle ? ` - ${this.state.pageTitle}` : '') }</title>
+                    <title>{(this.state.pageTitle ? `${this.state.pageTitle} - ` : '') + config.siteTitle}</title>
                     <link rel="canonical" href={ config.siteCannonicalUrl } />
                     <meta name="description" content={ this.state.pageDescription } />
                     {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Card, CardBody, CardFooter, CustomInput, Nav} from './../../../components';
+import {Card, CardBody, CardFooter, CustomInput, Nav, withPageConfig} from './../../../components';
 import axios from "axios";
 import {API_URL} from "../../../constants";
 import {connect} from "react-redux";
@@ -48,6 +48,15 @@ class PublicWishlistDisplay extends React.Component {
         if (this.props.publicId !== "") {
             this.fetchPublicWishlist(this.props.publicId)
         }
+        this.prevConfig = _.pick(this.props.pageConfig,
+            ['pageTitle', 'pageDescription', 'pageKeywords']);
+        this.props.pageConfig.changeMeta({
+            pageTitle: this.getPageTitle()
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.pageConfig.changeMeta(this.prevConfig);
     }
 
     componentDidUpdate(prevProps, prevState, ss) {
@@ -58,6 +67,15 @@ class PublicWishlistDisplay extends React.Component {
                 this.setState(INITIAL_STATE)
             }
         }
+        if (this.state.title !== prevState.title) {
+            this.props.pageConfig.changeMeta({
+                pageTitle: this.getPageTitle()
+            });
+        }
+    }
+
+    getPageTitle() {
+        return this.state.title
     }
 
     stockIdToStock = (wishlistItem, allStocks) => {
@@ -394,11 +412,12 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(PublicWishlistDisplay);
+export default connect(null, mapDispatchToProps)(withPageConfig(PublicWishlistDisplay));
 
 PublicWishlistDisplay.propTypes = {
     publicId: PropTypes.string,
     addNotification: PropTypes.func,
     history: PropTypes.object,
+    pageConfig: PropTypes.object
 };
 

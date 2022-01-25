@@ -32,12 +32,6 @@ export const DefaultNavbar = (props) => (
                     <i className="fa fa-angle-right"></i>
                 </span>
                 <span className="navbar-text">
-                    <Link to="/">Start</Link>
-                </span>
-                <span className="navbar-text px-2">
-                    <i className="fa fa-angle-right"></i>
-                </span>
-                <span className="navbar-text">
                     Page Link
                 </span>
             </NavItem>
