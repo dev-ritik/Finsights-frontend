@@ -17,14 +17,6 @@ import {Paginations} from "../Paginations";
 import PropTypes from "prop-types";
 import {timeSince} from "../../../utilities";
 import './../../../styles/custom.scss';
-import {
-    ButtonGroup,
-    ButtonToolbar,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    UncontrolledButtonDropdown
-} from "../../../components";
 
 
 export class YoutubeFeed extends React.Component {
@@ -36,19 +28,17 @@ export class YoutubeFeed extends React.Component {
             currentPage: 1,
             pageCount: 1,
             symbol: this.props.symbol,
-            sort: 'relevance',
         };
         this.performQuery(0);
     }
 
-    performQuery(offset, sort = this.state.sort) {
+    performQuery(offset, sort = this.props.sort) {
         let exchange;
         if (this.props.symbol === "all") {
             exchange = "all"
         } else {
             exchange = "NSE"
         }
-
         axios.get(`${API_URL}/news/${exchange}/${this.props.symbol}/youtube`, {
             params: {
                 limit: POSTS_PER_PAGE,
@@ -64,10 +54,16 @@ export class YoutubeFeed extends React.Component {
         });
     }
 
-    render() {
-        if (this.state.symbol !== this.props.symbol) {
+    componentDidUpdate(prevProps, prevState, ss) {
+        // Typical usage (don't forget to compare props):
+        if (this.state.symbol !== this.props.symbol ||
+            this.props.refresh !== prevProps.refresh ||
+            this.props.sort !== prevProps.sort) {
             this.performQuery(0);
         }
+    }
+
+    render() {
         return <Container className="pr-0 pl-0">
             <Card className="mb-3">
                 <CardBody className="bg-youtube">
@@ -87,40 +83,6 @@ export class YoutubeFeed extends React.Component {
                             Updating {timeSince(this.props.next_update)}
                         </UncontrolledTooltip>
                     </div>
-                    <div className="flex-column flex-md-row d-flex white-background">
-                        <ButtonToolbar className="ml-auto">
-                            <ButtonGroup className="mr-2">
-                                <UncontrolledButtonDropdown>
-                                    <DropdownToggle color="link" caret>
-                                        Sort by {this.state.sort}
-                                    </DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem
-                                            onClick={() => {
-                                                this.setState({
-                                                    sort: 'relevance'
-                                                });
-                                                this.performQuery(0, 'relevance');
-                                            }}
-                                        >
-                                            relevance
-                                        </DropdownItem>
-                                        <DropdownItem
-                                            onClick={() => {
-                                                this.setState({
-                                                    sort: 'date'
-                                                });
-                                                this.performQuery(0, 'date');
-                                            }}
-                                        >
-                                            date
-                                        </DropdownItem>
-                                    </DropdownMenu>
-                                </UncontrolledButtonDropdown>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </div>
-                    <hr className="p-1 m-0 white-background"/>
                     <ListGroup flush>
                         {this.state.posts.map(function (data, index) {
                             return <ListGroupItem className="p-2" key={index}><Youtube {...data}/></ListGroupItem>;
@@ -145,4 +107,6 @@ export class YoutubeFeed extends React.Component {
 YoutubeFeed.propTypes = {
     symbol: PropTypes.string,
     next_update: PropTypes.string,
+    sort: PropTypes.string,
+    refresh: PropTypes.bool,
 };

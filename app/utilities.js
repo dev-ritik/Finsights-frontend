@@ -119,7 +119,7 @@ export function timeSince(timeStamp) {
             return 'after ' + (0 - secondsPast) + ' secs';
         }
         if (secondsPast > -3600) { // Less than an hour
-            return 'after ' + ((0 - secondsPast) / 60) + ' mins';
+            return 'after ' + Math.trunc((0 - secondsPast) / 60) + ' mins';
         }
         if (secondsPast >= -86400) { // Less than a day
             return 'after ' + (Math.trunc((0 - secondsPast) / 3600)) + ' hrs';
