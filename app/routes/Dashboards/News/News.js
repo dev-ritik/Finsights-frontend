@@ -2,15 +2,11 @@ import React from 'react';
 import {CardColumns, Container} from './../../../components';
 
 import {HeaderMain} from "../../components/HeaderMain";
-import {RedditFeed} from "../../components/Feed/Reddit";
-import {TwitterFeed} from "../../components/Feed/Twitter";
-import {TelegramFeed} from "../../components/Feed/Telegram";
-import {YoutubeFeed} from "../../components/Feed/Youtube";
 import PropTypes from "prop-types";
 import {newSymbolSelection} from "../../../redux/SearchedSymbol";
 import {connect} from "react-redux";
 import axios from "axios";
-import {API_URL} from "../../../constants";
+import {API_URL, REDDIT, TELEGRAM, TWITTER, YOUTUBE} from "../../../constants";
 import moment from "moment";
 import {
     Button,
@@ -21,6 +17,7 @@ import {
     DropdownToggle,
     UncontrolledButtonDropdown
 } from "../../../components";
+import {Feed} from "../../components/Feed/Feed";
 
 
 class News extends React.Component {
@@ -47,10 +44,10 @@ class News extends React.Component {
     performQuery() {
         axios.get(`${API_URL}/news/next_update`).then(res => {
             this.setState({
-                redditNextUpdate: res.data.re,
-                telegramNextUpdate: res.data.te,
-                youtubeNextUpdate: res.data.yt,
-                twitterNextUpdate: res.data.tw,
+                redditNextUpdate: res.data[REDDIT],
+                telegramNextUpdate: res.data[TELEGRAM],
+                youtubeNextUpdate: res.data[YOUTUBE],
+                twitterNextUpdate: res.data[TWITTER],
             })
         });
     }
@@ -127,25 +124,30 @@ class News extends React.Component {
                 </ButtonToolbar>
             </div>
             <CardColumns>
-                <RedditFeed symbol={this.get_symbol_slug(this.props)}
-                            next_update={this.state.redditNextUpdate}
-                            sort={this.state.sort}
-                            refresh={this.state.refresh}
+                {/* Weird warning, gets fixed when we replace proptypes from variables to actual string */}
+                <Feed platform={TELEGRAM}
+                      symbol={this.get_symbol_slug(this.props)}
+                      next_update={this.state.telegramNextUpdate}
+                      sort={this.state.sort}
+                      refresh={this.state.refresh}
                 />
-                <TwitterFeed symbol={this.get_symbol_slug(this.props)}
-                             next_update={this.state.twitterNextUpdate}
-                             sort={this.state.sort}
-                             refresh={this.state.refresh}
+                <Feed platform={YOUTUBE}
+                      symbol={this.get_symbol_slug(this.props)}
+                      next_update={this.state.youtubeNextUpdate}
+                      sort={this.state.sort}
+                      refresh={this.state.refresh}
                 />
-                <TelegramFeed symbol={this.get_symbol_slug(this.props)}
-                              next_update={this.state.telegramNextUpdate}
-                              sort={this.state.sort}
-                              refresh={this.state.refresh}
+                <Feed platform={TWITTER}
+                      symbol={this.get_symbol_slug(this.props)}
+                      next_update={this.state.twitterNextUpdate}
+                      sort={this.state.sort}
+                      refresh={this.state.refresh}
                 />
-                <YoutubeFeed symbol={this.get_symbol_slug(this.props)}
-                             next_update={this.state.youtubeNextUpdate}
-                             sort={this.state.sort}
-                             refresh={this.state.refresh}
+                <Feed platform={REDDIT}
+                      symbol={this.get_symbol_slug(this.props)}
+                      next_update={this.state.redditNextUpdate}
+                      sort={this.state.sort}
+                      refresh={this.state.refresh}
                 />
             </CardColumns>
         </Container>;
