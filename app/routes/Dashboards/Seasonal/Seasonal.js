@@ -1,32 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+
+import {HeaderMain} from "../../components/HeaderMain";
+import {API_URL, image404} from "../../../constants";
+import {newSymbolSelection} from "../../../redux/SearchedSymbol";
+import {connect} from "react-redux";
 import {
     Button,
     ButtonGroup,
     ButtonToolbar,
     Card,
     CardImg,
+    Col,
     Container,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    FloatGrid as Grid,
-    HolderProvider,
-    UncontrolledButtonDropdown, withPageConfig
+    Row,
+    UncontrolledButtonDropdown,
+    withPageConfig
 } from './../../../components';
-import {applyColumn} from '../../../components/FloatGrid';
 
-import {HeaderMain} from "../../components/HeaderMain";
-import {API_URL} from "../../../constants";
-import {newSymbolSelection} from "../../../redux/SearchedSymbol";
-import {connect} from "react-redux";
-
-
-const LAYOUT = {
-    // Fetches the best size going from sm to xxl
-    'seasonal-analysis': {h: 14, sm: 4, md: 5, lg: 7, xl: 8, xxl: 9, minH: 8},
-}
 
 class Seasonal extends React.Component {
     static propTypes = {
@@ -45,11 +40,11 @@ class Seasonal extends React.Component {
     }
 
     INITIAL_STATE = {
-        layouts: _.clone(LAYOUT),
         exchange: 'NSE',
         frequency: 'Month',
         weighted: 'Weighted',
         urlParams: '',
+        imageLoadFailed: false,
     }
 
     EXCHANGES = {
@@ -102,44 +97,42 @@ class Seasonal extends React.Component {
     }
 
     render() {
-        const {layouts} = this.state;
-
         return (
             <React.Fragment>
                 <Container fluid={false}>
                     <div className="d-flex mt-3 mb-5">
                         <HeaderMain
-                            title="Seasonal"
+                            title={`Seasonal : ${this.props.match.params.symbol}`}
                             className="mt-0"
                         />
                         <ButtonToolbar className="ml-auto">
+                            {/*<ButtonGroup className="align-self-start mr-2">*/}
+                            {/*    <UncontrolledButtonDropdown className="ml-auto flex-column">*/}
+                            {/*        <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">*/}
+                            {/*            <i className="fa fa-fw fa-exchange text-body mr-2"/>*/}
+                            {/*            {this.state.exchange}<i className="fa fa-angle-down text-body ml-2"/>*/}
+                            {/*        </DropdownToggle>*/}
+                            {/*        <div className="small">*/}
+                            {/*            Exchange*/}
+                            {/*        </div>*/}
+                            {/*        <DropdownMenu>*/}
+                            {/*            <DropdownItem header>*/}
+                            {/*                Select Exchange:*/}
+                            {/*            </DropdownItem>*/}
+                            {/*            /!*{*!/*/}
+                            {/*            /!*    Object.keys(this.EXCHANGES).map((key, index) => (*!/*/}
+                            {/*            /!*        <DropdownItem key={index} active={this.state.exchange === key}>*!/*/}
+                            {/*            /!*            {key}*!/*/}
+                            {/*            /!*        </DropdownItem>*!/*/}
+                            {/*            /!*    ))*!/*/}
+                            {/*            /!*}*!/*/}
+                            {/*        </DropdownMenu>*/}
+                            {/*    </UncontrolledButtonDropdown>*/}
+                            {/*</ButtonGroup>*/}
                             <ButtonGroup className="align-self-start mr-2">
                                 <UncontrolledButtonDropdown className="ml-auto flex-column">
                                     <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
-                                        <i className="fa fa-fw fa-exchange text-body mr-2"></i>
-                                        {this.state.exchange}<i className="fa fa-angle-down text-body ml-2"/>
-                                    </DropdownToggle>
-                                    <div className="small">
-                                        Exchange
-                                    </div>
-                                    <DropdownMenu>
-                                        <DropdownItem header>
-                                            Select Exchange:
-                                        </DropdownItem>
-                                        {/*{*/}
-                                        {/*    Object.keys(this.EXCHANGES).map((key, index) => (*/}
-                                        {/*        <DropdownItem key={index} active={this.state.exchange === key}>*/}
-                                        {/*            {key}*/}
-                                        {/*        </DropdownItem>*/}
-                                        {/*    ))*/}
-                                        {/*}*/}
-                                    </DropdownMenu>
-                                </UncontrolledButtonDropdown>
-                            </ButtonGroup>
-                            <ButtonGroup className="align-self-start mr-2">
-                                <UncontrolledButtonDropdown className="ml-auto flex-column">
-                                    <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
-                                        <i className="fa fa-calendar-o text-body mr-2"></i>
+                                        <i className="fa fa-calendar-o text-body mr-2"/>
                                         {this.state.frequency}<i className="fa fa-angle-down text-body ml-2"/>
                                     </DropdownToggle>
                                     <div className="small">
@@ -211,27 +204,20 @@ class Seasonal extends React.Component {
                     </div>
                 </Container>
 
-                <Grid>
-                    <Grid.Row
-                        onLayoutChange={layouts => this.setState({layouts})}
-                        columnSizes={this.state.layouts}
-                        rowHeight={55}
-                    >
-                        <Grid.Col {...(applyColumn('seasonal-analysis', layouts))}>
-                            <Card className="mb-3">
-                                <HolderProvider.Icon
-                                    iconChar=""
-                                    size={32}
-                                    className="mb-3"
-                                >
-                                    <CardImg className="figure-img card-img"
-                                             src={`${API_URL}/instrument/${this.props.match.params.symbol}/seasonal${this.state.urlParams}`}
-                                             alt="Seasonal analysis"/>
-                                </HolderProvider.Icon>
-                            </Card>
-                        </Grid.Col>
-                    </Grid.Row>
-                </Grid>
+                <Row>
+                    <Col lg={8}>
+                        <Card className="mb-3">
+                            <CardImg className="figure-img card-img"
+                                     src={`${API_URL}/instrument/${this.props.match.params.symbol}/seasonal${this.state.urlParams}`}
+                                     onError={(e) => {
+                                         if (e.target.src === image404)
+                                             return;
+                                         e.target.src = image404
+                                     }}
+                                     alt="Seasonal analysis"/>
+                        </Card>
+                    </Col>
+                </Row>
             </React.Fragment>
         );
     }

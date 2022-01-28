@@ -32,3 +32,5 @@ export const PLATFORM_CONSTANTS = {
         search_slug: 'twitter',
     },
 }
+
+export const image404 = 'https://raw.githubusercontent.com/blairlee227/IlluStatus/master/src/demo_2.gif'
