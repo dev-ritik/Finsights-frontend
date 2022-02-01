@@ -97,9 +97,10 @@ export class Feed extends React.Component {
                             {PLATFORM_CONSTANTS[this.props.platform].label}
                         </CardTitle>
                         <span className="ml-auto text-right">
-                            <i className="ml-auto text-right fa fa-fw fa-info-circle" id="next_update"/>
+                            <i className="ml-auto text-right fa fa-fw fa-info-circle"
+                               id={`next_update_${this.props.platform}`}/>
                         </span>
-                        <UncontrolledTooltip placement="top" target="next_update">
+                        <UncontrolledTooltip placement="top" target={`next_update_${this.props.platform}`}>
                             Updating {timeSince(this.props.next_update)}
                         </UncontrolledTooltip>
                     </div>
