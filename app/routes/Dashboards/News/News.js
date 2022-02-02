@@ -19,6 +19,7 @@ import {
 } from "../../../components";
 import {Feed} from "../../components/Feed/Feed";
 import _ from "lodash";
+import {DURATIONS} from "./durations";
 
 function get_symbol_slug(page_props) {
     if (typeof page_props === 'undefined' || typeof page_props.match === 'undefined'
@@ -44,6 +45,7 @@ class News extends React.Component {
             telegramNextUpdate: moment().toISOString(),
             youtubeNextUpdate: moment().toISOString(),
             twitterNextUpdate: moment().toISOString(),
+            duration: DURATIONS.All,
             sort: 'relevance',
             refresh: false,
         };
@@ -106,6 +108,31 @@ class News extends React.Component {
                     <ButtonGroup className="align-self-start mr-2">
                         <UncontrolledButtonDropdown className="ml-auto flex-column">
                             <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
+                                <i className="fa fa-fw fa-calendar text-body mr-2"/>
+                                {this.state.duration}<i className="fa fa-angle-down text-body ml-2"/>
+                            </DropdownToggle>
+                            <div className="small">
+                                Duration filter
+                            </div>
+                            <DropdownMenu>
+                                {Object.entries(DURATIONS).map(([key, value]) => (
+                                    <DropdownItem active={this.state.duration === value}
+                                                  onClick={
+                                                      () => {
+                                                          this.setState({duration: value});
+                                                      }
+                                                  }
+                                                  key={key}
+                                    >
+                                        {value}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+                    </ButtonGroup>
+                    <ButtonGroup className="align-self-start mr-2">
+                        <UncontrolledButtonDropdown className="ml-auto flex-column">
+                            <DropdownToggle color="link" className="text-left pl-0 text-decoration-none mb-2">
                                 <i className="fa fa-fw fa-sort text-body mr-2"/>
                                 {this.state.sort}<i className="fa fa-angle-down text-body ml-2"/>
                             </DropdownToggle>
@@ -149,24 +176,28 @@ class News extends React.Component {
                 <Feed platform={TELEGRAM}
                       symbol={get_symbol_slug(this.props)}
                       next_update={this.state.telegramNextUpdate}
+                      duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={YOUTUBE}
                       symbol={get_symbol_slug(this.props)}
                       next_update={this.state.youtubeNextUpdate}
+                      duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={TWITTER}
                       symbol={get_symbol_slug(this.props)}
                       next_update={this.state.twitterNextUpdate}
+                      duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
                 <Feed platform={REDDIT}
                       symbol={get_symbol_slug(this.props)}
                       next_update={this.state.redditNextUpdate}
+                      duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />

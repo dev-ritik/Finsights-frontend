@@ -20,6 +20,7 @@ import {Reddit} from "../Post/Reddit";
 import {Telegram} from "../Post/Telegram";
 import {Youtube} from "../Post/Youtube";
 import {Twitter} from "../Post/Twitter";
+import {DURATION_DETAILS, DURATIONS} from "../../Dashboards/News/durations";
 
 export class Feed extends React.Component {
 
@@ -34,7 +35,7 @@ export class Feed extends React.Component {
         this.performQuery(0);
     }
 
-    performQuery(offset, sort = this.props.sort) {
+    performQuery(offset, duration = this.props.duration, sort = this.props.sort) {
         let exchange;
         let symbol;
         if (this.props.symbol === "") {
@@ -44,13 +45,20 @@ export class Feed extends React.Component {
             exchange = "NSE"
             symbol = this.props.symbol
         }
+        const params = {
+            limit: POSTS_PER_PAGE,
+            offset: offset,
+            sort: sort,
+        }
+
+        if (duration !== DURATIONS.All){
+            params['from'] = DURATION_DETAILS[duration].from.toJSON().split('T')[0]
+            params['to'] = DURATION_DETAILS[duration].to.toJSON().split('T')[0]
+        }
+
         axios.get(`${API_URL}/news/${exchange}/${symbol}/${PLATFORM_CONSTANTS[this.props.platform].search_slug}`,
             {
-                params: {
-                    limit: POSTS_PER_PAGE,
-                    offset: offset,
-                    sort: sort,
-                }
+                params: params
             }).then(res => {
             this.setState({
                 posts: res.data.results,
@@ -64,6 +72,7 @@ export class Feed extends React.Component {
         // Typical usage (don't forget to compare props):
         if (this.state.symbol !== this.props.symbol ||
             this.props.refresh !== prevProps.refresh ||
+            this.props.duration !== prevProps.duration ||
             this.props.sort !== prevProps.sort) {
             this.performQuery(0);
         }
@@ -134,6 +143,7 @@ Feed.propTypes = {
     platform: PropTypes.oneOf([REDDIT, TELEGRAM, YOUTUBE, TWITTER]),
     symbol: PropTypes.string,
     next_update: PropTypes.string,
+    duration: PropTypes.string,
     sort: PropTypes.string,
     refresh: PropTypes.bool,
 };
