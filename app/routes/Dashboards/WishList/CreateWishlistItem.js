@@ -17,6 +17,7 @@ import {
     Label,
     Row,
     UncontrolledButtonDropdown,
+    UncontrolledModal,
     UncontrolledTooltip
 } from './../../../components';
 import classes from "../../Forms/Sliders/Sliders.scss";
@@ -32,6 +33,7 @@ import {addNotification} from "../../../redux/Notification";
 import {checkAndFetchValidAccessKey} from "../../../redux/User";
 import axios from "axios";
 import {API_URL} from "../../../constants";
+import {ModalBody, ModalFooter, ModalHeader} from "../../../components";
 
 
 class CreateWishlistItem extends React.Component {
@@ -45,6 +47,7 @@ class CreateWishlistItem extends React.Component {
             dropdownOpen: false,
         };
         this.toggle = this.toggle.bind(this);
+        this.unique_id = _.uniqueId("item-")
     }
 
     componentDidMount() {
@@ -154,7 +157,7 @@ class CreateWishlistItem extends React.Component {
                     });
                 } else if (error.response.status === 400) {
                     let message = "";
-                    for (const [key, value] of Object.entries(error.response.data)) {
+                    for (const [, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
                     this.props.addNotification({
@@ -231,12 +234,31 @@ class CreateWishlistItem extends React.Component {
                                 Mark as executed
                             </UncontrolledTooltip>
                             <Button className="text-decoration-none align-self-center" color="secondary" outline
-                                    id="delete" onClick={() => this.props.deleteFunction(this.props.index)}>
+                                    id={`delete${this.unique_id}`}>
                                 <i className="fa fa-fw fa-trash"/>
                             </Button>
-                            <UncontrolledTooltip placement="bottom" target="delete">
+                            <UncontrolledTooltip placement="bottom" target={`delete${this.unique_id}`}>
                                 Delete
                             </UncontrolledTooltip>
+                            <UncontrolledModal target={`delete${this.unique_id}`} className="modal-danger">
+                                <ModalHeader className="py-3"/>
+                                <ModalBody className="table-danger text-center px-5">
+                                    <i className="fa fa-5x fa-close fa-fw modal-icon mb-3"/>
+                                    <h6>Danger</h6>
+                                    <p className="modal-text">
+                                        {`Are you sure you want to delete item${this.state.current_stock_display ? ` ${this.state.current_stock_display}` : ``}??`}
+                                    </p>
+                                    <UncontrolledModal.Close color="danger" className="mr-2"
+                                                             onClickFunc={() => this.props.deleteFunction(this.props.index)}
+                                    >
+                                        Yes
+                                    </UncontrolledModal.Close>
+                                    <UncontrolledModal.Close color="link" className="text-danger">
+                                        Cancel
+                                    </UncontrolledModal.Close>
+                                </ModalBody>
+                                <ModalFooter className="py-3"/>
+                            </UncontrolledModal>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </div>

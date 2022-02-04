@@ -11,6 +11,7 @@ import {
     DropdownMenu,
     DropdownToggle,
     UncontrolledButtonDropdown,
+    UncontrolledModal,
     UncontrolledTooltip,
     withPageConfig
 } from './../../../components';
@@ -25,6 +26,8 @@ import Toggle from "react-toggle";
 import {checkAndFetchValidAccessKey} from "../../../redux/User";
 import CreateWishlistHeader from "./CreateWishlistHeader";
 import {addNotification} from "../../../redux/Notification";
+import {ModalBody, ModalFooter, ModalHeader} from "../../../components";
+import {update} from "../../../redux/Wishlists";
 
 
 const ITEM_EMPTY_DATA = {
@@ -147,7 +150,7 @@ class CreateWishlist extends React.Component {
 
     preProcessWishlistItem(items) {
         let ret = []
-        for (let [key, value] of Object.entries(items)) {
+        for (let [, value] of Object.entries(items)) {
             if (!value.stock_id || value.stock_id === "") {
                 continue
             }
@@ -286,6 +289,10 @@ class CreateWishlist extends React.Component {
                     message: "Wishlist saved",
                     colour: "success"
                 });
+                if (!this.state.wishlistID) {
+                    // Fresh wishlist
+                    this.props.updateWishlist()
+                }
                 this.setState({
                     wishlistID: res.data.id
                 })
@@ -298,7 +305,7 @@ class CreateWishlist extends React.Component {
                     });
                 } else if (error.response.status === 400) {
                     let message = "";
-                    for (const [key, value] of Object.entries(error.response.data)) {
+                    for (const [, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
                     this.props.addNotification({
@@ -334,7 +341,10 @@ class CreateWishlist extends React.Component {
                         'Authorization': `Bearer ${access}`
                     },
                 }
-            ).then(() => this.props.history.push(`/wishlist`))
+            ).then(() => {
+                this.props.updateWishlist()
+                this.props.history.push(`/wishlist`)
+            })
                 .catch(() =>
                     this.props.addNotification({
                         title: "Error!",
@@ -383,7 +393,7 @@ class CreateWishlist extends React.Component {
                     });
                 } else if (error.response.status === 400) {
                     let message = "";
-                    for (const [key, value] of Object.entries(error.response.data)) {
+                    for (const [, value] of Object.entries(error.response.data)) {
                         message += value + " "
                     }
                     this.props.addNotification({
@@ -454,15 +464,34 @@ class CreateWishlist extends React.Component {
 
                                                 </DropdownMenu>
                                             </UncontrolledButtonDropdown>
-                                            <ButtonGroup className="mr-2">
+                                            <ButtonGroup id="modalDefault402" className="mr-2">
                                                 <Button className="text-decoration-none align-self-center"
-                                                        id="delete" onClick={() => this.delete()}>
+                                                        id="delete">
                                                     <i className="fa fa-fw fa-trash"/>
                                                 </Button>
                                                 <UncontrolledTooltip placement="bottom" target="delete">
                                                     Delete
                                                 </UncontrolledTooltip>
                                             </ButtonGroup>
+                                            <UncontrolledModal target="modalDefault402" className="modal-danger">
+                                                <ModalHeader className="py-3"/>
+                                                <ModalBody className="table-danger text-center px-5">
+                                                    <i className="fa fa-5x fa-close fa-fw modal-icon mb-3"/>
+                                                    <h6>Danger</h6>
+                                                    <p className="modal-text">
+                                                        {`Are you sure you want to delete${this.state.title ? ` ${this.state.title}` : ``}??`}
+                                                    </p>
+                                                    <UncontrolledModal.Close color="danger" className="mr-2"
+                                                                             onClickFunc={() => this.delete()}
+                                                    >
+                                                        Yes
+                                                    </UncontrolledModal.Close>
+                                                    <UncontrolledModal.Close color="link" className="text-danger">
+                                                        Cancel
+                                                    </UncontrolledModal.Close>
+                                                </ModalBody>
+                                                <ModalFooter className="py-3"/>
+                                            </UncontrolledModal>
                                         </>
                                     )}
                                 <ButtonGroup>
@@ -523,6 +552,9 @@ const mapDispatchToProps = (dispatch) => {
         addNotification: (alert) => {
             dispatch(addNotification(alert))
         },
+        updateWishlist: () => {
+            dispatch(update())
+        },
     }
 }
 
@@ -533,6 +565,7 @@ CreateWishlist.propTypes = {
     userInfo: PropTypes.object,
     addNotification: PropTypes.func,
     history: PropTypes.object,
-    pageConfig: PropTypes.object
+    pageConfig: PropTypes.object,
+    updateWishlist: PropTypes.func,
 };
 

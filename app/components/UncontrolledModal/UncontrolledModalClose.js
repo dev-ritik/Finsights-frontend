@@ -5,16 +5,18 @@ import { Button } from 'reactstrap';
 import { Consumer } from './context';
 
 const UncontrolledModalClose = (props) => {
-    const { tag, ...otherProps } = props;
+    const { tag, onClickFunc, ...otherProps } = props;
     const Tag = tag;
-
     return (
         <Consumer>
         {
             (value) => (
                 <Tag
                     { ...otherProps }
-                    onClick={ () => value.toggleModal() }
+                    onClick={ () => {
+                        onClickFunc()
+                        value.toggleModal()
+                    } }
                 />
             )
         }
@@ -25,10 +27,12 @@ UncontrolledModalClose.propTypes = {
     tag: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.string
-    ])
+    ]),
+    onClickFunc: PropTypes.func
 };
 UncontrolledModalClose.defaultProps = {
-    tag: Button
+    tag: Button,
+    onClickFunc: () => {}
 };
 
 export { UncontrolledModalClose };
