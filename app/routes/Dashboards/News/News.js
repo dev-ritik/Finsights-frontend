@@ -48,17 +48,19 @@ class News extends React.Component {
             duration: DURATIONS.All,
             sort: 'relevance',
             refresh: false,
+            refresh_button_disabled: true,
         };
-        this.performQuery();
+        this.next_update_query();
     }
 
-    performQuery() {
+    next_update_query() {
         axios.get(`${API_URL}/news/next_update`).then(res => {
             this.setState({
                 redditNextUpdate: res.data[REDDIT],
                 telegramNextUpdate: res.data[TELEGRAM],
                 youtubeNextUpdate: res.data[YOUTUBE],
                 twitterNextUpdate: res.data[TWITTER],
+                refresh_button_disabled: true,
             })
         });
     }
@@ -75,7 +77,7 @@ class News extends React.Component {
 
     componentDidUpdate(prevProps, prevState, ss) {
         if (this.state.refresh !== prevState.refresh) {
-            this.performQuery();
+            this.next_update_query();
         }
         if (get_symbol_slug(this.props) !== get_symbol_slug(prevProps)) {
             this.props.pageConfig.changeMeta({
@@ -90,12 +92,57 @@ class News extends React.Component {
         this.props.pageConfig.changeMeta({
             pageTitle: this.getPageTitle()
         });
+        const CHECK_INTERVAL = 8000
+
+        let f = () => {
+            if (this.timer) clearTimeout(this.timer);
+            if (!this.state.refresh_button_disabled) {
+                // Already enabled check later
+                this.timer = setTimeout(f, CHECK_INTERVAL * 2);
+                return
+            }
+            let difference = Infinity
+            const now = new Date()
+
+            let _redditNextUpdate = this.state.redditNextUpdate
+            if (!(this.state.redditNextUpdate instanceof Date)) {
+                _redditNextUpdate = new Date(this.state.redditNextUpdate);
+            }
+            difference = Math.min(_redditNextUpdate.getTime() - now.getTime(), difference)
+            let _telegramNextUpdate = this.state.telegramNextUpdate
+            if (!(this.state.telegramNextUpdate instanceof Date)) {
+                _telegramNextUpdate = new Date(this.state.telegramNextUpdate);
+            }
+            difference = Math.min(_telegramNextUpdate.getTime() - now.getTime(), difference)
+            let _youtubeNextUpdate = this.state.youtubeNextUpdate
+            if (!(this.state.youtubeNextUpdate instanceof Date)) {
+                _youtubeNextUpdate = new Date(this.state.youtubeNextUpdate);
+            }
+            difference = Math.min(_youtubeNextUpdate.getTime() - now.getTime(), difference)
+            let _twitterNextUpdate = this.state.twitterNextUpdate
+            if (!(this.state.twitterNextUpdate instanceof Date)) {
+                _twitterNextUpdate = new Date(this.state.twitterNextUpdate);
+            }
+            difference = Math.min(_twitterNextUpdate.getTime() - now.getTime(), difference)
+            if (difference <= 0) {
+                // Enable the button
+                this.setState({
+                    refresh_button_disabled: false,
+                })
+                this.timer = setTimeout(f, CHECK_INTERVAL * 2);
+            }
+            this.timer = setTimeout(f, CHECK_INTERVAL);
+        }
+        if (this.timer) clearTimeout(this.timer);
+        this.timer = setTimeout(f, CHECK_INTERVAL);
     }
 
     componentWillUnmount() {
+        if (this.timer) {
+            clearTimeout(this.timer)
+        }
         this.props.pageConfig.changeMeta(this.prevConfig);
     }
-
 
     render() {
         return <Container>
@@ -160,12 +207,14 @@ class News extends React.Component {
                         </UncontrolledButtonDropdown>
                     </ButtonGroup>
                     <ButtonGroup className="align-self-start">
-                        <Button color="primary" className="mb-2 mr-2 px-3" onClick={() => {
-                            // Toggle the refresh to update child
-                            this.setState({
-                                refresh: !this.state.refresh
-                            });
-                        }}>
+                        <Button color="primary" className="mb-2 mr-2 px-3"
+                                disabled={this.state.refresh_button_disabled}
+                                onClick={() => {
+                                    // Toggle the refresh to update child
+                                    this.setState({
+                                        refresh: !this.state.refresh
+                                    });
+                                }}>
                             Refresh
                         </Button>
                     </ButtonGroup>

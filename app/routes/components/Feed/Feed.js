@@ -31,6 +31,7 @@ export class Feed extends React.Component {
             currentPage: 1,
             pageCount: 1,
             symbol: this.props.symbol,
+            tooltip_update_display: `Updating ${timeSince(this.props.next_update)}`,
         };
         this.performQuery(0);
     }
@@ -107,10 +108,15 @@ export class Feed extends React.Component {
                         </CardTitle>
                         <span className="ml-auto text-right">
                             <i className="ml-auto text-right fa fa-fw fa-info-circle"
-                               id={`next_update_${this.props.platform}`}/>
+                               id={`next_update_${this.props.platform}`}
+                               onMouseOver={() => {
+                                   this.setState({
+                                       tooltip_update_display: `Updating ${timeSince(this.props.next_update)}`
+                                   })
+                               }}/>
                         </span>
                         <UncontrolledTooltip placement="top" target={`next_update_${this.props.platform}`}>
-                            Updating {timeSince(this.props.next_update)}
+                            {this.state.tooltip_update_display}
                         </UncontrolledTooltip>
                     </div>
                     <ListGroup flush>
