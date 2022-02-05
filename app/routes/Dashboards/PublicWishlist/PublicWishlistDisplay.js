@@ -19,6 +19,11 @@ const INITIAL_FILTER_SORT = {
     target_achieved: false,
     within_1_percent: false,
     within_2_percent: false,
+    buy_100: false,
+    buy_80: false,
+    sell_100: false,
+    sell_80: false,
+    hold_100: false,
 }
 
 const INITIAL_STATE = {
@@ -233,6 +238,31 @@ class PublicWishlistDisplay extends React.Component {
                     return false
                 }
             }
+            if (this.state.hold_100) {
+                if (!value.hold_feeling || value.hold_feeling < 5) {
+                    return false
+                }
+            }
+            if (this.state.buy_80) {
+                if (!value.buy_feeling || value.buy_feeling < 4) {
+                    return false
+                }
+            }
+            if (this.state.buy_100) {
+                if (!value.buy_feeling || value.buy_feeling < 5) {
+                    return false
+                }
+            }
+            if (this.state.sell_80) {
+                if (!value.sell_feeling || value.sell_feeling < 4) {
+                    return false
+                }
+            }
+            if (this.state.sell_100) {
+                if (!value.sell_feeling || value.sell_feeling < 5) {
+                    return false
+                }
+            }
             return true;
         })
 
@@ -332,6 +362,67 @@ class PublicWishlistDisplay extends React.Component {
                                          onChange={(e) => {
                                              this.setState({
                                                  within_2_percent: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Confidence
+                            </span>
+                            <i className="fa fa-line-chart align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_buy_100" label="Buy 100%" inline
+                                         checked={this.state.buy_100}
+                                         onChange={(e) => {
+                                             // Achieved => within 1 and 2 %
+                                             this.setState({
+                                                 buy_100: e.target.checked,
+                                                 buy_80: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_buy_80" label="Buy 80% +" inline
+                                         checked={this.state.buy_80}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 buy_80: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_sell_100" label="Sell 100%" inline
+                                         checked={this.state.sell_100}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 sell_100: e.target.checked,
+                                                 sell_80: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_sell_80" label="Sell 80% +" inline
+                                         checked={this.state.sell_80}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 sell_80: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_hold_100" label="Hold 100%" inline
+                                         checked={this.state.hold_100}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 hold_100: e.target.checked,
                                              })
                                          }}
                             />
