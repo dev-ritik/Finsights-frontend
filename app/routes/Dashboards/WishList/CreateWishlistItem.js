@@ -60,6 +60,7 @@ class CreateWishlistItem extends React.Component {
 
     componentDidUpdate(prevProps, prevState, ss) {
         if (this.props.data && (!_.isEqual(this.props.data, prevProps.data) || this.props.stocks.length !== prevProps.stocks.length)) {
+            // Update state if related props are changed
             this.setState({
                 ..._.omit(this.props.data, ['stocks']),
                 current_stock_display: (this.state.current_stock_display !== "" && this.props.data.stock_id === prevProps.data.stock_id) ? this.state.current_stock_display :
@@ -78,7 +79,6 @@ class CreateWishlistItem extends React.Component {
             const stocks = this.props.stocks.filter(
                 value => regex.test(value.name) || regex.test(value.symbol))
             this.setState({
-                ...this.state,
                 stock_options: stocks
             })
         }, 400);
@@ -88,14 +88,13 @@ class CreateWishlistItem extends React.Component {
         const stocks = this.props.stocks.filter(
             item => item.stock_id === Number(stockId));
         this.setState({
-            ...this.state,
             current_stock_display: stocks[0].name,
             dropdownOpen: false,
             exchange_id: stocks[0].exchange,
         })
-        this.props.data.stock_id = stockId
+        this.props.updateItemFunction(this.props.index, 'stock_id', stockId)
         if (stocks.length === 1)
-            this.props.data.exchange_id = stocks[0].exchange
+            this.props.updateItemFunction(this.props.index, 'exchange_id', stocks[0].exchange)
     }
 
     getStockDetailFromId(stockId) {
@@ -221,9 +220,8 @@ class CreateWishlistItem extends React.Component {
                                     active={this.state.executed}
                                     id="execute"
                                     onClick={() => {
-                                        this.props.data.executed = !this.state.executed
+                                        this.props.updateItemFunction(this.props.index, 'executed', !this.state.executed)
                                         this.setState({
-                                            ...this.state,
                                             executed: !this.state.executed,
                                         })
                                     }
@@ -278,14 +276,12 @@ class CreateWishlistItem extends React.Component {
                                                value={this.state.current_stock_display}
                                                onClick={() => {
                                                    this.setState({
-                                                       ...this.state,
                                                        dropdownOpen: !this.state.dropdownOpen
                                                    });
                                                }}
                                                onChange={(e) => {
                                                    this.doSearch(e.target.value)
                                                    this.setState({
-                                                       ...this.state,
                                                        current_stock_display: e.target.value,
                                                        dropdownOpen: true
                                                    });
@@ -300,9 +296,8 @@ class CreateWishlistItem extends React.Component {
                                                     <DropdownItem header>Select Folder:</DropdownItem>
                                                     <DropdownItem
                                                         onClick={(e) => {
-                                                            this.props.data.exchange_id = e.currentTarget.textContent
+                                                            this.props.updateItemFunction(this.props.index, 'exchange_id', e.currentTarget.textContent)
                                                             this.setState({
-                                                                ...this.state,
                                                                 exchange_id: e.currentTarget.textContent,
                                                             })
                                                         }}
@@ -311,9 +306,8 @@ class CreateWishlistItem extends React.Component {
                                                     </DropdownItem>
                                                     <DropdownItem
                                                         onClick={(e) => {
-                                                            this.props.data.exchange_id = e.currentTarget.textContent
+                                                            this.props.updateItemFunction(this.props.index, 'exchange_id', e.currentTarget.textContent)
                                                             this.setState({
-                                                                ...this.state,
                                                                 exchange_id: e.currentTarget.textContent,
                                                             })
                                                         }}
@@ -383,12 +377,11 @@ class CreateWishlistItem extends React.Component {
                                     placeholder="₹"
                                     onChange={(e) => {
                                         this.setState({
-                                            ...this.state,
                                             buy_price: e.target.value,
                                         })
                                     }}
                                     onBlur={(e) => {
-                                        this.props.data.buy_price = e.target.value
+                                        this.props.updateItemFunction(this.props.index, 'buy_price', e.target.value)
                                     }}
                                     value={this.state.buy_price || ""}
                                 />
@@ -408,12 +401,11 @@ class CreateWishlistItem extends React.Component {
                                     placeholder="1"
                                     onChange={(e) => {
                                         this.setState({
-                                            ...this.state,
                                             buy_piece: e.target.value,
                                         })
                                     }}
                                     onBlur={(e) => {
-                                        this.props.data.buy_piece = e.target.value
+                                        this.props.updateItemFunction(this.props.index, 'buy_piece', e.target.value)
                                     }}
                                     value={this.state.buy_piece || ""}
                                 />
@@ -433,9 +425,8 @@ class CreateWishlistItem extends React.Component {
                                                 onChange={(e) => {
                                                     if (e === 0)
                                                         e = null
-                                                    this.props.data.buy_feeling = e
+                                                    this.props.updateItemFunction(this.props.index, 'buy_feeling', e)
                                                     this.setState({
-                                                        ...this.state,
                                                         buy_feeling: e,
                                                     })
                                                 }}
@@ -454,9 +445,8 @@ class CreateWishlistItem extends React.Component {
                                     customInput={<ButtonInput/>}
                                     selected={this.state.buy_valid_till}
                                     onChange={(date) => {
-                                        this.props.data.buy_valid_till = date
+                                        this.props.updateItemFunction(this.props.index, 'buy_valid_till', date)
                                         this.setState({
-                                            ...this.state,
                                             buy_valid_till: date,
                                         })
                                     }}
@@ -486,12 +476,11 @@ class CreateWishlistItem extends React.Component {
                                     placeholder="₹"
                                     onChange={(e) => {
                                         this.setState({
-                                            ...this.state,
                                             sell_price: e.target.value,
                                         })
                                     }}
                                     onBlur={(e) => {
-                                        this.props.data.sell_price = e.target.value
+                                        this.props.updateItemFunction(this.props.index, 'sell_price', e.target.value)
                                     }}
                                     value={this.state.sell_price || ""}
                                 />
@@ -512,12 +501,11 @@ class CreateWishlistItem extends React.Component {
                                     placeholder="100"
                                     onChange={(e) => {
                                         this.setState({
-                                            ...this.state,
                                             sell_quantity: e.target.value,
                                         })
                                     }}
                                     onBlur={(e) => {
-                                        this.props.data.sell_quantity = e.target.value
+                                        this.props.updateItemFunction(this.props.index, 'sell_quantity', e.target.value)
                                     }}
                                     value={this.state.sell_quantity || ""}
                                 />
@@ -538,9 +526,8 @@ class CreateWishlistItem extends React.Component {
                                                 onChange={(e) => {
                                                     if (e === 0)
                                                         e = null
-                                                    this.props.data.sell_feeling = e
+                                                    this.props.updateItemFunction(this.props.index, 'sell_feeling', e)
                                                     this.setState({
-                                                        ...this.state,
                                                         sell_feeling: e,
                                                     })
                                                 }}
@@ -559,9 +546,8 @@ class CreateWishlistItem extends React.Component {
                                     customInput={<ButtonInput/>}
                                     selected={this.state.sell_valid_till}
                                     onChange={(date) => {
-                                        this.props.data.sell_valid_till = date
+                                        this.props.updateItemFunction(this.props.index, 'sell_valid_till', date)
                                         this.setState({
-                                            ...this.state,
                                             sell_valid_till: date,
                                         })
                                     }}
@@ -588,9 +574,8 @@ class CreateWishlistItem extends React.Component {
                                         onChange={(e) => {
                                             if (e === 0)
                                                 e = null
-                                            this.props.data.hold_feeling = e
+                                            this.props.updateItemFunction(this.props.index, 'hold_feeling', e)
                                             this.setState({
-                                                ...this.state,
                                                 hold_feeling: e,
                                             })
                                         }}
@@ -612,12 +597,11 @@ class CreateWishlistItem extends React.Component {
                                 className="mb-2"
                                 onChange={(e) => {
                                     this.setState({
-                                        ...this.state,
                                         comment: e.target.value,
                                     })
                                 }}
                                 onBlur={(e) => {
-                                    this.props.data.comment = e.target.value
+                                    this.props.updateItemFunction(this.props.index, 'comment', e.target.value)
                                 }}
                                 value={this.state.comment || ""}
                             />
@@ -649,7 +633,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreateWishlistItem);
 CreateWishlistItem.propTypes = {
     wishlists: PropTypes.array,
     stocks: PropTypes.array,
-    updateFunction: PropTypes.func,
+    updateItemFunction: PropTypes.func,
     deleteFunction: PropTypes.func,
     index: PropTypes.number,
     data: PropTypes.object,

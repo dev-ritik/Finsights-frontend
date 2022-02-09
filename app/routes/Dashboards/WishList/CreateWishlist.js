@@ -56,7 +56,8 @@ const INITIAL_STATE = {
     comment: undefined,
     items: {
         1: _.clone(ITEM_EMPTY_DATA)
-    }
+    },
+    dirty: false,
 }
 
 
@@ -127,23 +128,25 @@ class CreateWishlist extends React.Component {
         this.updateItem(index, _.clone(ITEM_EMPTY_DATA))
     }
 
-    updateItem = (index, data) => {
+    updateItem = (index, field, data) => {
         this.setState(oldState => {
-            oldState.items[index] = data;
+            oldState.items[index][field] = data;
+            oldState.dirty = true;
             return oldState
         })
     };
 
     updateField = (field, data) => {
-        this.setState(oldState => {
-            oldState[field] = data;
-            return oldState
+        this.setState({
+            dirty: true,
+            [field]: data,
         })
     };
 
     deleteItem = (index) => {
         this.setState(oldState => {
             delete oldState.items[index]
+            oldState.dirty = true;
             return oldState
         })
     };
@@ -294,6 +297,7 @@ class CreateWishlist extends React.Component {
                     this.props.updateWishlist()
                 }
                 this.setState({
+                    dirty: false,
                     wishlistID: res.data.id
                 })
             }).catch((error) => {
@@ -495,7 +499,10 @@ class CreateWishlist extends React.Component {
                                         </>
                                     )}
                                 <ButtonGroup>
-                                    <Button color="primary" id="save" onClick={() => this.submit()}>
+                                    <Button color="primary" id="save"
+                                            disabled={!this.state.dirty}
+                                            onClick={() => this.submit()}
+                                    >
                                         <i className="fa fa-save"/>
                                     </Button>
                                     <UncontrolledTooltip placement="bottom" target="save">
@@ -517,7 +524,7 @@ class CreateWishlist extends React.Component {
                                         stocks={this.state.stocks}
                                         index={Number(t[0])}
                                         data={t[1]}
-                                        updateFunction={this.updateItem}
+                                        updateItemFunction={this.updateItem}
                                         deleteFunction={this.deleteItem}
                                         key={k}
                                     />
