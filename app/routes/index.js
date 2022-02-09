@@ -7,7 +7,7 @@ import News from './Dashboards/News';
 import About from "./Dashboards/About";
 import Seasonal from './Dashboards/Seasonal';
 import WishList from './Dashboards/WishList';
-import PublicWishList from './Dashboards/PublicWishlist';
+import {PublicWishList, PreviewWishList} from './Dashboards/PublicWishlist';
 import ProjectsDashboard from './Dashboards/Projects';
 import System from './Dashboards/System';
 import Monitor from './Dashboards/Monitor';
@@ -125,6 +125,7 @@ export const RoutedContent = () => {
 
                     <Route path="/wishlist" exact component={WishList}/>
                     <Route path="/wishlist/:id(\d+)" exact component={WishList}/>
+                    <Route path="/wishlist/preview/:id(\d+)" exact component={PreviewWishList}/>
                     <Route path="/wishlist/public/:id(\w+)" exact component={PublicWishList}/>
 
                     <Route component={Login} path="/login"/>

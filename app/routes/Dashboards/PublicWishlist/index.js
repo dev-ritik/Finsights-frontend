@@ -1,3 +1,3 @@
-import PublicWishList from './PublicWishList';
+import {PublicWishList, PreviewWishList} from './BasePreviewWishList';
 
-export default PublicWishList;
+export {PublicWishList, PreviewWishList};

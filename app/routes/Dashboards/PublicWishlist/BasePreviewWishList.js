@@ -4,8 +4,12 @@ import {Col, Container, Row} from './../../../components';
 import {HeaderMain} from "../../components/HeaderMain";
 import PropTypes from "prop-types";
 import PublicWishlistDisplay from "./PublicWishlistDisplay";
+import PreviewWishlistDisplay from "./PreviewWishlistDisplay";
 
-class PublicWishList extends React.Component {
+class BasePreviewWishList extends React.Component {
+
+    title = "BasePreviewWishList"
+    WishlistDisplay = PublicWishlistDisplay
 
     get_public_id(page_props) {
         if (typeof page_props.match === 'undefined'
@@ -20,12 +24,12 @@ class PublicWishList extends React.Component {
         return <React.Fragment>
             <Container>
                 <HeaderMain
-                    title="Wishlist"
+                    title={this.title}
                     className="mb-5 mt-4"
                 />
                 <Row>
                     <Col lg={12}>
-                        <PublicWishlistDisplay {...this.props} publicId={this.get_public_id(this.props)}/>
+                        <this.WishlistDisplay {...this.props} slugId={this.get_public_id(this.props)}/>
                     </Col>
                 </Row>
             </Container>
@@ -33,8 +37,20 @@ class PublicWishList extends React.Component {
     }
 }
 
-export default PublicWishList;
+class PublicWishList extends BasePreviewWishList {
 
-PublicWishList.propTypes = {
+    title = "Public Wishlist"
+    WishlistDisplay = PublicWishlistDisplay
+}
+
+class PreviewWishList extends BasePreviewWishList {
+
+    title = "Preview Wishlist"
+    WishlistDisplay = PreviewWishlistDisplay
+}
+
+export {PublicWishList, PreviewWishList};
+
+BasePreviewWishList.propTypes = {
     match: PropTypes.shape({params: PropTypes.any}),
 };

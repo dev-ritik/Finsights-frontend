@@ -28,6 +28,7 @@ import CreateWishlistHeader from "./CreateWishlistHeader";
 import {addNotification} from "../../../redux/Notification";
 import {ModalBody, ModalFooter, ModalHeader} from "../../../components";
 import {update} from "../../../redux/Wishlists";
+import {Link} from "react-router-dom";
 
 
 const ITEM_EMPTY_DATA = {
@@ -435,6 +436,19 @@ class CreateWishlist extends React.Component {
                                 {this.state.wishlistID && this.state.wishlistID !== -1 &&
                                     (
                                         <>
+                                            <ButtonGroup>
+                                                <Button color="link" tag={Link}
+                                                        disabled={this.state.dirty}
+                                                        to={`/wishlist/preview/${this.state.wishlistID}`}
+                                                        id="preview"
+                                                        target="_blank"
+                                                >
+                                                    <i className="fa fa-eye"/>
+                                                </Button>
+                                                <UncontrolledTooltip placement="bottom" target="preview">
+                                                    Preview
+                                                </UncontrolledTooltip>
+                                            </ButtonGroup>
                                             <UncontrolledButtonDropdown className="mr-2">
                                                 <DropdownToggle caret color="secondary" outline>
                                                     <i className="fa fa-fw fa-share-alt"/>
