@@ -126,7 +126,10 @@ class CreateWishlist extends React.Component {
         if (Object.keys(this.state.items).length > 0) {
             index = Math.max.apply(null, Object.keys(this.state.items)) + 1
         }
-        this.updateItem(index, _.clone(ITEM_EMPTY_DATA))
+        this.setState(oldState => {
+            oldState.items[index] = _.clone(ITEM_EMPTY_DATA)
+            return oldState
+        })
     }
 
     updateItem = (index, field, data) => {
