@@ -20,7 +20,7 @@ var config = {
     // Site Config ====================================================
     siteTitle:              'Finsights',
     siteDescription:        'For Passive investing',
-    siteCannonicalUrl:      'https://finsights.ritik.ml',
+    siteCannonicalUrl:      'https://finsights.ml',
     siteKeywords:           'Stock Market equity NSE BSE',
     scssIncludes:           []
 }

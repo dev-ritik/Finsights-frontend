@@ -152,7 +152,7 @@ module.exports = {
         historyApiFallback: {
             index: '/'
         },
-        host: "finsights.ritik.ml",
+        host: "finsights.ml",
         port: 443,
         https: true
     }
