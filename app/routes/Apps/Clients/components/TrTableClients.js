@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 
 import { 
@@ -62,23 +61,23 @@ const TrTableClients = (props) => (
                     </Media>
                     <Media body>
                         <a className="mt-0 d-flex text-decoration-none" href="#">
-                            { faker.name.firstName() } { faker.name.lastName() }
+                            Bertram Gilfoyle
                         </a>
                         <span>
-                            { faker.name.jobTitle() }
+                            Engineer
                         </span>
                     </Media>
                 </Media>
             </td>
             <td className="align-middle">
-                { faker.internet.email() }
+                mike@suits.us
             </td>
             <td className="align-middle">
-                { faker.phone.phoneNumberFormat() }
+                +919632587412
             </td>
             <td className="align-middle text-right">
                 <Badge pill color={ randomArray(tag) }>
-                    { faker.commerce.department() }
+                    Toys, Kids & Baby
                 </Badge>
             </td>
         </tr>

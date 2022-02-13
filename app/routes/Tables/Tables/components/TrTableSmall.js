@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 
 import { 
@@ -21,17 +20,17 @@ const TrTableSmall = () => (
             _.times(4, (index) => (
                 <tr key={ index }>
                     <td className="align-middle">
-                        #{ faker.finance.mask() }
+                        #8493
                     </td>
                     <td className="align-middle">
-                        { faker.name.firstName() } { faker.name.lastName() }
+                        Bertram Gilfoyle
                     </td>
                     <td className="align-middle">
-                        $ { faker.finance.amount() }
+                        $ 22.22
                     </td>
                     <td className="align-middle text-right">
                         <Badge pill color={ payment[index%4] }>
-                            { faker.finance.transactionType() }
+                            deposit
                         </Badge>
                     </td>
                 </tr>

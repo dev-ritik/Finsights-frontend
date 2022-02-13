@@ -5,7 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { withPageConfig } from './../Layout/withPageConfig'
-import Common from './../../common';
+import {SideMenuAnimate} from './../../common';
 import { MenuContext } from './MenuContext';
 
 class SidebarMenu extends React.Component {
@@ -98,7 +98,7 @@ class SidebarMenu extends React.Component {
     }
 
     componentDidMount() {
-        this.sidebarAnimation = new Common.SideMenuAnimate();
+        this.sidebarAnimation = new SideMenuAnimate();
         this.sidebarAnimation.assignParentElement(
             this.containerRef.current
         ); 

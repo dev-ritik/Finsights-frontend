@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Card,
@@ -51,12 +50,12 @@ const SearchResultsCard = () => (
         <Card className="mb-3">
             <CardBody>
                 <a href="#" className="h6 text-decoration-none">
-                    { faker.lorem.sentence() }
+                    lerem ipsum
                 </a>
                 <br />
                 <div className="mb-2">
                     <span className="text-success">
-                        { faker.internet.url() }
+                        https://finsights.ml/
                     </span>
                     <span className="mx-2">·</span>
                     { randomArray(stars) }
@@ -66,7 +65,7 @@ const SearchResultsCard = () => (
                     </span>
                 </div>
                 <p className="mb-0">
-                    { faker.lorem.paragraph() }
+                    Lorem ipsum
                 </p>
             </CardBody>
         </Card>

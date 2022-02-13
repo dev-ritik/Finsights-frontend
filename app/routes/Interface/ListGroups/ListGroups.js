@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import {
     Container,
@@ -268,7 +267,7 @@ const ListGroups = () => (
                                     List group item heading
                                 </ListGroupItemHeading>
                                 <ListGroupItemText className="mb-0">
-                                    { faker.lorem.sentence() }
+                                    lerem ipsum
                                 </ListGroupItemText>
                             </ListGroupItem>
                             <ListGroupItem>
@@ -276,7 +275,7 @@ const ListGroups = () => (
                                     List group item heading
                                 </ListGroupItemHeading>
                                 <ListGroupItemText className="mb-0">
-                                    { faker.lorem.sentence() }
+                                    lerem ipsum
                                 </ListGroupItemText>
                             </ListGroupItem>
                             <ListGroupItem>
@@ -284,7 +283,7 @@ const ListGroups = () => (
                                     List group item heading
                                 </ListGroupItemHeading>
                                 <ListGroupItemText className="mb-0">
-                                    { faker.lorem.sentence() }
+                                    lerem ipsum
                                 </ListGroupItemText>
                             </ListGroupItem>
                         </ListGroup>
@@ -342,10 +341,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -372,10 +371,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -402,10 +401,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -426,10 +425,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1 text-success">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -456,10 +455,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1 text-danger">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -486,10 +485,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1 text-warning">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -528,10 +527,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="text-muted mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -558,10 +557,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="text-danger mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -588,10 +587,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="text-success mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -648,10 +647,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top>
@@ -681,10 +680,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top>
@@ -714,10 +713,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top>
@@ -759,10 +758,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top className="ml-2">
@@ -794,10 +793,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top className="ml-2">
@@ -829,10 +828,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media left top className="ml-2">
@@ -864,7 +863,7 @@ const ListGroups = () => (
                                             Document PDF
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -879,7 +878,7 @@ const ListGroups = () => (
                                             Document Word
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -894,7 +893,7 @@ const ListGroups = () => (
                                             Document Excell
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media> 
@@ -933,10 +932,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -968,10 +967,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -1003,10 +1002,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top>
@@ -1035,10 +1034,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1050,10 +1049,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1065,10 +1064,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1093,10 +1092,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1123,10 +1122,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1153,10 +1152,10 @@ const ListGroups = () => (
                                 <Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1213,10 +1212,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right middle>
@@ -1246,10 +1245,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right middle>
@@ -1279,10 +1278,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right middle>
@@ -1324,10 +1323,10 @@ const ListGroups = () => (
                                 </Media>
                                 <Media body>
                                     <span className="mt-0 d-flex h6 mb-1">
-                                        { faker.name.firstName() } { faker.name.lastName() }
+                                        Bertram Gilfoyle
                                     </span>
                                     <p className="mb-0">
-                                        { faker.lorem.sentence() }
+                                        lerem ipsum
                                     </p>
                                 </Media>
                                 <Media left top className="ml-2">
@@ -1357,10 +1356,10 @@ const ListGroups = () => (
                                 </Media>
                                 <Media body>
                                     <span className="mt-0 d-flex h6 mb-1">
-                                        { faker.name.firstName() } { faker.name.lastName() }
+                                        Bertram Gilfoyle
                                     </span>
                                     <p className="mb-0">
-                                        { faker.lorem.sentence() }
+                                        lerem ipsum
                                     </p>
                                 </Media>
                                 <Media left top className="ml-2">
@@ -1390,10 +1389,10 @@ const ListGroups = () => (
                                 </Media>
                                 <Media body>
                                     <span className="mt-0 d-flex h6 mb-1">
-                                        { faker.name.firstName() } { faker.name.lastName() }
+                                        Bertram Gilfoyle
                                     </span>
                                     <p className="mb-0">
-                                        { faker.lorem.sentence() }
+                                        lerem ipsum
                                     </p>
                                 </Media>
                                 <Media left top className="ml-2">
@@ -1426,7 +1425,7 @@ const ListGroups = () => (
                                             Success
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1444,7 +1443,7 @@ const ListGroups = () => (
                                             Danger
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1462,7 +1461,7 @@ const ListGroups = () => (
                                             Warning
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1501,10 +1500,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1536,10 +1535,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1571,10 +1570,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                     <Media right top className="ml-2">
@@ -1603,10 +1602,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1618,10 +1617,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>
@@ -1633,10 +1632,10 @@ const ListGroups = () => (
                                     </Media>
                                     <Media body>
                                         <span className="mt-0 d-flex h6 mb-1">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </span>
                                         <p className="mb-0">
-                                            { faker.lorem.sentence() }
+                                            lerem ipsum
                                         </p>
                                     </Media>
                                 </Media>

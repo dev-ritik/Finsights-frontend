@@ -77,7 +77,7 @@ const SidebarTopA = (props) => {
                         </DropdownMenu>
                     </UncontrolledButtonDropdown>
                     {/*<div className="small sidebar__link--muted">*/}
-                    {/*    { faker.name.jobTitle() }*/}
+                    {/*    Engineer*/}
                     {/*</div>*/}
                 </Sidebar.Section>
             </Sidebar.HideSlim>

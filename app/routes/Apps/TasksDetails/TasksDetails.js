@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Container,
@@ -58,7 +57,7 @@ const TasksDetails = () => (
                                     <td className="align-middle">Assigned by</td>
                                     <td className="text-right">
                                         <a href="#" className="text-decoration-none">
-                                            { faker.name.firstName() } { faker.name.lastName() }
+                                            Bertram Gilfoyle
                                         </a>
                                     </td>
                                 </tr>
@@ -143,10 +142,10 @@ const TasksDetails = () => (
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">
-                                                { faker.name.firstName() } { faker.name.lastName() }
+                                                Bertram Gilfoyle
                                             </div>
                                             <span className="small">
-                                                { faker.address.state() }, { faker.address.stateAbbr() }
+                                                California, AP
                                             </span>
                                         </Media>
                                     </Media>
@@ -164,10 +163,10 @@ const TasksDetails = () => (
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">
-                                                { faker.name.firstName() } { faker.name.lastName() }
+                                                Bertram Gilfoyle
                                             </div>
                                             <span className="small">
-                                                { faker.address.state() }, { faker.address.stateAbbr() }
+                                                California, AP
                                             </span>
                                         </Media>
                                     </Media>
@@ -185,10 +184,10 @@ const TasksDetails = () => (
                                         </Media>
                                         <Media body>
                                             <div className="mt-0">
-                                                { faker.name.firstName() } { faker.name.lastName() }
+                                                Bertram Gilfoyle
                                             </div>
                                             <span className="small">
-                                                { faker.address.state() }, { faker.address.stateAbbr() }
+                                                California, AP
                                             </span>
                                         </Media>
                                     </Media>
@@ -222,18 +221,18 @@ const TasksDetails = () => (
                                     <div className="mb-3">
                                         <h5>
                                             <span className="mr-2">
-                                                #{ faker.random.number() }
+                                                #500
                                             </span>
-                                            { faker.hacker.phrase() }
+                                            Try to compress the SQL interface, maybe it will program the back-end hard drive!
                                         </h5>
                                         <Badge pill color="primary" className="mr-1">
-                                            { faker.commerce.department() }
+                                            Toys, Kids & Baby
                                         </Badge>
                                         <Badge pill color="secondary" className="mr-1">
-                                            { faker.commerce.department() }
+                                            Toys, Kids & Baby
                                         </Badge>
                                         <Badge pill color="secondary" className="mr-1">
-                                            { faker.commerce.department() }
+                                            Toys, Kids & Baby
                                         </Badge>
                                     </div>
                                 </Media>
@@ -242,7 +241,7 @@ const TasksDetails = () => (
                                 Animi ea magni voluptates accusamus laboriosam. Unde repellat hic id et aliquam ut qui dignissimos.
                             </p>
                             <p className="mb-4">
-                                { faker.lorem.paragraphs() }
+                                Lorem ipsum
                             </p>
                             { /* START Atachemnts */}
                             <div className="mb-4">

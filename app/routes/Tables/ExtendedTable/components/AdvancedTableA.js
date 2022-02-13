@@ -4,7 +4,6 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { Comparator, dateFilter } from 'react-bootstrap-table2-filter'
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import _ from 'lodash';
-import faker from 'faker/locale/en_US';
 import moment from 'moment';
 
 import {
@@ -43,7 +42,7 @@ const sortCaret = (order) => {
 
 const generateRow = (index) => ({
     id: index,
-    name: faker.commerce.productName(),
+    name: "Smart Phone",
     quality: randomArray([
         ProductQuality.Bad,
         ProductQuality.Good,
@@ -51,7 +50,7 @@ const generateRow = (index) => ({
     ]),
     price: (1000 + Math.random() * 1000).toFixed(2),
     satisfaction: Math.round(Math.random() * 6),
-    inStockDate: faker.date.past()
+    inStockDate: "Sat Oct 20 2018 04:19:38 GMT-0700 (Pacific Daylight Time)"
 });
 
 export class AdvancedTableA extends React.Component {

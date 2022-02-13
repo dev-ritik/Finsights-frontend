@@ -1,22 +1,21 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 const TrTableHoverable = () => (
     <React.Fragment>
         <tr>
             <td className="align-middle">
                 <a href="#">
-                    Invoice #{ faker.finance.mask() }
+                    Invoice #8493
                 </a>
             </td>
             <td className="align-middle">
-                { faker.name.firstName() } { faker.name.lastName() }
+                Bertram Gilfoyle
             </td>
             <td className="align-middle">
-                $ { faker.finance.amount() }
+                $ 22.22
             </td>
             <td className="align-middle text-right">
-                { faker.date.weekday() }, 12 { faker.date.month() }, 2018
+                Sunday, 12 Jan, 2018
             </td>
         </tr>
     </React.Fragment>

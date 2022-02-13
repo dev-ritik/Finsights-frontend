@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -80,20 +79,20 @@ const TrTableTasksList = (props) => (
             </td>
             <td className="align-middle">
                 <div>
-                    <span className="mr-2">#{ faker.random.number() }</span>
+                    <span className="mr-2">#500</span>
                     <Link to="/apps/task-details" className="text-decoration-none">
-                        { faker.hacker.phrase() }
+                        Try to compress the SQL interface, maybe it will program the back-end hard drive!
                     </Link>
                 </div>
                 <p className="mb-0">
                     <span className="mr-2">
-                        { faker.lorem.sentence() }
+                        lerem ipsum
                     </span>
                     <Badge pill color={ randomArray(badges) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                     <Badge pill color={ randomArray(badges) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                 </p>
             </td>

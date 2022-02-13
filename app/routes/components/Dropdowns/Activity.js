@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import faker from 'faker/locale/en_US';
-import { 
+import {
     Media, 
 } from './../../../components';
 
@@ -16,13 +15,13 @@ const Activity = (props) => (
             </Media>
             <Media body>
                 <span className="h6">
-                    { faker.name.firstName() } { faker.name.lastName() }
-                </span> changed Description to &quot;{ faker.random.words() }&quot;
+                    Bertram Gilfoyle
+                </span> changed Description to &quot;money&quot;
                 <p className="mt-2 mb-1">
-                    { faker.lorem.sentence() }
+                    lerem ipsum
                 </p>
                 <div className="small mt-2">
-                    { faker.date.past().toString() }
+                    { "Sat Oct 20 2018 04:19:38 GMT-0700 (Pacific Daylight Time)".toString() }
                 </div>
             </Media>
         </Media>

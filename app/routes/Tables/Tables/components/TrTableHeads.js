@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 
 import { 
@@ -24,20 +23,20 @@ const TrTableHeads = () => (
                         1
                     </td>
                     <td className="align-middle">
-                        { faker.name.firstName() }
+                        { "Bertram" }
                     </td>
                     <td className="align-middle">
-                        { faker.name.lastName() }
+                        { "Gilfoyle" }
                     </td>
                     <td className="align-middle">
-                        { faker.internet.email() }
+                        mike@suits.us
                     </td>
                     <td className="align-middle">
-                        { faker.internet.userName() }
+                        bob
                     </td>
                     <td className="align-middle text-right">
                         <Badge color={ colorStatus[index%4] }>
-                            { faker.name.jobType() }
+                            { "Engineer" }
                         </Badge>
                     </td>
                 </tr>

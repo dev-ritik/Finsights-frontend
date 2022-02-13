@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Card,
@@ -41,26 +40,26 @@ const FilesCardGrid = () => (
                 </HolderProvider.Icon>
                 <CardBody>
                     <h6 className="mb-2">
-                        { faker.commerce.productName() }   
+                        Practical Granite Shirt   
                     </h6>
                     <span className="mb-2">
-                        { faker.finance.amount() } Mb
+                        22.22 Mb
                     </span>
                     <div className="mb-2">
-                        { faker.system.commonFileName() }<br />
-                        { faker.internet.userName() }<br />
-                        { faker.date.weekday() }, 12 { faker.date.month() }, 2018<br />
+                        Readme.md<br />
+                        bob<br />
+                        Sunday, 12 Jan, 2018<br />
                         12:34 PM
                     </div>
                     <div className="mb-3">
                         <Badge color={ randomArray(badges) } pill className="mr-1">
-                            { faker.commerce.department() }   
+                            Toys, Kids & Baby   
                         </Badge>
                         <Badge color={ randomArray(badges) } pill className="mr-1">
-                            { faker.commerce.department() }   
+                            Toys, Kids & Baby   
                         </Badge>
                         <Badge color={ randomArray(badges) } pill className="mr-1">
-                            { faker.commerce.department() }   
+                            Toys, Kids & Baby   
                         </Badge>
                     </div>
                     <div>

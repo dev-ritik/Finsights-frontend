@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 
 
@@ -78,12 +77,12 @@ const TimelineDefault = (props) => (
                         <div className="user-detail">
                             { /* START TITLE  */}
                             <h6 className="mb-0">
-                                { faker.company.catchPhrase() }
+                                Business-focused coherent parallelism
                             </h6>
                             { /* END TITLE  */}
                             { /* START SUB-TITLE  */}
                             <p>
-                                { faker.company.catchPhraseAdjective() }
+                                Down-sized
                             </p>
                             { /* END SUB-TITLE  */}
                         </div>
@@ -91,7 +90,7 @@ const TimelineDefault = (props) => (
                     { /* START CONTENT  */}
                     <div className="timeline-item-content">
                         <p>
-                            { faker.lorem.paragraph() }
+                            Lorem ipsum
                         </p>
                     </div>
                     { /* END CONTENT  */}

@@ -3,7 +3,8 @@ import PropTypes, {number, object, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 import DOMPurify from 'dompurify';
-import twttr from 'twitter-text';
+// import twttr from 'twitter-text';
+import autoLink from 'twitter-text/dist/esm/autoLink';
 import './../../../styles/custom.scss';
 
 const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
@@ -19,30 +20,11 @@ const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
 function Twitter(props) {
     // const [open, setOpen] = useState(true);
     return <Media className={`mb-2 ${props.mediaClassName}`}>
-        {/*<Media left className="mr-3">*/}
-        {/*    <Avatar.Image*/}
-        {/*        size="md"*/}
-        {/*        src={randomAvatar()}*/}
-        {/*        className="mr-2"*/}
-        {/*        addOns={[*/}
-        {/*            <AvatarAddOn.Icon*/}
-        {/*                className="fa fa-circle"*/}
-        {/*                color="white"*/}
-        {/*                key="avatar-icon-bg"*/}
-        {/*            />,*/}
-        {/*            <AvatarAddOn.Icon*/}
-        {/*                className="fa fa-circle"*/}
-        {/*                color={randomArray(status)}*/}
-        {/*                key="avatar-icon-fg"*/}
-        {/*            />*/}
-        {/*        ]}*/}
-        {/*    />*/}
-        {/*</Media>*/}
         <Media body>
             <div className="mb-2">
                 {/*The index based substring replace will fail for different length of special characters by Twitter*/}
                 <span className="newline-format"
-                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(twttr.autoLink(props.text, props.entities), {USE_PROFILES: {html: true}})}}>
+                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(autoLink(props.text, props.entities), {USE_PROFILES: {html: true}})}}>
                 </span>
                 <p className="mb-0">
                     {props.stocks.map(function (data, index) {

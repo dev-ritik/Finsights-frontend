@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Container,
@@ -200,7 +199,7 @@ const TooltipsPopovers = () => (
                                     Top Popover
                                 </PopoverHeader>
                                 <PopoverBody>
-                                    { faker.lorem.paragraph() }
+                                    Lorem ipsum
                                 </PopoverBody>
                             </UncontrolledPopover>
                         </CardBody>
@@ -223,7 +222,7 @@ const TooltipsPopovers = () => (
                                     Right Popover
                                 </PopoverHeader>
                                 <PopoverBody>
-                                    { faker.lorem.paragraph() }
+                                    Lorem ipsum
                                 </PopoverBody>
                             </UncontrolledPopover>
                         </CardBody>
@@ -246,7 +245,7 @@ const TooltipsPopovers = () => (
                                     Bottom Popover
                                 </PopoverHeader>
                                 <PopoverBody>
-                                    { faker.lorem.paragraph() }
+                                    Lorem ipsum
                                 </PopoverBody>
                             </UncontrolledPopover>
                         </CardBody>
@@ -269,7 +268,7 @@ const TooltipsPopovers = () => (
                                     Left Popover
                                 </PopoverHeader>
                                 <PopoverBody>
-                                    { faker.lorem.paragraph() }
+                                    Lorem ipsum
                                 </PopoverBody>
                             </UncontrolledPopover>
                         </CardBody>

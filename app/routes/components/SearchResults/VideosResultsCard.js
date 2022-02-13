@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Card,
@@ -77,27 +76,27 @@ const VideosResultsCard = () => (
                     <CardBody>
                         <div>
                             <a href="#" className="h6 mb-0">
-                                { faker.commerce.productName() }
+                                Practical Granite Shirt
                             </a>
                         </div>
                         <div className="text-success mb-3">
-                            { faker.internet.url() }
+                            https://finsights.ml/
                         </div>
                         <div className="mb-3">
-                            { faker.lorem.paragraph() }
+                            Lorem ipsum
                         </div>
                         <div>
                             { randomArray(stars) } <span className="ml-2">16 Reviews</span>
                         </div>
                         <div className="mb-2">
                             <Badge color="secondary" pill className="mr-1">
-                                { faker.internet.domainName() }
+                                finsights.ml
                             </Badge>
                             <Badge color="secondary" pill className="mr-1">
-                                { faker.internet.domainName() }
+                                finsights.ml
                             </Badge>
                             <Badge color="secondary" pill className="mr-1">
-                                { faker.internet.domainName() }
+                                finsights.ml
                             </Badge>                       
                         </div>
                         <div>
@@ -122,7 +121,7 @@ const VideosResultsCard = () => (
                                 </Media>
                                 <Media body>
                                     <div className="mt-0">
-                                        { faker.name.firstName() } { faker.name.lastName() }
+                                        Bertram Gilfoyle
                                     </div>
                                 </Media>
                             </Media>  

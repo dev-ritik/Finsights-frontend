@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Avatar, 
@@ -39,17 +38,17 @@ const Messages = () => (
             <Media body className="text-left">
                 <span className="d-flex justify-content-start">
                     <span className="h6 pb-0 mb-0 d-flex align-items-center">
-                        { faker.name.firstName() } { faker.name.lastName() }
+                        Bertram Gilfoyle
                     </span>
                     
                     <span className="ml-1 small">(23)</span>
                     <span className="ml-auto small">Now</span>
                 </span>
                 <p className="mt-2 mb-1">
-                    { faker.lorem.sentences() }
+                    lorem ipsum
                 </p>
                 <span className="small">
-                    { faker.date.past().toString() }
+                    { "Sat Oct 20 2018 04:19:38 GMT-0700 (Pacific Daylight Time)".toString() }
                 </span>
             </Media>
         </Media>

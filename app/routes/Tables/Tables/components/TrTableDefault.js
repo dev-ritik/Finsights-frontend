@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -30,10 +29,10 @@ const TrTableDefault = (props) => (
                 <tr key={ index }>
                     <td className="align-middle">
                         <div className={ props.projectColor }>
-                            { faker.name.firstName() } { faker.name.lastName() }
+                            Bertram Gilfoyle
                         </div>
                         <span>
-                            { faker.company.companyName() }
+                            Apple
                         </span>
                     </td>
                     <td className="align-middle">
@@ -66,17 +65,17 @@ const TrTableDefault = (props) => (
                             </Media>
                             <Media body>
                                 <div className="mt-0 d-flex text-inverse">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span>
-                                    { faker.name.jobTitle() }
+                                    Engineer
                                 </span>
                             </Media>
                         </Media>
                     </td>
                     <td className="align-middle">
                         <div>
-                            { faker.finance.amount() }
+                            22.22
                         </div>
                         <span>
                             Paid
@@ -84,7 +83,7 @@ const TrTableDefault = (props) => (
                     </td>
                     <td className="align-middle">
                         <i className="fa fa-circle-o text-success mr-2"></i>
-                        { faker.finance.transactionType() }
+                        deposit
                     </td>
                     <td className="align-middle text-right">
                         <UncontrolledButtonDropdown>

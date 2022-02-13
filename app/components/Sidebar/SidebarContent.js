@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Common from './../../common';
+import {SidebarEntryAnimate, SlimMenuAnimate, SlimSidebarAnimate} from './../../common';
 
 export class SidebarContent extends React.Component {
     static propTypes = {
@@ -24,9 +24,9 @@ export class SidebarContent extends React.Component {
     }
 
     componentDidMount() {
-        this.sidebarEntryAnimate = new Common.SidebarEntryAnimate();
-        this.slimSidebarAnimate = new Common.SlimSidebarAnimate();
-        this.slimMenuAnimate = new Common.SlimMenuAnimate();
+        this.sidebarEntryAnimate = new SidebarEntryAnimate();
+        this.slimSidebarAnimate = new SlimSidebarAnimate();
+        this.slimMenuAnimate = new SlimMenuAnimate();
 
         this.sidebarEntryAnimate.assignParentElement(this.sidebarRef.current);
         this.slimSidebarAnimate.assignParentElement(this.sidebarRef.current);

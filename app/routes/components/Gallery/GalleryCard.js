@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 
 import { 
@@ -45,11 +44,11 @@ const GalleryCard = (props) => (
                     <Media body>
                         <span>
                             <a className="h6 text-decoration-none" href="#">
-                                { faker.commerce.productName() }
+                                Practical Granite Shirt
                             </a>
                             <br />
                             <span href="#">
-                                { faker.system.fileName() }
+                                Readme.md
                             </span>
                         </span>
                     </Media>
@@ -83,22 +82,22 @@ const GalleryCard = (props) => (
                     </Media>
                     <Media body>
                         <a className="mt-0 d-flex text-decoration-none" href="#">
-                            { faker.name.firstName() } { faker.name.lastName() }
+                            Bertram Gilfoyle
                         </a>
                         <span>
-                            { faker.address.state() }, { faker.address.stateAbbr() }
+                            California, AP
                         </span>
                     </Media>
                 </Media>
                 <div>
                     <Badge pill color={ randomArray(badges) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                     <Badge pill color={ randomArray(badges) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                     <Badge pill color={ randomArray(badges) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                 </div>
             </CardBody>

@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import PropTypes from 'prop-types';
 
@@ -30,7 +29,7 @@ const WebsitePerformance = (props) => (
                     { props.valuePercent }%
                 </div>
                 <div>
-                    vs { faker.finance .amount() } <i>(prev.)</i>
+                    vs 2.24 <i>(prev.)</i>
                 </div>
             </Col>
         </Row>

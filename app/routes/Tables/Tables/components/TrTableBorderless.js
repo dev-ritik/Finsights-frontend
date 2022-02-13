@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 
 import { 
@@ -44,7 +43,7 @@ const receipt = [
 const paymentMethod = [
     <td className="align-middle">
         <i className="fa fa-fw fa-paypal text-primary mr-2"></i>
-        { faker.internet.email() }
+        mike@suits.us
     </td>,
     <td className="align-middle">
         <i className="fa fa-fw fa-credit-card-alt mr-2"></i>
@@ -70,13 +69,13 @@ const TrTableBorderless = () => (
                 <tr key={ index }>
                     { status[index%2] }
                     <td className="align-middle">
-                        <samp>{ faker.random.number() }</samp>
+                        <samp>500</samp>
                     </td>
                     <td className="align-middle">
-                        { faker.date.weekday() }, 12 { faker.date.month() }, 2018
+                        Sunday, 12 Jan, 2018
                     </td>
                     <td className="align-middle text-inverse">
-                        $ { faker.finance.amount() }
+                        $ 22.22
                     </td>
                     <td className="align-middle">
                         { payment[index%5] }

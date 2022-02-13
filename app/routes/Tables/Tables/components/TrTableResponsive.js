@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 
 import { 
@@ -50,10 +49,10 @@ const TrTableResponsive = () => (
                                     <span className="text-inverse">
                                         { browserOs[index%4] } 
                                     </span> / 
-                                    { faker.system.semver() }
+                                    1.0.2
                                 </div>
                                 <span>
-                                    macOs { faker.system.semver() }
+                                    macOs 1.0.2
                                 </span>
                             </Media>
                         </Media>
@@ -61,7 +60,7 @@ const TrTableResponsive = () => (
                     <td className="align-middle">
                         <div>
                             <samp>
-                                { faker.internet.ip() }
+                                { "192.168.0.1" }
                             </samp>
                         </div>
                         <span>
@@ -70,14 +69,14 @@ const TrTableResponsive = () => (
                     </td>
                     <td className="align-middle">
                         <div>
-                            { faker.address.city() }
+                            New York
                         </div>
                         <span>
-                            { faker.address.state() }, { faker.address.country() }
+                            Goa, French Guiana
                         </span>
                     </td>
                     <td className="align-middle">
-                        { faker.date.weekday() }, 12 { faker.date.month() }, 2018<br />
+                        Sunday, 12 Jan, 2018<br />
                         12:34 PM
                     </td>
                     <td className="align-middle text-right">

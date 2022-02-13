@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import {
     Container,
     Row,
@@ -711,7 +710,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr1">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                    <samp className="small">{ faker.internet.ip() }</samp>
+                                                    <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>
@@ -752,7 +751,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr2">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                    <samp className="small">{ faker.internet.ip() }</samp>
+                                                    <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>
@@ -793,7 +792,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr3">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                    <samp className="small">{ faker.internet.ip() }</samp>
+                                                    <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>
@@ -834,7 +833,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr4">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                    <samp className="small">{ faker.internet.ip() }</samp>
+                                                    <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>
@@ -875,7 +874,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr5">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                    <samp className="small">{ faker.internet.ip() }</samp>
+                                                    <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>
@@ -916,7 +915,7 @@ const Reports = () => (
                                         <UncontrolledCollapse toggler="#tr6">
                                             <tr>
                                                 <td colSpan="8" className="bt-0">
-                                                   <samp className="small">{ faker.internet.ip() }</samp>
+                                                   <samp className="small">{ "192.168.0.1" }</samp>
                                                 </td>
                                             </tr>
                                         </UncontrolledCollapse>

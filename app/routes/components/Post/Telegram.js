@@ -18,25 +18,6 @@ const get_post_url = (channel, id) => `https://t.me/${channel}/${id}`;
 function Telegram(props) {
     // const [open, setOpen] = useState(true);
     return <Media className={`mb-2 ${props.mediaClassName}`}>
-        {/*<Media left className="mr-3">*/}
-        {/*    <Avatar.Image*/}
-        {/*        size="md"*/}
-        {/*        src={randomAvatar()}*/}
-        {/*        className="mr-2"*/}
-        {/*        addOns={[*/}
-        {/*            <AvatarAddOn.Icon*/}
-        {/*                className="fa fa-circle"*/}
-        {/*                color="white"*/}
-        {/*                key="avatar-icon-bg"*/}
-        {/*            />,*/}
-        {/*            <AvatarAddOn.Icon*/}
-        {/*                className="fa fa-circle"*/}
-        {/*                color={randomArray(status)}*/}
-        {/*                key="avatar-icon-fg"*/}
-        {/*            />*/}
-        {/*        ]}*/}
-        {/*    />*/}
-        {/*</Media>*/}
         <Media body>
             <div className="mb-2">
                 {props.formatted_text ? (

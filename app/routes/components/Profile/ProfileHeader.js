@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import faker from 'faker/locale/en_US';
 
 import { 
     Badge,
@@ -36,7 +35,7 @@ const ProfileHeader = () => (
             <Media body>
                 <h5 className="mb-1 mt-0">
                     <Link to="/apps/profile-details">
-                        { faker.name.firstName() } { faker.name.lastName() }
+                        Bertram Gilfoyle
                     </Link> <span className="text-muted mx-1"> / </span> Profile Edit
                 </h5>
                 <Badge color="primary" pill className="mr-2">Premium</Badge> 

@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     InputGroup,
@@ -112,10 +111,10 @@ const ProjectsLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.state() }, { faker.address.stateAbbr() }
+                                    California, AP
                                 </span>
                             </Media>
                         </Media>
@@ -133,10 +132,10 @@ const ProjectsLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.state() }, { faker.address.stateAbbr() }
+                                    California, AP
                                 </span>
                             </Media>
                         </Media>
@@ -154,10 +153,10 @@ const ProjectsLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.state() }, { faker.address.stateAbbr() }
+                                    California, AP
                                 </span>
                             </Media>
                         </Media>

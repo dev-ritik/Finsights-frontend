@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 
 import { 
@@ -38,11 +37,11 @@ const TimelineMini = (props) => (
                     </div>
                     { /* Content */}
                     <p className="text-inverse mb-1">
-                        { faker.company.catchPhrase() }
+                        Business-focused coherent parallelism
                     </p>
                     { /* Date */}
                     <p>
-                        { faker.date.past().toString() }
+                        { "Sat Oct 20 2018 04:19:38 GMT-0700 (Pacific Daylight Time)".toString() }
                     </p>
                 </div>
             </div>

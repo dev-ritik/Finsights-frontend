@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import { 
     Nav,
@@ -63,10 +62,10 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0 d-flex">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.country() }
+                                    French Guiana
                                 </span>
                             </Media>
                         </Media>
@@ -95,10 +94,10 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0 d-flex">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.country() }
+                                    French Guiana
                                 </span>
                             </Media>
                         </Media>
@@ -127,10 +126,10 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0 d-flex">
-                                    { faker.name.firstName() } { faker.name.lastName() }
+                                    Bertram Gilfoyle
                                 </div>
                                 <span className="small">
-                                    { faker.address.country() }
+                                    French Guiana
                                 </span>
                             </Media>
                         </Media>
@@ -164,7 +163,7 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.hacker.phrase() }
+                                    Try to compress the SQL interface, maybe it will program the back-end hard drive!
                                 </div>
                                 <span className="small">
                                     24-Aug-2012, 12:12
@@ -184,7 +183,7 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.hacker.phrase() }
+                                    Try to compress the SQL interface, maybe it will program the back-end hard drive!
                                 </div>
                                 <span className="small">
                                     24-Aug-2012, 12:12
@@ -204,7 +203,7 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.hacker.phrase() }
+                                    Try to compress the SQL interface, maybe it will program the back-end hard drive!
                                 </div>
                                 <span className="small">
                                     24-Aug-2012, 12:12
@@ -224,7 +223,7 @@ const ChatLeftNav = () => (
                             </Media>
                             <Media body>
                                 <div className="mt-0">
-                                    { faker.hacker.phrase() }
+                                    Try to compress the SQL interface, maybe it will program the back-end hard drive!
                                 </div>
                                 <span className="small">
                                     24-Aug-2012, 12:12

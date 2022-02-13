@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import _ from 'lodash';
 
 import { 
@@ -55,24 +54,24 @@ const TrTableContextual = () => (
             _.times(12, (index) => (
                 <tr className={ trColor[index%12] } key={ index }>
                     <td className="align-middle">
-                        #{ faker.finance.mask() }
+                        #8493
                     </td>
                     <td className="align-middle">
-                        { faker.name.firstName() } { faker.name.lastName() }
+                        Bertram Gilfoyle
                     </td>
                     <td className="align-middle">
-                        { faker.date.weekday() }, 12 { faker.date.month() }, 2018
+                        Sunday, 12 Jan, 2018
                     </td>
                     <td className="align-middle">
-                         $ { faker.finance.amount() }
+                         $ 22.22
                     </td>
                     <td className="align-middle">
                         <Badge color={ statusColor[index%12] }>
-                            { faker.finance.accountName() }
+                            Investment Account
                         </Badge>
                     </td>
                     <td className="align-middle text-right">
-                        { faker.address.country() }
+                        French Guiana
                     </td>
                 </tr>
             ))

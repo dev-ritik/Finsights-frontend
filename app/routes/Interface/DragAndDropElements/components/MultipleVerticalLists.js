@@ -7,7 +7,6 @@ import {
     Draggable
 } from 'react-beautiful-dnd';
 import uid from 'uuid/v4';
-import faker from 'faker/locale/en_US';
 import classNames from 'classnames';
 import {
     Card,
@@ -26,8 +25,8 @@ import classes from './common.scss';
 const generateItem = () => ({
     id: uid(),
     type: 'single',
-    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-    title: faker.name.jobType(),
+    name: `${"Bertram"} ${"Gilfoyle"}`,
+    title: "Engineer",
     avatarUrl: randomAvatar(),
     status: randomArray(['success', 'warning', 'danger'])
 });

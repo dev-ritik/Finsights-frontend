@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 
 import {
     Button,
@@ -47,10 +46,10 @@ const SidebarBottomB = () => (
                                 </Media>
                                 <Media body>
                                     <span className="mt-0 d-flex h6 mb-1 text-truncate">
-                                        { faker.name.firstName() } { faker.name.lastName() } <i className="fa fa-fw fa-angle-up ml-1"></i>
+                                        Bertram Gilfoyle <i className="fa fa-fw fa-angle-up ml-1"></i>
                                     </span>
                                     <p className="small text-truncate">
-                                        { faker.name.jobTitle() }
+                                        Engineer
                                     </p>
                                 </Media>
                             </Media>

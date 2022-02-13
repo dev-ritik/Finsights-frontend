@@ -1,5 +1,4 @@
 import React from 'react';
-import faker from 'faker/locale/en_US';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -84,21 +83,21 @@ const TasksCardGrid = (props) => (
                         <CustomInput type="checkbox" id={`TasksCardGrid-${ props.id }` } label="" />
                     </Media>
                     <Media body>
-                        <span className="mr-2">#{ faker.random.number() }</span>
+                        <span className="mr-2">#500</span>
                         <Link to="/apps/task-details" className="text-decoration-none">
-                            { faker.hacker.phrase() }
+                            Try to compress the SQL interface, maybe it will program the back-end hard drive!
                         </Link>
                     </Media>
                 </Media>
                 <p className="mb-2">
-                    { faker.lorem.sentence() }
+                    lerem ipsum
                 </p>
                 <div className="mb-3">
                     <Badge pill color={ randomArray(badgesColors) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                     <Badge pill color={ randomArray(badgesColors) } className="mr-1">
-                        { faker.commerce.department() }
+                        Toys, Kids & Baby
                     </Badge>
                 </div>
                 <div>

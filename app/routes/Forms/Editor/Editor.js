@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import faker from 'faker/locale/en_US';
 
 import {
     Container,
@@ -12,11 +11,11 @@ import { HeaderMain } from "../../components/HeaderMain";
 export class Editor extends React.Component {
     state = {
         text: `
-            <p>${ faker.lorem.paragraph() }</p>
+            <p>$Lorem ipsum</p>
             <br/>
-            <p>${ faker.lorem.paragraph() }</p>
+            <p>$Lorem ipsum</p>
             <br/>
-            <p>${ faker.lorem.paragraph() }</p>
+            <p>$Lorem ipsum</p>
         `
     }
 
