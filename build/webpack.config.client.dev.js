@@ -5,8 +5,6 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 const config = require('./../config');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 const BASE_PATH = process.env.BASE_PATH || '/';
 const COMMIT_HASH = require('child_process')
     .execSync('git rev-parse --short HEAD')
@@ -34,7 +32,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new BundleAnalyzerPlugin(),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-in/),
         new webpack.IgnorePlugin(/node_modules\/faker/),
         new CircularDependencyPlugin({
