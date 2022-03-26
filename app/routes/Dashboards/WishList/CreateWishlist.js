@@ -124,7 +124,7 @@ class CreateWishlist extends React.Component {
     addEmptyItemForm() {
         let index = 1
         if (Object.keys(this.state.items).length > 0) {
-            index = Math.max.apply(null, Object.keys(this.state.items)) + 1
+            index = Math.min.apply(null, Object.keys(this.state.items)) - 1
         }
         this.setState(oldState => {
             oldState.items[index] = _.clone(ITEM_EMPTY_DATA)
@@ -533,31 +533,33 @@ class CreateWishlist extends React.Component {
                         updateField={this.updateField}
                         data={{...(_.pick(this.state, ['title', 'description', 'from', 'to', 'comment']))}}/>
                 </Card>
-                <Card className="mb-3">
-                    {Object.entries(this.state.items).map((t, k) => {
-                            return (
-                                <React.Fragment key={k}>
-                                    <CreateWishlistItem
-                                        stocks={this.state.stocks}
-                                        index={Number(t[0])}
-                                        data={t[1]}
-                                        updateItemFunction={this.updateItem}
-                                        deleteFunction={this.deleteItem}
-                                        key={k}
-                                    />
-                                    {(k === Object.keys(this.state.items).length - 1) ? <></> : <hr className="m-1"/>}
-                                </React.Fragment>
-                            )
-                        }
-                    )}
-                    <CardFooter className="text-center">
-                        <a href="javascript:" onClick={() => {
-                            this.addEmptyItemForm()
-                        }}>
-                            <i className="fa fa-plus text-success mr-2"/>
-                            Add Item
-                        </a>
-                    </CardFooter>
+                <CardFooter className="text-center">
+                    <a href="javascript:" onClick={() => {
+                        this.addEmptyItemForm()
+                    }}>
+                        <i className="fa fa-plus text-success mr-2"/>
+                        Add Item
+                    </a>
+                </CardFooter>
+                <Card className="mb-2">
+                    {Object.entries(this.state.items)
+                        .sort(([a,], [b,]) => a > b ? 1 : -1)
+                        .map((t, k) => {
+                                return (
+                                    <React.Fragment key={k}>
+                                        <CreateWishlistItem
+                                            stocks={this.state.stocks}
+                                            index={Number(t[0])}
+                                            data={t[1]}
+                                            updateItemFunction={this.updateItem}
+                                            deleteFunction={this.deleteItem}
+                                            key={k}
+                                        />
+                                        {(k === Object.keys(this.state.items).length - 1) ? <></> : <hr className="m-1"/>}
+                                    </React.Fragment>
+                                )
+                            }
+                        )}
                 </Card>
             </React.Fragment>
         )
