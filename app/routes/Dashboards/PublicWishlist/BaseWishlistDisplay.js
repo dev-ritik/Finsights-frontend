@@ -2,13 +2,13 @@ import React from 'react';
 
 import {Card, CardBody, CardFooter, CustomInput, Nav} from './../../../components';
 import axios from "axios";
-import {API_URL} from "../../../constants";
+import {API_URL, image404} from "../../../constants";
 import PropTypes from "prop-types";
 import moment from "moment";
 import PublicWishlistItem from "./PublicWishlistItem";
 import _ from "lodash";
 import {CardTitle} from "reactstrap";
-import {Button, Col, NavItem, Row} from "../../../components";
+import {Button, CardImg, Col, NavItem, Row} from "../../../components";
 
 
 class BaseWishlistDisplay extends React.Component {
@@ -486,32 +486,37 @@ class BaseWishlistDisplay extends React.Component {
                         </CardFooter>}
                     </Card>
                     <Card className="mb-3">
-                        {filteredWishlistItems.sort(([, a], [, b]) => {
-                            // Implement sort
-                            if (this.state.sort === "Name_asc" || this.state.sort === "Name_des") {
-                                if (!a.stock || !b.stock) {
-                                    return 0
+                        {filteredWishlistItems.length > 0 ? filteredWishlistItems.sort(([, a], [, b]) => {
+                                // Implement sort
+                                if (this.state.sort === "Name_asc" || this.state.sort === "Name_des") {
+                                    if (!a.stock || !b.stock) {
+                                        return 0
+                                    }
+                                    if (this.state.sort === "Name_asc")
+                                        return a.stock.name.localeCompare(b.stock.name);
+                                    else
+                                        return -1 * a.stock.name.localeCompare(b.stock.name);
+                                } else {
+                                    return new Date(b.date_modified) - new Date(a.date_modified)
                                 }
-                                if (this.state.sort === "Name_asc")
-                                    return a.stock.name.localeCompare(b.stock.name);
-                                else
-                                    return -1 * a.stock.name.localeCompare(b.stock.name);
-                            } else {
-                                return new Date(b.date_modified) - new Date(a.date_modified)
-                            }
-                        })
-                            .map((t, k) => {
-                                    return <React.Fragment key={k}>
-                                        <PublicWishlistItem
-                                            stocks={this.state.stocks}
-                                            data={t[1]}
-                                            budget={this.state.budget}
-                                            key={k}
-                                        />
-                                        {(k === Object.keys(filteredWishlistItems).length - 1) ? <></> : <hr/>}
-                                    </React.Fragment>
-                                }
-                            )}
+                            })
+                                .map((t, k) => {
+                                        return <React.Fragment key={k}>
+                                            <PublicWishlistItem
+                                                stocks={this.state.stocks}
+                                                data={t[1]}
+                                                budget={this.state.budget}
+                                                key={k}
+                                            />
+                                            {(k === Object.keys(filteredWishlistItems).length - 1) ? <></> : <hr/>}
+                                        </React.Fragment>
+                                    }
+                                )
+                            :
+                            <CardImg className="figure-img card-img"
+                                     src={image404}
+                            />
+                        }
                     </Card>
                 </Col>
             </Row>
