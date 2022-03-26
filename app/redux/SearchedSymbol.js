@@ -18,9 +18,9 @@ const initialState = {
 export const newSearch = createAsyncThunk(
     'searchedSymbol/newSearch',
     async (searchText, {dispatch}) => {
-        if (searchText.length <= 3) {
+        if (searchText.length <= 2) {
             // Ignoring small string
-            dispatch(message("Start searching with 4 letters"))
+            dispatch(message("Start searching with 3 letters"))
             return
         }
         return await axios.get(`${API_URL}/instrument/all`, {
