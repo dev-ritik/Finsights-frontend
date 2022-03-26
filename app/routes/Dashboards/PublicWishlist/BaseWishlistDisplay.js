@@ -24,6 +24,7 @@ class BaseWishlistDisplay extends React.Component {
         sell_100: false,
         sell_80: false,
         hold_100: false,
+        execute_by: false,
     }
 
     INITIAL_STATE = {
@@ -160,11 +161,11 @@ class BaseWishlistDisplay extends React.Component {
             }
 
             if (item.buy_valid_till) {
-                item.buy_valid_till = moment(item.buy_valid_till, 'YYYY-MM-DD').format('MMM Do YY')
+                item.buy_valid_till = moment(item.buy_valid_till, 'YYYY-MM-DD')
             }
 
             if (item.sell_valid_till) {
-                item.sell_valid_till = moment(item.sell_valid_till, 'YYYY-MM-DD').format('MMM Do YY')
+                item.sell_valid_till = moment(item.sell_valid_till, 'YYYY-MM-DD')
             }
 
             item.buy_price = Number(item.buy_price)
@@ -245,6 +246,27 @@ class BaseWishlistDisplay extends React.Component {
             if (this.state.sell_100) {
                 if (!value.sell_feeling || value.sell_feeling < 5) {
                     return false
+                }
+            }
+            if (this.state.execute_by) {
+                if (!value.buy_valid_till && !value.sell_valid_till) {
+                    // No valid till in execute by of item
+                    return false
+                } else if (value.buy_valid_till && value.sell_valid_till) {
+                    // Both buy and sell execute by present. Select this if any of them is in +-15 days range
+                    const buy_days_diff = moment().diff(value.buy_valid_till, 'days')
+                    const sell_days_diff = moment().diff(value.sell_valid_till, 'days')
+                    if (Math.abs(buy_days_diff) > 15 && Math.abs(sell_days_diff) > 15) {
+                        return false
+                    }
+                } else if (value.buy_valid_till) {
+                    if (Math.abs(moment().diff(value.buy_valid_till, 'days')) > 15) {
+                        return false
+                    }
+                } else {
+                    if (Math.abs(moment().diff(value.sell_valid_till, 'days')) > 15) {
+                        return false
+                    }
                 }
             }
             return true;
@@ -407,6 +429,24 @@ class BaseWishlistDisplay extends React.Component {
                                          onChange={(e) => {
                                              this.setState({
                                                  hold_100: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Execute by
+                            </span>
+                            <i className="fa fa-inr align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_execute_by" label="15 days +/-" inline
+                                         checked={this.state.execute_by}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 execute_by: e.target.checked,
                                              })
                                          }}
                             />

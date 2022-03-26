@@ -59,7 +59,7 @@ const PublicWishlistItem = (props) => {
                                   striped max={5}/>
                     </td>
                     <td>
-                        {props.data.buy_valid_till || "-"}
+                        {props.data.buy_valid_till ? props.data.buy_valid_till.format('MMM Do YY') : "-"}
                     </td>
                 </tr>
                 <tr>
@@ -71,7 +71,7 @@ const PublicWishlistItem = (props) => {
                                   striped max={5}/>
                     </td>
                     <td>
-                        {props.data.sell_valid_till || "-"}
+                        {props.data.sell_valid_till ? props.data.sell_valid_till.format('MMM Do YY') : "-"}
                     </td>
                 </tr>
                 <tr>
