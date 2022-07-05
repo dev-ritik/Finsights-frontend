@@ -71,6 +71,11 @@ export const SidebarMiddleNav = (props) => {
             }} runOnClick={true} exact={false}
             />
             <SidebarMenu.Item
+                icon={<i className="fa fa-fw fa-bank"/>}
+                title="Bonds"
+                to='/bonds' exact
+            />
+            <SidebarMenu.Item
                 icon={<i className="fa fa-fw fa-info-circle"/>}
                 title="About"
                 to='/about' exact

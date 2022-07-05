@@ -26,6 +26,7 @@ import Success from './Pages/Success';
 // ----------- Layout Imports ---------------
 import {DefaultNavbar} from '../layout/components/DefaultNavbar';
 import {DefaultSidebar} from '../layout/components/DefaultSidebar';
+import BondMain from "./Dashboards/Bond/BondMain";
 
 // import {SidebarANavbar} from './../layout/components/SidebarANavbar';
 // import {SidebarASidebar} from './../layout/components/SidebarASidebar';
@@ -49,6 +50,8 @@ export const RoutedContent = () => {
                 <Route path="/wishlist/:id(\d+)" exact component={WishList}/>
                 <Route path="/wishlist/preview/:id(\d+)" exact component={PreviewWishList}/>
                 <Route path="/wishlist/public/:id(\w+)" exact component={PublicWishList}/>
+
+                <Route path="/bonds" exact component={BondMain}/>
 
                 <Route component={Login} path="/login"/>
                 <Route component={Register} path="/register"/>
