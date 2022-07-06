@@ -1,9 +1,9 @@
 export const FREQUENCY = {
-    ANNUALLY: ['Y', 'Annually'],
-    SEMI_ANNUALLY: ['S', 'Semi Annually'],
-    QUARTERLY: ['Q', 'Quarterly'],
-    MONTHLY: ['M', 'Monthly'],
-    ON_MATURITY: ['C', 'On Maturity'],
+    Y: 'Annually',
+    // SEMI_ANNUALLY: ['S', 'Semi Annually'],
+    Q: 'Quarterly',
+    M: 'Monthly',
+    C: 'On Maturity',
 }
 export const RATING = {
     AAA: [['AAA'], 'AAA'],
@@ -18,6 +18,11 @@ export const TENURE_LEFT = {
     LESS_THAN_3_YEAR: ['1-3Y', '1-3 Year'],
     LESS_THAN_5_YEAR: ['3-5Y', '3-5 Year'],
     MORE_THAN_5_YEAR: ['5Y+', '> 5 Year'],
+}
+
+export const PRICE_AT = {
+    discount: 'Discount',
+    premium: 'Premium',
 }
 
 export const SORT_BY = {
