@@ -183,15 +183,15 @@ class BondFilter extends React.Component {
                             <span>
                                 Type
                             </span>
-                            <i className="fa fa-calendar-check-o align-self-center ml-2"/>
+                            <i className="fa fa-institution align-self-center ml-2"/>
                         </NavItem>
                         {Object.keys(BOND_TYPE).map((key, index) => {
                             return (<NavItem className="d-flex px-2 mb-2" key={index}>
                                 <CustomInput type="radio" id={`radio_${key}`} label={BOND_TYPE[key]} inline
-                                             checked={this.state.type === key}
+                                             checked={this.state.bond_type === key}
                                              onChange={() => {
                                                  this.setState({
-                                                     type: key,
+                                                     bond_type: key,
                                                      currentPage: 1,
                                                  })
                                                  this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, key)
