@@ -17,8 +17,8 @@ class BaseWishlistDisplay extends React.Component {
         excludeExecuted: false,
         excludeNoMarketPrice: false,
         target_achieved: false,
-        within_1_percent: false,
         within_2_percent: false,
+        within_4_percent: false,
         buy_100: false,
         buy_80: false,
         sell_100: false,
@@ -94,8 +94,8 @@ class BaseWishlistDisplay extends React.Component {
         this.stockIdToStock(wishlistItem, allStocks)
 
         wishlistItem.target_achieved = false
-        wishlistItem.within_1_percent = false
         wishlistItem.within_2_percent = false
+        wishlistItem.within_4_percent = false
 
         if (wishlistItem.stock && wishlistItem.stock.price) {
             wishlistItem.stock.price = Number(wishlistItem.stock.price)
@@ -104,22 +104,22 @@ class BaseWishlistDisplay extends React.Component {
                 if (wishlistItem.stock.price < wishlistItem.buy_price) {
                     wishlistItem.target_achieved = true
                 }
-                if (wishlistItem.stock.price * 0.99 < wishlistItem.buy_price) {
-                    wishlistItem.within_1_percent = true
-                }
                 if (wishlistItem.stock.price * 0.98 < wishlistItem.buy_price) {
                     wishlistItem.within_2_percent = true
+                }
+                if (wishlistItem.stock.price * 0.96 < wishlistItem.buy_price) {
+                    wishlistItem.within_4_percent = true
                 }
             }
             if (wishlistItem.sell_price && wishlistItem.sell_price !== 0) {
                 if (wishlistItem.sell_price < wishlistItem.stock.price) {
                     wishlistItem.target_achieved = true
                 }
-                if (wishlistItem.sell_price < wishlistItem.stock.price * 1.01) {
-                    wishlistItem.within_1_percent = true
-                }
                 if (wishlistItem.sell_price < wishlistItem.stock.price * 1.02) {
                     wishlistItem.within_2_percent = true
+                }
+                if (wishlistItem.sell_price < wishlistItem.stock.price * 1.04) {
+                    wishlistItem.within_4_percent = true
                 }
             }
         }
@@ -213,13 +213,13 @@ class BaseWishlistDisplay extends React.Component {
                     return false
                 }
             }
-            if (this.state.within_1_percent) {
-                if (!value.within_1_percent) {
+            if (this.state.within_2_percent) {
+                if (!value.within_2_percent) {
                     return false
                 }
             }
-            if (this.state.within_2_percent) {
-                if (!value.within_2_percent) {
+            if (this.state.within_4_percent) {
+                if (!value.within_4_percent) {
                     return false
                 }
             }
@@ -345,29 +345,29 @@ class BaseWishlistDisplay extends React.Component {
                                              // Achieved => within 1 and 2 %
                                              this.setState({
                                                  target_achieved: e.target.checked,
-                                                 within_1_percent: e.target.checked,
                                                  within_2_percent: e.target.checked,
+                                                 within_4_percent: e.target.checked,
                                              })
                                          }}
                             />
                         </NavItem>
                         <NavItem className="d-flex px-2 mb-2">
-                            <CustomInput type="checkbox" id="checkbox_1_%" label="Within 1%" inline
-                                         checked={this.state.within_1_percent}
-                                         onChange={(e) => {
-                                             this.setState({
-                                                 within_1_percent: e.target.checked,
-                                                 within_2_percent: e.target.checked,
-                                             })
-                                         }}
-                            />
-                        </NavItem>
-                        <NavItem className="d-flex px-2 mb-2">
-                            <CustomInput type="checkbox" id="checkbox_2_%" label="Within 2%" inline
+                            <CustomInput type="checkbox" id="checkbox_1_%" label="Within 2%" inline
                                          checked={this.state.within_2_percent}
                                          onChange={(e) => {
                                              this.setState({
                                                  within_2_percent: e.target.checked,
+                                                 within_4_percent: e.target.checked,
+                                             })
+                                         }}
+                            />
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox_2_%" label="Within 4%" inline
+                                         checked={this.state.within_4_percent}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 within_4_percent: e.target.checked,
                                              })
                                          }}
                             />
