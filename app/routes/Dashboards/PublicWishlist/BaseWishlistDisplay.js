@@ -8,7 +8,7 @@ import moment from "moment";
 import PublicWishlistItem from "./PublicWishlistItem";
 import _ from "lodash";
 import {CardTitle} from "reactstrap";
-import {Button, CardImg, Col, NavItem, Row} from "../../../components";
+import {Button, CardImg, Col, Input, NavItem, Row} from "../../../components";
 
 
 class BaseWishlistDisplay extends React.Component {
@@ -36,7 +36,8 @@ class BaseWishlistDisplay extends React.Component {
         to: undefined,
         comment: undefined,
         items: {},
-        budget: undefined,
+        total: undefined, // Precomputed total shopping value
+        budget: undefined, // Can be changed by user
         sort: "Name_asc",
         ...this.INITIAL_FILTER_SORT,
     }
@@ -44,6 +45,7 @@ class BaseWishlistDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.state = _.clone(this.INITIAL_STATE);
+        this.budget_timeout = undefined;
     }
 
     componentDidMount() {
@@ -149,7 +151,7 @@ class BaseWishlistDisplay extends React.Component {
         }
 
         let items = {}
-        let budget = 0;
+        let total = 0;
 
         res.data.wishlist_items.forEach((item, index) => {
             item.stock_id = item.stock
@@ -173,8 +175,8 @@ class BaseWishlistDisplay extends React.Component {
             item.sell_price = Number(item.sell_price)
             item.sell_quantity = Number(item.sell_quantity)
 
-            if (item.buy_price && item.buy_piece) {
-                budget += item.buy_price * item.buy_piece
+            if (item.buy_price && item.buy_piece && !item.executed) {
+                total += item.buy_price * item.buy_piece
             }
             this.addStockRelatedFields(item, this.state.stocks)
 
@@ -190,9 +192,18 @@ class BaseWishlistDisplay extends React.Component {
             comment: res.data.comment,
             sharable_slug: res.data.sharable_slug || undefined,
             items: items,
-            budget: budget,
+            total: total,
+            budget: total,
         })
+    }
 
+    set_budget(value) {
+        if(this.budget_timeout) clearTimeout(this.budget_timeout);
+        this.budget_timeout = setTimeout(() => {
+            this.setState({
+                budget: value
+            })
+        },500);
     }
 
     render() {
@@ -294,6 +305,30 @@ class BaseWishlistDisplay extends React.Component {
                                 <option id="Date" value="Date Modified">Date Modified</option>
                             </CustomInput>
                         </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <div className="d-inline-flex">
+                        <span className="mr-2">
+                            Budget
+                        </span>
+                            <Input
+                                type="number"
+                                name="budget"
+                                id="budget"
+                                placeholder="Budget..."
+                                className="ml-auto"
+                                bsSize="sm"
+                                onChange={(e) => {
+                                    this.set_budget(Number(e.target.value));
+                                }}
+                                onBlur={(e) => {
+                                    this.setState({
+                                        budget: Number(e.target.value),
+                                    })
+                                }}
+                                defaultValue={this.state.budget || ""}
+                            />
+                        </div>
                     </Nav>
                     <Nav vertical className="mb-3">
                         <NavItem className="mb-2">
@@ -506,6 +541,7 @@ class BaseWishlistDisplay extends React.Component {
                                                 stocks={this.state.stocks}
                                                 data={t[1]}
                                                 budget={this.state.budget}
+                                                total={this.state.total}
                                                 key={k}
                                             />
                                             {(k === Object.keys(filteredWishlistItems).length - 1) ? <></> : <hr/>}

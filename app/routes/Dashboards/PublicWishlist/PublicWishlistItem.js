@@ -31,7 +31,10 @@ import {Badge} from "../../../components";
 const PublicWishlistItem = (props) => {
     const buyQuantityDisplay = (buy_price, buy_piece) => {
         return `${buy_price && buy_piece && Number(buy_piece) > 0 && Number(buy_price) > 0 ?
-            `${((Number(buy_price) * Number(buy_piece) * 100) / props.budget).toFixed(2)} % (${buy_piece})` :
+            `${((Number(buy_price) * Number(buy_piece) * 100) / props.total).toFixed(2)} % ${
+                props.budget > 0 && props.total > 0 ? `(${(buy_piece * props.budget / props.total).toFixed(0)})`
+                    : ''
+            }` :
             (
                 buy_piece ? buy_piece : "-"
             )}`
@@ -233,6 +236,7 @@ PublicWishlistItem.propTypes = {
     stocks: PropTypes.array,
     data: PropTypes.object,
     budget: PropTypes.number,
+    total: PropTypes.number,
 };
 
 PublicWishlistItem.defaultProps = {
