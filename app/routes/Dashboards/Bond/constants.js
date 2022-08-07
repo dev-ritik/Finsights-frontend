@@ -1,10 +1,16 @@
 export const FREQUENCY = {
-    Y: 'Annually',
-    // SEMI_ANNUALLY: ['S', 'Semi Annually'],
-    Q: 'Quarterly',
-    M: 'Monthly',
+    Y: 'Annual',
+    S: 'Semi-Annual',
+    Q: 'Quarter',
+    M: 'Month',
     C: 'On Maturity',
 }
+
+export const BOND_TYPE = {
+    NB: 'Normal Bonds',
+    SGB: 'SGBs',
+}
+
 export const RATING = {
     AAA: [['AAA'], 'AAA'],
     AA: [['AA+', 'AA', 'AA-'], 'AA'],

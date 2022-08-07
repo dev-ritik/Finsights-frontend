@@ -8,7 +8,7 @@ import _ from "lodash";
 import {Badge, Button, CardFooter, CardImg, Col, NavItem, Row, Table} from "../../../components";
 import {connect} from "react-redux";
 import {addNotification} from "../../../redux/Notification";
-import {FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./constants";
+import {BOND_TYPE, FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./constants";
 import {Paginations} from "../../components/Paginations";
 
 
@@ -18,6 +18,7 @@ class BondFilter extends React.Component {
         volume_available: false, // Filter out bonds with volume
         tax_free: false,
         discount: null,
+        bond_type: null,
         frequency: null,
         rating: null,
         tenure: null,
@@ -45,7 +46,9 @@ class BondFilter extends React.Component {
         this.props.pageConfig.changeMeta(this.prevConfig);
     }
 
-    fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency, rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available, tax_free = this.state.tax_free, discount = this.state.discount) {
+    fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency,
+               rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available,
+               tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type) {
         const params = {
             limit: POSTS_PER_PAGE,
             offset: offset,
@@ -53,6 +56,7 @@ class BondFilter extends React.Component {
             tenure: tenure,
             rating: rating,
             frequency: frequency,
+            bond_type: bond_type,
             exchange: this.state.exchange,
             volume_available: volume_available,
             tax_free: tax_free,
@@ -177,6 +181,28 @@ class BondFilter extends React.Component {
                     <Nav vertical className="mb-3">
                         <NavItem className="mb-2">
                             <span>
+                                Type
+                            </span>
+                            <i className="fa fa-calendar-check-o align-self-center ml-2"/>
+                        </NavItem>
+                        {Object.keys(BOND_TYPE).map((key, index) => {
+                            return (<NavItem className="d-flex px-2 mb-2" key={index}>
+                                <CustomInput type="radio" id={`radio_${key}`} label={BOND_TYPE[key]} inline
+                                             checked={this.state.type === key}
+                                             onChange={() => {
+                                                 this.setState({
+                                                     type: key,
+                                                     currentPage: 1,
+                                                 })
+                                                 this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, key)
+                                             }}
+                                />
+                            </NavItem>);
+                        })}
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
                                 Volume
                             </span>
                             <i className="fa fa-line-chart align-self-center ml-2"/>
@@ -242,7 +268,7 @@ class BondFilter extends React.Component {
                                     ...this.INITIAL_FILTER_SORT,
                                     currentPage: 1,
                                 });
-                                this.fetchBonds(this.state.offset, null, null, null, null, null, null, null)
+                                this.fetchBonds(this.state.offset, null, null, null, null, null, null, null, null)
                             }}>
                         Reset to Default
                     </Button>
@@ -277,7 +303,7 @@ class BondFilter extends React.Component {
                                     <td>{t['bond']['is_taxable'] ? '-' : <Badge color="success">Tax-Free</Badge>}</td>
                                     <td>{t['bond']['face_value']}</td>
                                     <td>{t['price']}</td>
-                                    <td>{(Number(t['xirr']).toFixed(4) * 100).toFixed(2)}%</td>
+                                    <td>{t['xirr'] ? `${(Number(t['xirr']).toFixed(4) * 100).toFixed(2)}%` : '-'}</td>
                                     <td>{(Number(t['volume']))}</td>
                                 </tr>
                             })}
