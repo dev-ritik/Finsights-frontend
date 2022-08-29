@@ -18,7 +18,8 @@ const Home = () => (
                 />
                 <ul>
                     <li>Use the search above</li>
-                    <li>Check the news section</li>
+                    <li>Check the <a href="#/news">news</a> section</li>
+                    <li>Filter the best <a href="#/bonds">bonds</a> for yourself</li>
                 </ul>
             </Col>
         </Row>
