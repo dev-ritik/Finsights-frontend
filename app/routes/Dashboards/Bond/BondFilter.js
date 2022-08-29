@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {Fragment} from 'react'
 
 import {Card, CustomInput, Nav, withPageConfig} from './../../../components';
 import axios from "axios";
 import {API_URL, image404, POSTS_PER_PAGE} from "../../../constants";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import {Badge, Button, CardFooter, CardImg, Col, NavItem, Row, Table} from "../../../components";
+import {Badge, Button, CardFooter, CardImg, Col, Input, NavItem, Row} from "../../../components";
 import {connect} from "react-redux";
 import {addNotification} from "../../../redux/Notification";
 import {BOND_TYPE, FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./constants";
 import {Paginations} from "../../components/Paginations";
+import BootstrapTable from "react-bootstrap-table-next";
 
 
 class BondFilter extends React.Component {
 
     INITIAL_FILTER_SORT = {
+        query_str: null,
         volume_available: false, // Filter out bonds with volume
         tax_free: false,
         discount: null,
@@ -26,12 +28,18 @@ class BondFilter extends React.Component {
     }
 
     INITIAL_STATE = {
-        bonds: [], sort: SORT_BY.NAME_ASC, ...this.INITIAL_FILTER_SORT, offset: 0, currentPage: 1, totalPosts: 1,
+        bonds: [],
+        sort: SORT_BY.NAME_ASC, ...this.INITIAL_FILTER_SORT,
+        offset: 0,
+        currentPage: 1,
+        totalPosts: 1,
+        bond_data: {}
     }
 
     constructor(props) {
         super(props);
         this.state = _.clone(this.INITIAL_STATE);
+        this.search_timeout = undefined;
     }
 
     componentDidMount() {
@@ -48,11 +56,13 @@ class BondFilter extends React.Component {
 
     fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency,
                rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available,
-               tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type) {
+               tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type,
+               query_str = this.state.query_str) {
         const params = {
             limit: POSTS_PER_PAGE,
             offset: offset,
             sort: sort,
+            query_str: query_str,
             tenure: tenure,
             rating: rating,
             frequency: frequency,
@@ -65,28 +75,241 @@ class BondFilter extends React.Component {
 
         axios.get(`${API_URL}/instrument/bond/all`, {
             params: params
+        }).then(this.processBondsResponse).catch((error) => {
+            if (error.response.status === 404) {
+                this.props.history.push(`/pages/error-404`)
+            } else {
+                let message = "";
+                if (error.response.status === 400) {
+                    for (const [, value] of Object.entries(error.response.data)) {
+                        message += value + " "
+                    }
+                } else {
+                    message = "Error occurred while fetching bonds";
+                }
+                this.props.addNotification({
+                    title: "Error!", message: message, colour: "error"
+                });
+            }
+        });
+    }
+
+    fetchBond(isin) {
+        const params = {
+            isin: isin,
+        }
+
+        axios.get(`${API_URL}/instrument/bond/detail`, {
+            params: params
         }).then(this.processBondResponse).catch((error) => {
             if (error.response.status === 404) {
                 this.props.history.push(`/pages/error-404`)
             } else {
+                let message = "";
+                if (error.response.status === 400) {
+                    for (const [, value] of Object.entries(error.response.data)) {
+                        message += value + " "
+                    }
+                } else {
+                    message = "Error occurred while fetching the bond";
+                }
                 this.props.addNotification({
-                    title: "Error!", message: "Error occurred while fetching bonds", colour: "error"
+                    title: "Error!", message: message, colour: "error"
                 });
             }
         });
+    }
+
+    processBondResponse = (res) => {
+        this.setState({
+            bond_data: {
+                ...this.state.bond_data,
+                [res.data['isin_number']]: res.data
+            }
+        })
     }
 
     getPageTitle() {
         return "Listed Bonds"
     }
 
-    processBondResponse = (res) => {
+    processBondsResponse = (res) => {
         this.setState({
             bonds: res.data.results, totalPosts: res.data.count,
         })
     }
 
+    set_search_query(value) {
+        if (this.search_timeout) clearTimeout(this.search_timeout);
+        this.search_timeout = setTimeout(() => {
+            this.setState({
+                query_str: value
+            })
+            this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, this.state.bond_type, value)
+        }, 1000);
+    }
+
+    createColumnDefinitions() {
+        return [
+            {
+                dataField: "bond.short_name",
+                text: 'Bond',
+            },
+            {
+                dataField: "bond.symbol",
+                text: 'Symbol',
+                formatter: (cell, row) =>
+                    (
+                        <code>{row['symbol']}-{row['series']}</code>
+                    )
+            },
+            {
+                dataField: "bond.coupon",
+                text: 'Coupon%',
+                formatter: (cell) =>
+                    (
+                        Number(cell).toFixed(2)
+                    )
+            },
+            {
+                dataField: "bond.maturity_date",
+                text: 'Maturity',
+            },
+            {
+                dataField: "bond.rating",
+                text: 'Rating',
+            },
+            {
+                dataField: "bond.frequency",
+                text: 'Interest payment',
+                formatter: (cell) =>
+                    (
+                        FREQUENCY[cell] || '-'
+                    )
+            },
+            {
+                dataField: "bond.is_taxable",
+                text: 'Taxable',
+                formatter: (cell) =>
+                    (
+                        cell ? '-' : <Badge color="success">Tax-Free</Badge>
+                    )
+            },
+            {
+                dataField: "bond.face_value",
+                text: 'Face Value',
+            },
+            {
+                dataField: "price",
+                text: 'LTP(₹)',
+            },
+            {
+                dataField: "xirr",
+                text: 'Returns (CAGR)',
+                formatter: (cell) =>
+                    (
+                        cell ? `${(Number(cell).toFixed(4) * 100).toFixed(2)}%` : '-'
+                    )
+            },
+            {
+                dataField: "volume",
+                text: 'Volume',
+                formatter: (cell) =>
+                    (
+                        Number(cell)
+                    )
+            },
+        ];
+    }
+
+    getBSEBondDetail(exchange_bonds) {
+        for (let i = 0; i < exchange_bonds.length; i++) {
+            let item = exchange_bonds[i];
+            if (item['exchange'] === 'BSE') {
+                return `${item['symbol']}${item['series'] ? `-${item['series']}` : ''}`
+            }
+        }
+        return null
+    }
+
     render() {
+        const columnDefs = this.createColumnDefinitions();
+        const expandRow = {
+            renderer: row => {
+                const detail = this.state.bond_data[row['bond']['isin_number']]
+                if (!detail) {
+                    this.fetchBond(row['bond']['isin_number'])
+                }
+                let bse_bond = null;
+                if (detail) {
+                    bse_bond = this.getBSEBondDetail(detail['exchange_bonds'])
+                }
+                return (
+                    <Row>
+                        <Col md={6}>
+                            <dl className="row">
+                                {detail ?
+                                    <>
+                                        <dd className="col-sm-12 text-center">{detail.name}</dd>
+                                    </> : <></>
+                                }
+
+                                <dt className="col-sm-6 text-right">Isin Number</dt>
+                                <dd className="col-sm-6"><code>{row['bond']['isin_number']}</code></dd>
+
+                                <dl className="row col-sm-12">
+                                    {bse_bond ?
+                                        <>
+                                            <dt className="col-sm-6 text-left">
+                                                <code>NSE/{row['symbol']}-{row['series']}</code></dt>
+                                            <dt className="col-sm-6 text-right"><code>BSE/{bse_bond}</code></dt>
+                                        </> : <>
+                                            <dt className="col-sm-12 text-center">
+                                                <code>NSE/{row['symbol']}-{row['series']}</code></dt>
+                                        </>
+                                    }
+                                </dl>
+                                <dt className="col-sm-6 text-right">Issue Date</dt>
+                                <dd className="col-sm-6">{row['bond']['issue_date']}</dd>
+
+                                {detail ?
+                                    <>
+                                        <dt className="col-sm-6 text-right">Rating</dt>
+                                        <dd className="col-sm-6">{detail['rating_raw']}</dd>
+                                    </> : <></>
+                                }
+                            </dl>
+                        </Col>
+                        <Col md={6}>
+                            {detail && detail['future_cashflows'] ?
+                                <dl className="row">
+                                    <dt className="col-sm-12 text-center">Future {Object.keys(detail['future_cashflows']).slice(0, 5).length} Cash-flows</dt>
+                                    {Object.keys(detail['future_cashflows']).reverse().slice(0, 5).map((key, index) =>
+                                        (<Fragment key={index}>
+                                            <dt className="col-sm-6 text-right">{key}</dt>
+                                            <dd className="col-sm-6 mb-0">{Number(detail['future_cashflows'][key]).toFixed(2)}</dd>
+                                        </Fragment>)
+                                    )}
+                                </dl> : <></>
+                            }
+                        </Col>
+                    </Row>
+                );
+            },
+            showExpandColumn: true,
+            expandHeaderColumnRenderer: ({isAnyExpands}) => isAnyExpands ? (
+                <i className="fa fa-angle-down fa-fw fa-lg text-muted"></i>
+            ) : (
+                <i className="fa fa-angle-right fa-fw fa-lg text-muted"></i>
+            ),
+            expandColumnRenderer: ({expanded}) =>
+                expanded ? (
+                    <i className="fa fa-angle-down fa-fw fa-lg text-muted"></i>
+                ) : (
+                    <i className="fa fa-angle-right fa-fw fa-lg text-muted"></i>
+                )
+        }
+
         return <React.Fragment>
             <Row>
                 <Col lg={2}>
@@ -111,6 +334,27 @@ class BondFilter extends React.Component {
                                 })}
                             </CustomInput>
                         </NavItem>
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <div className="d-inline-flex">
+                            <Input
+                                type="search"
+                                name="search"
+                                id="search"
+                                placeholder="Search..."
+                                className="ml-auto"
+                                bsSize="sm"
+                                onChange={(e) => {
+                                    this.set_search_query(e.target.value);
+                                }}
+                                onBlur={(e) => {
+                                    this.setState({
+                                        query_str: e.target.value
+                                    })
+                                }}
+                                defaultValue={this.state.query_str || ""}
+                            />
+                        </div>
                     </Nav>
                     <Nav vertical className="mb-3">
                         <NavItem className="mb-2">
@@ -273,44 +517,21 @@ class BondFilter extends React.Component {
                         Reset to Default
                     </Button>
                 </Col>
-                <Col lg={9}>
+                <Col lg={10}>
                     <Card className="mb-3">
-                        {this.state.bonds.length > 0 ? <Table className="mb-0" hover responsive>
-                            <thead>
-                            <tr>
-                                <th className="bt-0">Bond</th>
-                                <th className="bt-0">Symbol</th>
-                                <th className="bt-0">Coupon%</th>
-                                <th className="bt-0">Maturity</th>
-                                <th className="bt-0">Rating</th>
-                                <th className="bt-0">Interest payment</th>
-                                <th className="bt-0">Taxable</th>
-                                <th className="bt-0">Face Value</th>
-                                <th className="bt-0">LTP(₹)</th>
-                                <th className="bt-0">Returns (CAGR)</th>
-                                <th className="bt-0">Volume</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.bonds.map((t, k) => {
-                                return <tr key={k}>
-                                    <td>{t['bond']['short_name']}</td>
-                                    <td><code>{t['symbol']}-{t['series']}</code></td>
-                                    <td>{Number(t['bond']['coupon']).toFixed(2)}</td>
-                                    <td>{t['bond']['maturity_date']}</td>
-                                    <td>{t['bond']['rating']}</td>
-                                    <td>{FREQUENCY[t['bond']['frequency']] || '-'}</td>
-                                    <td>{t['bond']['is_taxable'] ? '-' : <Badge color="success">Tax-Free</Badge>}</td>
-                                    <td>{t['bond']['face_value']}</td>
-                                    <td>{t['price']}</td>
-                                    <td>{t['xirr'] ? `${(Number(t['xirr']).toFixed(4) * 100).toFixed(2)}%` : '-'}</td>
-                                    <td>{(Number(t['volume']))}</td>
-                                </tr>
-                            })}
-                            </tbody>
-                        </Table> : <CardImg className="figure-img card-img"
-                                            src={image404}
-                        />}
+                        {this.state.bonds.length > 0 ?
+                            <BootstrapTable
+                                classes="table-responsive-lg"
+                                bordered={false}
+                                expandRow={expandRow}
+                                responsive
+                                hover
+                                keyField='bond.isin_number'
+                                data={this.state.bonds}
+                                columns={columnDefs}
+                            /> : <CardImg className="figure-img card-img"
+                                          src={image404}
+                            />}
                         <CardFooter className="justify-content-end">
                             <div className="d-flex">
                                 <p className={`d-flex justify-content-start`}>

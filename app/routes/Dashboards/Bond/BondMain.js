@@ -28,9 +28,7 @@ class BondMain extends React.Component {
     }
 
     fetchGoldPrice() {
-        console.log("Fetching")
         axios.get(`${API_URL}/instrument/gold_price`, {}).then((res) => {
-            console.log(res)
             this.setState({
                 gold_price: res.data,
             })
