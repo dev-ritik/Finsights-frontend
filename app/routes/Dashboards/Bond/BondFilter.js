@@ -18,6 +18,7 @@ class BondFilter extends React.Component {
     INITIAL_FILTER_SORT = {
         query_str: null,
         volume_available: false, // Filter out bonds with volume
+        ignore_record_period: true, // Remove next record - payment period from XIRR calculation
         tax_free: false,
         discount: null,
         bond_type: null,
@@ -57,7 +58,7 @@ class BondFilter extends React.Component {
     fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency,
                rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available,
                tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type,
-               query_str = this.state.query_str) {
+               query_str = this.state.query_str, ignore_record_period=this.state.ignore_record_period) {
         const params = {
             limit: POSTS_PER_PAGE,
             offset: offset,
@@ -69,6 +70,7 @@ class BondFilter extends React.Component {
             bond_type: bond_type,
             exchange: this.state.exchange,
             volume_available: volume_available,
+            ignore_record_period: ignore_record_period,
             tax_free: tax_free,
             discount: discount,
         }
@@ -511,6 +513,27 @@ class BondFilter extends React.Component {
                                 />
                             </NavItem>);
                         })}
+                    </Nav>
+                    <Nav vertical className="mb-3">
+                        <NavItem className="mb-2">
+                            <span>
+                                Other Settings
+                            </span>
+                            <i className="fa fa-cog align-self-center ml-2"/>
+                        </NavItem>
+                        <NavItem className="d-flex px-2 mb-2">
+                            <CustomInput type="checkbox" id="checkbox3" label="Ignore Record Period (28 days)" inline
+                                         checked={this.state.ignore_record_period}
+                                         onChange={(e) => {
+                                             this.setState({
+                                                 ignore_record_period: e.target.checked,
+                                                 currentPage: 1,
+                                             })
+                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, this.state.bond_type,
+                                                 this.state.query_str, e.target.checked)
+                                         }}
+                            />
+                        </NavItem>
                     </Nav>
                     <Button color="link" block
                             onClick={() => {
