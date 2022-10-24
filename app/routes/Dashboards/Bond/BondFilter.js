@@ -149,6 +149,10 @@ class BondFilter extends React.Component {
         }, 1000);
     }
 
+    get_symbol_name(symbol, series) {
+        return `${symbol}${series ? `-${series}` : ''}`
+    }
+
     createColumnDefinitions() {
         return [
             {
@@ -160,7 +164,7 @@ class BondFilter extends React.Component {
                 text: 'Symbol',
                 formatter: (cell, row) =>
                     (
-                        <code>{row['symbol']}-{row['series']}</code>
+                        <code>{this.get_symbol_name(row['symbol'], row['series'])}</code>
                     )
             },
             {
@@ -261,11 +265,13 @@ class BondFilter extends React.Component {
                                     {bse_bond ?
                                         <>
                                             <dt className="col-sm-6 text-left">
-                                                <code>NSE/{row['symbol']}-{row['series']}</code></dt>
+                                                <code>NSE/{this.get_symbol_name(row['symbol'], row['series'])}</code>
+                                            </dt>
                                             <dt className="col-sm-6 text-right"><code>BSE/{bse_bond}</code></dt>
                                         </> : <>
                                             <dt className="col-sm-12 text-center">
-                                                <code>NSE/{row['symbol']}-{row['series']}</code></dt>
+                                                <code>NSE/{this.get_symbol_name(row['symbol'], row['series'])}</code>
+                                            </dt>
                                         </>
                                     }
                                 </dl>
