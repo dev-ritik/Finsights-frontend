@@ -169,10 +169,10 @@ class BondFilter extends React.Component {
             },
             {
                 dataField: "bond.coupon",
-                text: 'Coupon%',
+                text: 'Coupon',
                 formatter: (cell) =>
                     (
-                        Number(cell).toFixed(2)
+                        `${Number(cell).toFixed(2)}%`
                     )
             },
             {
