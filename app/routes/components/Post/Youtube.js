@@ -58,11 +58,11 @@ function Youtube(props) {
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
-                            return <Badge pill color={"secondary"} className="mr-1"
-                                          href={`#/analysis/stock/${data}/news`}
-                                          key={index}>
+                            return data ? <Badge pill color={"secondary"} className="mr-1"
+                                                 href={`#/analysis/stock/${data}/news`}
+                                                 key={index}>
                                 {exchangeSymbolReprToSymbol(data)}
-                            </Badge>;
+                            </Badge> : <></>;
                         })}
                     </p>
                 </Collapse>
@@ -72,10 +72,10 @@ function Youtube(props) {
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
-                            return <Badge pill color={"secondary"} className="mr-1"
-                                          href={`#/analysis/stock/${data}/news`} key={index}>
+                            return data ? <Badge pill color={"secondary"} className="mr-1"
+                                                 href={`#/analysis/stock/${data}/news`} key={index}>
                                 {exchangeSymbolReprToSymbol(data)}
-                            </Badge>;
+                            </Badge> : <></>;
                         })}
                     </p>
                     <span id="Like">
