@@ -27,6 +27,8 @@ import {
 } from 'recharts';
 import moment from "moment";
 import {Badge} from "../../../components";
+import {getATagFormattedtext} from "../../../utilities";
+import DOMPurify from "dompurify";
 
 const PublicWishlistItem = (props) => {
     const buyQuantityDisplay = (buy_price, buy_piece) => {
@@ -224,7 +226,14 @@ const PublicWishlistItem = (props) => {
             {props.data.comment && props.data.comment !== "" && (
                 <CardFooter className="small">
                     <i className="fa fa-fw fa-comment mr-2"/>
-                    {props.data.comment}
+                    <span className="mb-0 newline-format"
+                          dangerouslySetInnerHTML={{
+                              __html: DOMPurify.sanitize(getATagFormattedtext(props.data.comment), {
+                                  USE_PROFILES: {html: true},
+                                  ADD_ATTR: ['target', 'rel'] ,
+                              })
+                          }}>
+                    </span>
                 </CardFooter>
             )}
         </>

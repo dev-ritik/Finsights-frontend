@@ -162,3 +162,16 @@ export function timeSince(timeStamp) {
 export function exchangeSymbolReprToSymbol(exchangeSymbol) {
     return exchangeSymbol.split("/")[1];
 }
+
+export function getATagFormattedtext(text) {
+    //URLs starting with http://, https://, or ftp://
+    // Source: https://stackoverflow.com/a/3890175
+    const urlPattern1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    text = text.replace(urlPattern1, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    const urlPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    text = text.replace(urlPattern2, '$1<a href="https://$2" target="_blank" rel="noopener noreferrer">$2</a>');
+
+    return text;
+}

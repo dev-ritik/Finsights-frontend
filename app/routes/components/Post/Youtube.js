@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PropTypes, {number, string} from 'prop-types';
 import {Badge, Media, UncontrolledTooltip} from './../../../components';
 import {Collapse} from "reactstrap";
-import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
+import {exchangeSymbolReprToSymbol, getATagFormattedtext, timeSince} from "../../../utilities";
 import DOMPurify from 'dompurify';
 import './../../../styles/custom.scss';
 
@@ -17,14 +17,7 @@ function truncate(text) {
 }
 
 function format(description) {
-    //URLs starting with http://, https://, or ftp://
-    // Source: https://stackoverflow.com/a/3890175
-    const urlPattern1 = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    description = description.replace(urlPattern1, '<a href="$1" target="_blank">$1</a>');
-
-    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-    const urlPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    description = description.replace(urlPattern2, '$1<a href="https://$2" target="_blank">$2</a>');
+    description = getATagFormattedtext(description);
 
     // Replace Hashtags
     // Source: https://stackoverflow.com/a/32765442
@@ -68,7 +61,12 @@ function Youtube(props) {
                 </Collapse>
                 <Collapse isOpen={!open}>
                     <p className="mb-0 newline-format"
-                       dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(format(props.description), {USE_PROFILES: {html: true}})}}>
+                       dangerouslySetInnerHTML={{
+                           __html: DOMPurify.sanitize(format(props.description), {
+                               USE_PROFILES: {html: true},
+                               ADD_ATTR: ['target', 'rel'],
+                           })
+                       }}>
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
