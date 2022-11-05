@@ -15,22 +15,27 @@ import BootstrapTable from "react-bootstrap-table-next";
 
 class BondFilter extends React.Component {
 
-    INITIAL_FILTER_SORT = {
-        query_str: null,
-        volume_available: false, // Filter out bonds with volume
-        ignore_record_period: true, // Remove next record - payment period from XIRR calculation
-        tax_free: false,
-        discount: null,
-        bond_type: null,
-        frequency: null,
-        rating: null,
-        tenure: null,
-        exchange: 'NSE' // Default exchange is NSE
+
+
+    getInitialFilterSort() {
+        // Alternate to deep copy
+        return {
+            query_str: null,
+            volume_available: false, // Filter out bonds with volume
+            ignore_record_period: true, // Remove next record - payment period from XIRR calculation
+            tax_free: false,
+            discount: null,
+            bond_type: null,
+            frequency: null,
+            rating: null,
+            tenure: new Set(),  // Requires deep copy
+            exchange: 'NSE' // Default exchange is NSE
+        }
     }
 
     INITIAL_STATE = {
         bonds: [],
-        sort: SORT_BY.NAME_ASC, ...this.INITIAL_FILTER_SORT,
+        sort: SORT_BY.NAME_ASC, ...this.getInitialFilterSort(),
         offset: 0,
         currentPage: 1,
         totalPosts: 1,
@@ -64,7 +69,7 @@ class BondFilter extends React.Component {
             offset: offset,
             sort: sort,
             query_str: query_str,
-            tenure: tenure,
+            tenure: Array.from(tenure),
             rating: rating,
             frequency: frequency,
             bond_type: bond_type,
@@ -417,14 +422,20 @@ class BondFilter extends React.Component {
                         </NavItem>
                         {Object.keys(TENURE_LEFT).map((key, index) => {
                             return (<NavItem className="d-flex px-2 mb-2" key={index}>
-                                <CustomInput type="radio" id={`radio_${key}`} label={TENURE_LEFT[key][1]} inline
-                                             checked={this.state.tenure === TENURE_LEFT[key][0]}
-                                             onChange={() => {
+                                <CustomInput type="checkbox" id={`radio_${key}`} label={TENURE_LEFT[key][1]} inline
+                                             checked={this.state.tenure.has(TENURE_LEFT[key][0])}
+                                             onChange={(e) => {
+                                                 let new_tenure = this.state.tenure;
+                                                 if (e.target.checked){
+                                                     new_tenure.add(TENURE_LEFT[key][0])
+                                                 } else {
+                                                     new_tenure.delete(TENURE_LEFT[key][0])
+                                                 }
                                                  this.setState({
-                                                     tenure: TENURE_LEFT[key][0],
+                                                     tenure: new_tenure,
                                                      currentPage: 1,
                                                  })
-                                                 this.fetchBonds(this.state.offset, TENURE_LEFT[key][0], this.state.frequency, this.state.rating)
+                                                 this.fetchBonds(this.state.offset, new_tenure, this.state.frequency, this.state.rating)
                                              }}
                                 />
                             </NavItem>);
@@ -538,10 +549,10 @@ class BondFilter extends React.Component {
                     <Button color="link" block
                             onClick={() => {
                                 this.setState({
-                                    ...this.INITIAL_FILTER_SORT,
+                                    ...this.getInitialFilterSort(),
                                     currentPage: 1,
                                 });
-                                this.fetchBonds(this.state.offset, null, null, null, null, null, null, null, null)
+                                this.fetchBonds(this.state.offset, new Set(), null, null, null, null, null, null, null)
                             }}>
                         Reset to Default
                     </Button>
