@@ -12,20 +12,17 @@ import {BOND_TYPE, FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./co
 import {Paginations} from "../../components/Paginations";
 import BootstrapTable from "react-bootstrap-table-next";
 
-
 class BondFilter extends React.Component {
-
-
 
     getInitialFilterSort() {
         // Alternate to deep copy
         return {
             query_str: null,
-            volume_available: false, // Filter out bonds with volume
+            volume_available: true, // Filter out bonds with volume
             ignore_record_period: true, // Remove next record - payment period from XIRR calculation
             tax_free: false,
             discount: null,
-            bond_type: null,
+            bond_type: "NB",
             frequency: null,
             rating: null,
             tenure: new Set(),  // Requires deep copy
@@ -63,7 +60,7 @@ class BondFilter extends React.Component {
     fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency,
                rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available,
                tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type,
-               query_str = this.state.query_str, ignore_record_period=this.state.ignore_record_period) {
+               query_str = this.state.query_str, ignore_record_period = this.state.ignore_record_period) {
         const params = {
             limit: POSTS_PER_PAGE,
             offset: offset,
@@ -426,7 +423,7 @@ class BondFilter extends React.Component {
                                              checked={this.state.tenure.has(TENURE_LEFT[key][0])}
                                              onChange={(e) => {
                                                  let new_tenure = this.state.tenure;
-                                                 if (e.target.checked){
+                                                 if (e.target.checked) {
                                                      new_tenure.add(TENURE_LEFT[key][0])
                                                  } else {
                                                      new_tenure.delete(TENURE_LEFT[key][0])
@@ -552,7 +549,7 @@ class BondFilter extends React.Component {
                                     ...this.getInitialFilterSort(),
                                     currentPage: 1,
                                 });
-                                this.fetchBonds(this.state.offset, new Set(), null, null, null, null, null, null, null)
+                                this.fetchBonds(this.state.offset, new Set(), null, null, SORT_BY.NAME_ASC, true, null, null, "NB")
                             }}>
                         Reset to Default
                     </Button>
