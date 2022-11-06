@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import moment from "moment";
 import {Badge} from "../../../components";
-import {getATagFormattedtext} from "../../../utilities";
+import {getATagFormattedtext, timeSince} from "../../../utilities";
 import DOMPurify from "dompurify";
 
 const PublicWishlistItem = (props) => {
@@ -211,6 +211,9 @@ const PublicWishlistItem = (props) => {
                                 </NavLink>
                             </NavItem>
                         </Nav>
+                        <span className="ml-auto text-right">
+                            {timeSince(props.data.date_modified)}
+                        </span>
                     </div>
 
                     <UncontrolledTabs.TabContent>
