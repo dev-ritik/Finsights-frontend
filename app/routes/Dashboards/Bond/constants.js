@@ -26,6 +26,13 @@ export const TENURE_LEFT = {
     MORE_THAN_5_YEAR: ['5Y+', '> 5 Year'],
 }
 
+export const BOND_LAST_TRADED = {
+    '1D': 'Today',
+    '3D': 'Last 3 days',
+    '7D': 'Last 7 days',
+    '30D': 'Last 30 days',
+}
+
 export const PRICE_AT = {
     discount: 'Discount',
     premium: 'Premium',

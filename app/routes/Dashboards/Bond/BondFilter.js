@@ -8,9 +8,10 @@ import _ from "lodash";
 import {Badge, Button, CardFooter, CardImg, Col, Input, NavItem, Row} from "../../../components";
 import {connect} from "react-redux";
 import {addNotification} from "../../../redux/Notification";
-import {BOND_TYPE, FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./constants";
+import {BOND_LAST_TRADED, BOND_TYPE, FREQUENCY, PRICE_AT, RATING, SORT_BY, TENURE_LEFT} from "./constants";
 import {Paginations} from "../../components/Paginations";
 import BootstrapTable from "react-bootstrap-table-next";
+import {timeSince} from "../../../utilities";
 
 class BondFilter extends React.Component {
 
@@ -18,7 +19,7 @@ class BondFilter extends React.Component {
         // Alternate to deep copy
         return {
             query_str: null,
-            volume_available: true, // Filter out bonds with volume
+            last_traded: "7D",
             ignore_record_period: true, // Remove next record - payment period from XIRR calculation
             tax_free: false,
             discount: null,
@@ -58,7 +59,7 @@ class BondFilter extends React.Component {
     }
 
     fetchBonds(offset = this.state.offset, tenure = this.state.tenure, frequency = this.state.frequency,
-               rating = this.state.rating, sort = this.state.sort, volume_available = this.state.volume_available,
+               rating = this.state.rating, sort = this.state.sort, last_traded = this.state.last_traded,
                tax_free = this.state.tax_free, discount = this.state.discount, bond_type = this.state.bond_type,
                query_str = this.state.query_str, ignore_record_period = this.state.ignore_record_period) {
         const params = {
@@ -71,7 +72,7 @@ class BondFilter extends React.Component {
             frequency: frequency,
             bond_type: bond_type,
             exchange: this.state.exchange,
-            volume_available: volume_available,
+            last_traded: last_traded,
             ignore_record_period: ignore_record_period,
             tax_free: tax_free,
             discount: discount,
@@ -149,7 +150,7 @@ class BondFilter extends React.Component {
             this.setState({
                 query_str: value
             })
-            this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, this.state.bond_type, value)
+            this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.last_traded, this.state.tax_free, this.state.discount, this.state.bond_type, value)
         }, 1000);
     }
 
@@ -255,7 +256,7 @@ class BondFilter extends React.Component {
                 return (
                     <Row>
                         <Col md={6}>
-                            <dl className="row">
+                            <dl className="row mb-0">
                                 {detail ?
                                     <>
                                         <dd className="col-sm-12 text-center">{detail.name}</dd>
@@ -263,9 +264,9 @@ class BondFilter extends React.Component {
                                 }
 
                                 <dt className="col-sm-6 text-right">Isin Number</dt>
-                                <dd className="col-sm-6"><code>{row['bond']['isin_number']}</code></dd>
+                                <dd className="col-sm-6 mb-0"><code>{row['bond']['isin_number']}</code></dd>
 
-                                <dl className="row col-sm-12">
+                                <dl className="row col-sm-12 mb-0">
                                     {bse_bond ?
                                         <>
                                             <dt className="col-sm-6 text-left">
@@ -280,12 +281,18 @@ class BondFilter extends React.Component {
                                     }
                                 </dl>
                                 <dt className="col-sm-6 text-right">Issue Date</dt>
-                                <dd className="col-sm-6">{row['bond']['issue_date']}</dd>
+                                <dd className="col-sm-6 mb-0">{row['bond']['issue_date']}</dd>
 
                                 {detail ?
                                     <>
                                         <dt className="col-sm-6 text-right">Rating</dt>
-                                        <dd className="col-sm-6">{detail['rating_raw']}</dd>
+                                        <dd className="col-sm-6 mb-0 p-0">{detail['rating_raw']}</dd>
+                                    </> : <></>
+                                }
+                                {row['last_traded_on'] ?
+                                    <>
+                                        <dt className="col-sm-6 text-right">Last trade recorded on</dt>
+                                        <dd className="col-sm-6 mb-0 p-0">{timeSince(row['last_traded_on'])}</dd>
                                     </> : <></>
                                 }
                             </dl>
@@ -454,7 +461,7 @@ class BondFilter extends React.Component {
                                                      bond_type: key,
                                                      currentPage: 1,
                                                  })
-                                                 this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, key)
+                                                 this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.last_traded, this.state.tax_free, this.state.discount, key)
                                              }}
                                 />
                             </NavItem>);
@@ -463,22 +470,24 @@ class BondFilter extends React.Component {
                     <Nav vertical className="mb-3">
                         <NavItem className="mb-2">
                             <span>
-                                Volume
+                                Last trade recorded
                             </span>
                             <i className="fa fa-line-chart align-self-center ml-2"/>
                         </NavItem>
-                        <NavItem className="d-flex px-2 mb-2">
-                            <CustomInput type="checkbox" id="checkbox" label="Available" inline
-                                         checked={this.state.volume_available}
-                                         onChange={(e) => {
-                                             this.setState({
-                                                 volume_available: e.target.checked,
-                                                 currentPage: 1,
-                                             })
-                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, e.target.checked, this.state.tax_free)
-                                         }}
-                            />
-                        </NavItem>
+                            {Object.keys(BOND_LAST_TRADED).map((key, index) => {
+                                return (<NavItem className="d-flex px-2 mb-2" key={index}>
+                                    <CustomInput type="radio" id={`radio_${key}`} label={BOND_LAST_TRADED[key]} inline
+                                                 checked={this.state.last_traded === key}
+                                                 onChange={() => {
+                                                     this.setState({
+                                                         last_traded: key,
+                                                         currentPage: 1,
+                                                     })
+                                                     this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, key, this.state.tax_free)
+                                                 }}
+                                    />
+                                </NavItem>);
+                            })}
                     </Nav>
                     <Nav vertical className="mb-3">
                         <NavItem className="mb-2">
@@ -495,7 +504,7 @@ class BondFilter extends React.Component {
                                                  tax_free: e.target.checked,
                                                  currentPage: 1,
                                              })
-                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, e.target.checked)
+                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.last_traded, e.target.checked)
                                          }}
                             />
                         </NavItem>
@@ -516,7 +525,7 @@ class BondFilter extends React.Component {
                                                      discount: key,
                                                      currentPage: 1,
                                                  })
-                                                 this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, key)
+                                                 this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.last_traded, this.state.tax_free, key)
                                              }}
                                 />
                             </NavItem>);
@@ -537,7 +546,7 @@ class BondFilter extends React.Component {
                                                  ignore_record_period: e.target.checked,
                                                  currentPage: 1,
                                              })
-                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.volume_available, this.state.tax_free, this.state.discount, this.state.bond_type,
+                                             this.fetchBonds(this.state.offset, this.state.tenure, this.state.frequency, this.state.rating, this.state.sort, this.state.last_traded, this.state.tax_free, this.state.discount, this.state.bond_type,
                                                  this.state.query_str, e.target.checked)
                                          }}
                             />
