@@ -31,6 +31,7 @@ export const BOND_LAST_TRADED = {
     '3D': 'Last 3 days',
     '7D': 'Last 7 days',
     '30D': 'Last 30 days',
+    'ALL': 'All bonds',
 }
 
 export const PRICE_AT = {
