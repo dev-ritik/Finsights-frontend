@@ -52,6 +52,7 @@ class BondMain extends React.Component {
                     </li>
                     <li>LTP and Volume information can be old</li>
                     <li>The maturity value of all SGB is assumed to be <b>{this.state.gold_price}</b></li>
+                    <li>List of NCD issues 2023: <a href="https://www.chittorgarh.com/report/latest-ncd-issue-in-india/27/">Chittorgarh NCDs</a></li>
                 </ul>
                 <Row>
                     <Col lg={12}>
