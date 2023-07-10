@@ -199,10 +199,15 @@ class BondFilter extends React.Component {
             {
                 dataField: "bond.is_taxable",
                 text: 'Taxable',
-                formatter: (cell) =>
-                    (
-                        cell ? '-' : <Badge color="success">Tax-Free</Badge>
-                    )
+                formatter: (cell) => {
+                    if (cell) {
+                        return '-';
+                    } else if (cell === null) {
+                        return '?';
+                    } else {
+                        return <Badge color="success">Tax-Free</Badge>;
+                    }
+                }
             },
             {
                 dataField: "bond.face_value",
