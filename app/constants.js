@@ -10,6 +10,7 @@ export const REDDIT = 're';
 export const TELEGRAM = 'te';
 export const YOUTUBE = 'yt';
 export const TWITTER = 'tw';
+export const VALUEPICKR = 'vp';
 
 export const PLATFORM_CONSTANTS = {
     re: {
@@ -31,6 +32,11 @@ export const PLATFORM_CONSTANTS = {
         label: 'Twitter',
         icon: 'fa-twitter',
         search_slug: 'twitter',
+    },
+    vp: {
+        label: 'ValuePickr',
+        icon: 'fa-circle',
+        search_slug: 'valuepickr',
     },
 }
 

@@ -11,7 +11,16 @@ import {
     UncontrolledTooltip
 } from './../../../components';
 import axios from "axios";
-import {API_URL, PLATFORM_CONSTANTS, POSTS_PER_PAGE, REDDIT, TELEGRAM, TWITTER, YOUTUBE} from "../../../constants";
+import {
+    API_URL,
+    PLATFORM_CONSTANTS,
+    POSTS_PER_PAGE,
+    REDDIT,
+    TELEGRAM,
+    TWITTER,
+    VALUEPICKR,
+    YOUTUBE
+} from "../../../constants";
 import {Paginations} from "../Paginations";
 import PropTypes from "prop-types";
 import {timeSince} from "../../../utilities";
@@ -21,6 +30,7 @@ import {Telegram} from "../Post/Telegram";
 import {Youtube} from "../Post/Youtube";
 import {Twitter} from "../Post/Twitter";
 import {DURATION_DETAILS, DURATIONS} from "../../Dashboards/News/durations";
+import {ValuePickr} from "../Post/ValuePickr";
 
 export class Feed extends React.Component {
 
@@ -89,6 +99,8 @@ export class Feed extends React.Component {
                 return <Youtube {...data}/>
             } else if (this.props.platform === TWITTER) {
                 return <Twitter {...data}/>
+            } else if (this.props.platform === VALUEPICKR) {
+                return <ValuePickr {...data}/>
             } else {
                 return <></>
             }
@@ -146,7 +158,7 @@ export class Feed extends React.Component {
 }
 
 Feed.propTypes = {
-    platform: PropTypes.oneOf([REDDIT, TELEGRAM, YOUTUBE, TWITTER]),
+    platform: PropTypes.oneOf([REDDIT, TELEGRAM, YOUTUBE, TWITTER, VALUEPICKR]),
     symbol: PropTypes.string,
     next_update: PropTypes.string,
     duration: PropTypes.string,

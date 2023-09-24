@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import {newSymbolSelection} from "../../../redux/SearchedSymbol";
 import {connect} from "react-redux";
 import axios from "axios";
-import {API_URL, REDDIT, TELEGRAM, TWITTER, YOUTUBE} from "../../../constants";
+import {API_URL, REDDIT, TELEGRAM, TWITTER, VALUEPICKR, YOUTUBE} from "../../../constants";
 import moment from "moment";
 import {
     Button,
@@ -60,6 +60,7 @@ class News extends React.Component {
                 telegramNextUpdate: res.data[TELEGRAM],
                 youtubeNextUpdate: res.data[YOUTUBE],
                 twitterNextUpdate: res.data[TWITTER],
+                valuepickrNextUpdate: res.data[VALUEPICKR],
                 refresh_button_disabled: true,
             })
         });
@@ -229,6 +230,13 @@ class News extends React.Component {
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
+                <Feed platform={VALUEPICKR}
+                      symbol={get_symbol_slug(this.props)}
+                      next_update={this.state.valuepickrNextUpdate}
+                      duration={this.state.duration}
+                      sort={this.state.sort}
+                      refresh={this.state.refresh}
+                />
                 <Feed platform={YOUTUBE}
                       symbol={get_symbol_slug(this.props)}
                       next_update={this.state.youtubeNextUpdate}
@@ -236,16 +244,16 @@ class News extends React.Component {
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
-                <Feed platform={TWITTER}
+                <Feed platform={REDDIT}
                       symbol={get_symbol_slug(this.props)}
-                      next_update={this.state.twitterNextUpdate}
+                      next_update={this.state.redditNextUpdate}
                       duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
                 />
-                <Feed platform={REDDIT}
+                <Feed platform={TWITTER}
                       symbol={get_symbol_slug(this.props)}
-                      next_update={this.state.redditNextUpdate}
+                      next_update={this.state.twitterNextUpdate}
                       duration={this.state.duration}
                       sort={this.state.sort}
                       refresh={this.state.refresh}
