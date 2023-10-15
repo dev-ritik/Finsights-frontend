@@ -1,4 +1,4 @@
-export const API_URL = `https://api.ritik.ga`
+export const API_URL = `https://fin.uaenorth.cloudapp.azure.com`
 // export const API_URL = `http://localhost:8000`
 export const POSTS_PER_PAGE = 10;
 export const ADMIN_EMAIL = "ritikkne@gmail.com";
