@@ -7,12 +7,12 @@ import {
     Media,
     Avatar,
     AvatarAddOn,
-    Button,
     Badge,
     CardBody
 } from './../../../components';
 
-import { randomArray, randomAvatar } from './../../../utilities';
+import { randomArray, randomAvatar } from '../../../utilities';
+import {API_URL} from "../../../constants";
 
 const status = [
     "warning",
@@ -80,7 +80,7 @@ const VideosResultsCard = () => (
                             </a>
                         </div>
                         <div className="text-success mb-3">
-                            https://finsights.ml/
+                            {API_URL}
                         </div>
                         <div className="mb-3">
                             Lorem ipsum
@@ -90,13 +90,13 @@ const VideosResultsCard = () => (
                         </div>
                         <div className="mb-2">
                             <Badge color="secondary" pill className="mr-1">
-                                finsights.ml
+                                {API_URL}
                             </Badge>
                             <Badge color="secondary" pill className="mr-1">
-                                finsights.ml
+                                {API_URL}
                             </Badge>
                             <Badge color="secondary" pill className="mr-1">
-                                finsights.ml
+                                {API_URL}
                             </Badge>                       
                         </div>
                         <div>

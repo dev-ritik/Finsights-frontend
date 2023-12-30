@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const config = require('./../config');
+const {API_URL} = require("../app/constants");
 
 const BASE_PATH = process.env.BASE_PATH || '/';
 const COMMIT_HASH = require('child_process')
@@ -152,7 +153,7 @@ module.exports = {
         historyApiFallback: {
             index: '/'
         },
-        host: "finsights.ml",
+        host: API_URL,
         port: 443,
         https: true
     }

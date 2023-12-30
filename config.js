@@ -20,7 +20,7 @@ const config = {
     // Site Config ====================================================
     siteTitle:              'Finsights',
     siteDescription:        'For Passive investing',
-    siteCannonicalUrl:      'https://finsights.ml',
+    // siteCannonicalUrl:      API_URL,
     siteKeywords:           'Stock Market equity NSE BSE',
     scssIncludes:           []
 }

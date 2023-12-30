@@ -14,6 +14,7 @@ import { ThemeClass } from './../Theme';
 
 import config from './../../../config';
 import './../../images/logos/logo-big.jpeg';
+import {API_URL} from "../../constants";
 
 const findChildByType = (children, targetType) => {
     let result;
@@ -235,7 +236,7 @@ class Layout extends React.Component {
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{(this.state.pageTitle ? `${this.state.pageTitle} - ` : '') + config.siteTitle}</title>
-                    <link rel="canonical" href={ config.siteCannonicalUrl } />
+                    <link rel="canonical" href={ API_URL } />
                     <meta name="description" content={ this.state.pageDescription } />
                     {
                         _.map(favIcons, (favIcon, index) => (

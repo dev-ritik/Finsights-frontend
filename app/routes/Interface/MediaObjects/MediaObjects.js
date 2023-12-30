@@ -24,6 +24,7 @@ import {
 import { randomAvatar } from './../../../utilities';
 import { HeaderMain } from "../../components/HeaderMain";
 import { HeaderDemo } from "../../components/HeaderDemo";
+import {API_URL} from "../../../constants";
 
 const MediaObjects = () => (
     <React.Fragment>
@@ -1750,7 +1751,7 @@ const MediaObjects = () => (
                                     <p>
                                         lerem ipsum<br />
                                         <a href="javascript:;" className="small text-success">
-                                            https://finsights.ml/
+                                            {API_URL}
                                         </a>
                                     </p>
                                 </Media>
@@ -1781,7 +1782,7 @@ const MediaObjects = () => (
                                     <p>
                                         lerem ipsum<br />
                                         <a href="javascript:;" className="small text-success">
-                                            https://finsights.ml/
+                                            {API_URL}
                                         </a>
                                     </p>
                                 </Media>
@@ -1812,7 +1813,7 @@ const MediaObjects = () => (
                                     <p>
                                         lerem ipsum<br />
                                         <a href="javascript:;" className="small text-success">
-                                            https://finsights.ml/
+                                            {API_URL}
                                         </a>
                                     </p>
                                 </Media>

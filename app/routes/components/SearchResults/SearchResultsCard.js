@@ -5,7 +5,8 @@ import {
     CardBody
 } from './../../../components';
 
-import { randomArray } from './../../../utilities';
+import { randomArray } from '../../../utilities';
+import {API_URL} from "../../../constants";
 
 const stars = [
     <span key="stars5">
@@ -55,7 +56,7 @@ const SearchResultsCard = () => (
                 <br />
                 <div className="mb-2">
                     <span className="text-success">
-                        https://finsights.ml/
+                        {API_URL}
                     </span>
                     <span className="mx-2">·</span>
                     { randomArray(stars) }

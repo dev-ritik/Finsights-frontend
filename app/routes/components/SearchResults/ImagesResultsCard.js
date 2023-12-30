@@ -11,7 +11,8 @@ import {
     CardBody
 } from './../../../components';
 
-import { randomArray, randomAvatar } from './../../../utilities';
+import { randomArray, randomAvatar } from '../../../utilities';
+import {API_URL} from "../../../constants";
 
 const status = [
     "danger",
@@ -38,7 +39,7 @@ const ImagesResultsCard = () => (
                         </a>
                         <br />
                         <a href="#" className="text-success">
-                            https://finsights.ml/
+                            {API_URL}
                         </a>
                     </span>
                     <a href="#" className="ml-auto">
