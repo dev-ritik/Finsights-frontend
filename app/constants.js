@@ -1,5 +1,6 @@
-export const API_URL = `https://fin.uaenorth.cloudapp.azure.com`
-// export const API_URL = `http://localhost:8000`
+import config from "../config";
+
+export const API_URL = config.siteCannonicalUrl
 export const POSTS_PER_PAGE = 10;
 export const ADMIN_EMAIL = "ritikkne@gmail.com";
 

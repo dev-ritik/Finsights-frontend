@@ -2,6 +2,9 @@ const path = require('path');
 
 const root = path.join(__dirname);
 
+const API_URL = `https://fin.uaenorth.cloudapp.azure.com`
+// export const API_URL = `http://localhost:8000`
+
 const config = {
     rootDir:                root,
     // Targets ========================================================
@@ -20,7 +23,7 @@ const config = {
     // Site Config ====================================================
     siteTitle:              'Finsights',
     siteDescription:        'For Passive investing',
-    // siteCannonicalUrl:      API_URL,
+    siteCannonicalUrl:      API_URL,
     siteKeywords:           'Stock Market equity NSE BSE',
     scssIncludes:           []
 }
