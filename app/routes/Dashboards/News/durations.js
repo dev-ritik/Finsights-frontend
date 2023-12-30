@@ -2,6 +2,7 @@
 export const DURATIONS = {
     All: 'All',
     Day: 'Day',
+    Yesterday: 'Yesterday',
     Week: 'Week',
     Month: 'Month',
     Quarter: 'Quarter',
@@ -10,6 +11,9 @@ export const DURATIONS = {
 }
 
 const TODAY = new Date()
+
+let YESTERDAY = new Date();
+YESTERDAY.setDate(TODAY.getDate() - 1)
 
 let LAST_WEEK = new Date();
 LAST_WEEK.setDate(TODAY.getDate() - 7)
@@ -29,6 +33,10 @@ export const DURATION_DETAILS = {
     },
     [DURATIONS.Day]: {
         from: TODAY,
+        to: TODAY,
+    },
+    [DURATIONS.Yesterday]: {
+        from: YESTERDAY,
         to: TODAY,
     },
     [DURATIONS.Week]: {
