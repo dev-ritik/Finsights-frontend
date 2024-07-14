@@ -86,7 +86,7 @@ class CreateWishlistItem extends React.Component {
 
     selectStock(stockId) {
         const stocks = this.props.stocks.filter(
-            item => item.stock_id === Number(stockId));
+            item => item.stock.id === Number(stockId));
         this.setState({
             current_stock_display: stocks[0].name,
             dropdownOpen: false,
@@ -99,7 +99,7 @@ class CreateWishlistItem extends React.Component {
 
     getStockDetailFromId(stockId) {
         const stocks = this.props.stocks.filter(
-            item => item.stock_id === stockId);
+            item => item.stock.id === stockId);
         if (stocks.length !== 0) {
             return stocks[0]
         } else {
@@ -332,7 +332,7 @@ class CreateWishlistItem extends React.Component {
                                                         className="p-2"
                                                         onClick={(e) => {
                                                             e.preventDefault()
-                                                            this.selectStock(stock.stock_id)
+                                                            this.selectStock(stock.stock.id)
                                                         }}
                                                     >
                                                         <Media>

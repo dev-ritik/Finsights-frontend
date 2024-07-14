@@ -84,7 +84,7 @@ class BaseWishlistDisplay extends React.Component {
     }
 
     stockIdToStock = (wishlistItem, allStocks) => {
-        const stocks = allStocks.find(item => wishlistItem.stock_id === item.stock_id);
+        const stocks = allStocks.find(item => wishlistItem.stock_id === item.stock.id);
         if (stocks) {
             wishlistItem.stock = stocks
         } else {
