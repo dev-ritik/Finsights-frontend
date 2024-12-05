@@ -34,7 +34,7 @@ import BondMain from "./Dashboards/Bond/BondMain";
 //------ Route Definitions --------
 // eslint-disable-next-line no-unused-vars
 export const RoutedContent = () => {
-        const SYMBOL = "([a-zA-Z0-9 ]{3,32})";
+        const SYMBOL = "([a-zA-Z0-9 &]{3,32})";
         return (
             <Switch>
                     <Route path="/" exact component={Home}/>
