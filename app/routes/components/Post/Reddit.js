@@ -25,7 +25,7 @@ function Reddit(props) {
                 </span>
                 <br/>
                 <a href={get_post_url(props.url)} rel="noopener noreferrer" target="_blank"
-                   className="small text-decoration-none-light">
+                   className="small text-muted">
                     <u>{timeSince(props.created)}</u>
                 </a>
             </div>
@@ -38,7 +38,9 @@ function Reddit(props) {
                     </p>
                     <p className="mb-1">
                         {props.stocks.map(function (data, index) {
-                            return <Badge pill color={"secondary"} className="mr-1"
+                            return <Badge pill
+                                          color="light"
+                                          className="border mr-1 text-muted"
                                           href={`#/analysis/stock/${data}/news`}
                                           key={index}>
                                 {exchangeSymbolReprToSymbol(data)}

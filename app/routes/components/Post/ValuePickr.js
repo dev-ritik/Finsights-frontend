@@ -13,61 +13,85 @@ function format(text) {
     return text
 }
 
-function ValuePickr(props) {
+function ValuePickr({
+                        mediaClassName = "",
+                        text,
+                        stocks = [],
+                        topic_name,
+                        topic_id,
+                        post_number,
+                        created,
+                        read_count,
+                        likes,
+                        reply_count
+                    }) {
+    const viewId = `view-${topic_id}-${post_number}`;
+    const likeId = `like-${topic_id}-${post_number}`;
+    const replyId = `reply-${topic_id}-${post_number}`;
 
-    return <Media className={`mb-2 ${props.mediaClassName}`}>
-        <Media body>
-            <div className="mb-2">
-                {/*Handle relative links for example for user tag*/}
-                <span className="newline-format"
-                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(format(props.text), {USE_PROFILES: {html: true}})}}/>
-                <p className="mb-0">
-                    {props.stocks.map(function (data, index) {
-                        return <Badge pill color={"secondary"} className="mr-1" href={`#/analysis/stock/${data}/news`}
-                                      key={index}>
-                            {exchangeSymbolReprToSymbol(data)}
-                        </Badge>;
-                    })}
-                </p>
-                <a href={get_post_url(props.topic_name, props.topic_id, props.post_number)} rel="noopener noreferrer"
-                   target="_blank"
-                   className="small text-decoration-none-light">
-                    <u>{timeSince(props.created)}</u>
-                </a>
-            </div>
-            <div>
-                <span id="View">
-                    <i className="fa fa-eye mr-1"/>
+    return (
+        <Media className={`mb-3 ${mediaClassName}`}>
+            <Media body>
+                <div className="mb-2">
+                    {/* Sanitized text (safe HTML rendering) */}
                     <span
-                        className={"mr-2 text-success"}>
-                    {props.read_count}
-                    </span>
-                </span>
-                <span id="View">
-                    <i className="fa fa-heart mr-1"/>
-                    <span
-                        className={"mr-2 text-success"}>
-                    {props.likes}
-                    </span>
-                </span>
-                <span className="mr-2">·</span>
-                <span id="Forward">
-                    <i className="fa fa-reply mr-1"/>
-                    <span
-                        className={"mr-2 text-success"}>
-                    {props.reply_count}
-                    </span>
-                </span>
-                <UncontrolledTooltip placement="bottom" target="View">
-                    Views
-                </UncontrolledTooltip>
-                <UncontrolledTooltip placement="bottom" target="Forward">
-                    Forward
-                </UncontrolledTooltip>
-            </div>
+                        className="newline-format"
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(format(text), {USE_PROFILES: {html: true}}),
+                        }}
+                    />
+
+                    {/* Stock tags */}
+                    {stocks.length > 0 && (
+                        <p className="mb-1">
+                            {stocks.map((data, index) => (
+                                <Badge
+                                    pill
+                                    key={index}
+                                    color="light"
+                                    className="border mr-1 text-muted"
+                                    href={`#/analysis/stock/${data}/news`}
+                                >
+                                    {exchangeSymbolReprToSymbol(data)}
+                                </Badge>
+                            ))}
+                        </p>
+                    )}
+
+                    {/* Post link */}
+                    <a
+                        href={get_post_url(topic_name, topic_id, post_number)}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className="small text-muted"
+                    >
+                        <u>{timeSince(created)}</u>
+                    </a>
+                </div>
+
+                {/* Stats row */}
+                <div className="d-flex align-items-center flex-wrap small">
+          <span id={viewId} className="mr-3 d-flex align-items-center">
+            <i className="fa fa-eye mr-1 text-muted"/>
+            <span className="text-success">{read_count}</span>
+          </span>
+                    <UncontrolledTooltip target={viewId}>Views</UncontrolledTooltip>
+
+                    <span id={likeId} className="mr-3 d-flex align-items-center">
+            <i className="fa fa-heart mr-1 text-muted"/>
+            <span className="text-success">{likes}</span>
+          </span>
+                    <UncontrolledTooltip target={likeId}>Likes</UncontrolledTooltip>
+
+                    <span id={replyId} className="mr-3 d-flex align-items-center">
+            <i className="fa fa-reply mr-1 text-muted"/>
+            <span className="text-success">{reply_count}</span>
+          </span>
+                    <UncontrolledTooltip target={replyId}>Replies</UncontrolledTooltip>
+                </div>
+            </Media>
         </Media>
-    </Media>
-        ;
+    );
 }
 
 ValuePickr.propTypes = {

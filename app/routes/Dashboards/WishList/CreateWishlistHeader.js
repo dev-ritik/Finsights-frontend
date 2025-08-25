@@ -1,4 +1,4 @@
-import {Col, Form, FormGroup, Input, Label, Row} from './../../../components';
+import {Col, Form, FormGroup, Input, Label} from './../../../components';
 import DatePicker from "react-datepicker";
 import {ButtonInput} from "../../Forms/DatePicker/components";
 import PropTypes from "prop-types";
@@ -29,144 +29,103 @@ class CreateWishlistHeader extends React.Component {
 
     render() {
         return (
-            <Form className="m-2">
+            <Form className="p-3">
+                {/* Title */}
                 <FormGroup row>
-                    <Label for="title" sm={4}>
-                        Title
-                    </Label>
-                    <Col sm={8}>
+                    <Label for="title" sm={3}>Title</Label>
+                    <Col sm={9}>
                         <Input
-                            type="text"
-                            name=""
                             id="title"
+                            type="text"
                             placeholder="Enter title..."
-                            onChange={(e) => {
-                                this.setState({
-                                    ...this.state,
-                                    title: e.target.value
-                                })
-                            }}
-                            onBlur={(e) => {
-                                this.props.updateField('title', e.target.value)
-                            }}
                             value={this.state.title || ""}
+                            onChange={(e) => this.setState({title: e.target.value})}
+                            onBlur={(e) => this.props.updateField('title', e.target.value)}
                         />
                     </Col>
                 </FormGroup>
-                <FormGroup row>
-                    <Label for="description" sm={4}>
-                        Description
-                    </Label>
-                    <Col sm={8}>
-                        <Input
-                            type="textarea"
-                            name="text"
-                            id="description"
-                            placeholder="Enter a description..."
-                            className="mb-2"
-                            onChange={(e) => {
-                                this.setState({
-                                    ...this.state,
-                                    description: e.target.value
-                                })
-                            }}
-                            onBlur={(e) => {
-                                this.props.updateField('description', e.target.value)
-                            }}
-                            value={this.state.description || ""}
-                        />
-                    </Col>
-                </FormGroup>
-                <Row>
-                    <Col md={6}>
-                        <FormGroup row>
-                            <Label for="from" sm={4}>
-                                From
-                            </Label>
-                            <Col sm={2}>
 
-                                <DatePicker
-                                    customInput={<ButtonInput/>}
-                                    selected={this.state.from}
-                                    onChange={(date) => {
-                                        if (this.state.to && this.state.to < date) {
-                                            this.props.addNotification({
-                                                title: "Error!",
-                                                message: "To date cannot be less than from date",
-                                                colour: "error"
-                                            });
-                                        } else {
-                                            this.props.updateField('from', date)
-                                            this.setState({
-                                                ...this.state,
-                                                from: date
-                                            })
-                                        }
-                                    }}
-                                    className="mb-2"
-                                />
-                            </Col>
-                        </FormGroup>
-                    </Col>
-                    <Col md={6}>
-                        <FormGroup row>
-                            <Label for="to" sm={4}>
-                                To
-                            </Label>
-                            <Col sm={2}>
-                                <DatePicker
-                                    customInput={<ButtonInput/>}
-                                    selected={this.state.to}
-                                    onChange={(date) => {
-                                        if (this.state.from > date) {
-                                            this.props.addNotification({
-                                                title: "Error!",
-                                                message: "To date cannot be less than from date",
-                                                colour: "error"
-                                            });
-                                        } else {
-                                            this.props.updateField('to', date)
-                                            this.setState({
-                                                ...this.state,
-                                                to: date
-                                            })
-                                        }
-                                    }}
-                                    className="mb-2"
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    showYearDropdown
-                                />
-                            </Col>
-                        </FormGroup>
-                    </Col>
-                </Row>
+                {/* Description */}
                 <FormGroup row>
-                    <Label for="comment" sm={4}>
-                        Comment
-                    </Label>
-                    <Col sm={8}>
+                    <Label for="description" sm={3}>Description</Label>
+                    <Col sm={9}>
                         <Input
+                            id="description"
                             type="textarea"
-                            name="text"
+                            rows={3}
+                            placeholder="Enter a description..."
+                            value={this.state.description || ""}
+                            onChange={(e) => this.setState({description: e.target.value})}
+                            onBlur={(e) => this.props.updateField('description', e.target.value)}
+                        />
+                    </Col>
+                </FormGroup>
+
+                {/* Date Range */}
+                <FormGroup row>
+                    <Label sm={3}>Date Range</Label>
+                    <Col sm={4}>
+                        <DatePicker
+                            customInput={<ButtonInput/>}
+                            selected={this.state.from || ""}
+                            placeholderText="From"
+                            className="form-control"
+                            onChange={(date) => {
+                                if (this.state.to && this.state.to < date) {
+                                    this.props.addNotification({
+                                        title: "Error!",
+                                        message: "To date cannot be less than from date",
+                                        colour: "error"
+                                    });
+                                } else {
+                                    this.props.updateField('from', date);
+                                    this.setState({from: date});
+                                }
+                            }}
+                        />
+                    </Col>
+                    <Col sm={4}>
+                        <DatePicker
+                            customInput={<ButtonInput/>}
+                            selected={this.state.to || ""}
+                            placeholderText="To"
+                            className="form-control"
+                            onChange={(date) => {
+                                if (this.state.from && this.state.from > date) {
+                                    this.props.addNotification({
+                                        title: "Error!",
+                                        message: "To date cannot be less than from date",
+                                        colour: "error"
+                                    });
+                                } else {
+                                    this.props.updateField('to', date);
+                                    this.setState({to: date});
+                                }
+                            }}
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                        />
+                    </Col>
+                </FormGroup>
+
+                {/* Comment */}
+                <FormGroup row>
+                    <Label for="comment" sm={3}>Comment</Label>
+                    <Col sm={9}>
+                        <Input
                             id="comment"
+                            type="textarea"
+                            rows={2}
                             placeholder="Comments..."
-                            className="mb-2"
-                            onChange={(e) => {
-                                this.setState({
-                                    ...this.state,
-                                    comment: e.target.value
-                                })
-                            }}
-                            onBlur={(e) => {
-                                this.props.updateField('comment', e.target.value)
-                            }}
                             value={this.state.comment || ""}
+                            onChange={(e) => this.setState({comment: e.target.value})}
+                            onBlur={(e) => this.props.updateField('comment', e.target.value)}
                         />
                     </Col>
                 </FormGroup>
             </Form>
-        )
+        );
     }
 }
 

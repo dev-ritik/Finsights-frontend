@@ -28,89 +28,94 @@ function format(description) {
     return description
 }
 
-function Youtube(props) {
-    const [open, setOpen] = useState(true);
-    return <Media className={`mb-2 ${props.mediaClassName}`}>
-        <Media body>
-            <div className="mb-2">
-                <span className="h6 text-decoration-none">
-                    {props.title}
-                </span>
-                <br/>
-                <a href={get_post_url(props.post_id)} rel="noopener noreferrer" target="_blank"
-                   className="small text-decoration-none-light">
-                    <u>{timeSince(props.created)}</u>
-                </a>
-            </div>
-            <div onClick={function () {
-                return setOpen(!open);
-            }}>
-                <Collapse isOpen={open}>
-                    <p className="mb-0">
-                        {truncate(props.description)}
-                    </p>
-                    <p className="mb-1">
-                        {props.stocks.map(function (data, index) {
-                            return data ? <Badge pill color={"secondary"} className="mr-1"
-                                                 href={`#/analysis/stock/${data}/news`}
-                                                 key={index}>
-                                {exchangeSymbolReprToSymbol(data)}
-                            </Badge> : <></>;
-                        })}
-                    </p>
-                </Collapse>
-                <Collapse isOpen={!open}>
-                    <p className="mb-0 newline-format"
-                       dangerouslySetInnerHTML={{
-                           __html: DOMPurify.sanitize(format(props.description), {
-                               USE_PROFILES: {html: true},
-                               ADD_ATTR: ['target', 'rel'],
-                           })
-                       }}>
-                    </p>
-                    <p className="mb-1">
-                        {props.stocks.map(function (data, index) {
-                            return data ? <Badge pill color={"secondary"} className="mr-1"
-                                                 href={`#/analysis/stock/${data}/news`} key={index}>
-                                {exchangeSymbolReprToSymbol(data)}
-                            </Badge> : <></>;
-                        })}
-                    </p>
-                    <span id="Like">
-                        <i className="fa fa-thumbs-o-up mr-1"/>
-                        <span
-                            className={"mr-2 text-success"}>
-                        {props.like_count}
-                        </span>
-                    </span>
-                    <span className="mr-2">·</span>
-                    <span id="View">
-                        <i className="fa fa-eye mr-1"/> <span
-                        className={"mr-2 text-success"}>
-                        {props.view_count}
-                        </span>
-                    </span>
-                    <span id="Comment">
-                        <span className="mr-2">·</span><i className="fa fa-comment-o mr-1"/> <span
-                        className={"mr-2 text-success"}>
-                        {props.comment_count}
-                        </span>
-                    </span>
-                    <UncontrolledTooltip placement="bottom" target="Like">
-                        Likes
-                    </UncontrolledTooltip>
-                    <UncontrolledTooltip placement="bottom" target="View">
-                        Views
-                    </UncontrolledTooltip>
-                    <UncontrolledTooltip placement="bottom" target="Comment">
-                        Comments
-                    </UncontrolledTooltip>
-                </Collapse>
-            </div>
+function Youtube({
+                     title,
+                     post_id,
+                     created,
+                     description,
+                     stocks,
+                     like_count,
+                     view_count,
+                     comment_count,
+                     mediaClassName
+                 }) {
+    const [expanded, setExpanded] = useState(false);
+
+    const renderBadges = () =>
+        stocks
+            .filter(Boolean)
+            .map((data, index) => (
+                <Badge
+                    pill
+                    color="light"
+                    className="border mr-1 text-muted"
+                    href={`#/analysis/stock/${data}/news`}
+                    key={index}
+                >
+                    {exchangeSymbolReprToSymbol(data)}
+                </Badge>
+            ));
+
+    const renderStat = (id, icon, value, tooltip) => (
+        <>
+      <span id={id} className="mr-2">
+        <i className={`fa ${icon} mr-1`}/>
+        <span className="text-success">{value}</span>
+      </span>
+            <UncontrolledTooltip placement="bottom" target={id}>
+                {tooltip}
+            </UncontrolledTooltip>
+        </>
+    );
+
+    return (
+        <Media className={`mb-2 ${mediaClassName}`}>
+            <Media body>
+                <div className="mb-2">
+                    <h6 className="mb-1">{title}</h6>
+                    <a
+                        href={get_post_url(post_id)}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className="small text-muted"
+                    >
+                        <u>{timeSince(created)}</u>
+                    </a>
+                </div>
+
+                <div onClick={() => setExpanded(!expanded)} style={{cursor: "pointer"}}>
+                    {!expanded ? (
+                        <Collapse isOpen>
+                            <p className="mb-0">{truncate(description)}</p>
+                            <div className="mb-1">{renderBadges()}</div>
+                        </Collapse>
+                    ) : (
+                        <Collapse isOpen>
+                            <p
+                                className="mb-0 newline-format"
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(format(description), {
+                                        USE_PROFILES: {html: true},
+                                        ADD_ATTR: ["target", "rel"],
+                                    }),
+                                }}
+                            />
+                            <div className="mb-1">{renderBadges()}</div>
+                            <div>
+                                {renderStat("Like", "fa-thumbs-o-up", like_count, "Likes")}
+                                <span className="mr-2">·</span>
+                                {renderStat("View", "fa-eye", view_count, "Views")}
+                                <span className="mr-2">·</span>
+                                {renderStat("Comment", "fa-comment-o", comment_count, "Comments")}
+                            </div>
+                        </Collapse>
+                    )}
+                </div>
+            </Media>
         </Media>
-    </Media>
-        ;
+    );
 }
+
 
 Youtube.propTypes = {
     created: string,

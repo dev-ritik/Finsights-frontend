@@ -426,107 +426,137 @@ class CreateWishlist extends React.Component {
         });
     }
 
+    renderToolbar = () => {
+        const {wishlistID, dirty, sharable_slug, title} = this.state;
+
+        return (
+            <ButtonToolbar>
+                {wishlistID && wishlistID !== -1 && (
+                    <>
+                        {/* Preview */}
+                        <ButtonGroup>
+                            <Button
+                                color="link"
+                                tag={Link}
+                                to={`/wishlist/preview/${wishlistID}`}
+                                target="_blank"
+                                id="preview"
+                                disabled={dirty}
+                            >
+                                <i className="fa fa-eye"/>
+                            </Button>
+                            <UncontrolledTooltip placement="bottom" target="preview">
+                                Preview
+                            </UncontrolledTooltip>
+                        </ButtonGroup>
+
+                        {/* Share */}
+                        <UncontrolledButtonDropdown className="mr-2">
+                            <DropdownToggle caret color="secondary" outline>
+                                <i className="fa fa-fw fa-share-alt"/>
+                            </DropdownToggle>
+                            <DropdownMenu persist>
+                                <DropdownItem toggle={false}>
+                                    <label className="d-flex align-items-center mb-0">
+                                        <Toggle
+                                            checked={!!sharable_slug}
+                                            onChange={(e) => e.target.checked && this.share()}
+                                        />
+                                        <span className="ml-2">Share</span>
+                                    </label>
+                                </DropdownItem>
+                                {sharable_slug && (
+                                    <DropdownItem>
+                                        <a
+                                            href={`#/wishlist/public/${sharable_slug}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="small text-decoration-none-light d-flex align-items-center"
+                                        >
+                                            <i className="fa fa-fw fa-link mr-2"/>
+                                            Sharable link
+                                        </a>
+                                    </DropdownItem>
+                                )}
+                            </DropdownMenu>
+                        </UncontrolledButtonDropdown>
+
+                        <ButtonGroup id="modalDefault402" className="mr-2">
+                            <Button className="text-decoration-none align-self-center"
+                                    id="delete">
+                                <i className="fa fa-fw fa-trash"/>
+                            </Button>
+                            <UncontrolledTooltip placement="bottom" target="delete">
+                                Delete
+                            </UncontrolledTooltip>
+                        </ButtonGroup>
+                        <UncontrolledModal target="modalDefault402" className="modal-danger">
+                            <ModalHeader className="py-3"/>
+                            <ModalBody className="table-danger text-center px-5">
+                                <i className="fa fa-5x fa-close fa-fw modal-icon mb-3"/>
+                                <h6>Danger</h6>
+                                <p className="modal-text">
+                                    {`Are you sure you want to delete${this.state.title ? ` ${this.state.title}` : ``}??`}
+                                </p>
+                                <UncontrolledModal.Close color="danger" className="mr-2"
+                                                         onClickFunc={() => this.delete()}
+                                >
+                                    Yes
+                                </UncontrolledModal.Close>
+                                <UncontrolledModal.Close color="link" className="text-danger">
+                                    Cancel
+                                </UncontrolledModal.Close>
+                            </ModalBody>
+                            <ModalFooter className="py-3"/>
+                        </UncontrolledModal>
+                    </>
+                )}
+
+                {/* Save */}
+                <ButtonGroup>
+                    <Button
+                        color="primary"
+                        id="save"
+                        disabled={!dirty}
+                        onClick={() => this.submit()}
+                    >
+                        <i className="fa fa-save"/>
+                    </Button>
+                    <UncontrolledTooltip placement="bottom" target="save">
+                        Save
+                    </UncontrolledTooltip>
+                </ButtonGroup>
+            </ButtonToolbar>
+        );
+    };
+
+    renderWishlistItems = () => {
+        const {items, stocks} = this.state;
+
+        return Object.entries(items)
+            .sort(([a], [b]) => a - b)
+            .map(([key, data], idx, arr) => (
+                <React.Fragment key={key}>
+                    <CreateWishlistItem
+                        stocks={stocks}
+                        index={Number(key)}
+                        data={data}
+                        updateItemFunction={this.updateItem}
+                        deleteFunction={this.deleteItem}
+                    />
+                    {idx < arr.length - 1 && <hr className="m-1"/>}
+                </React.Fragment>
+            ));
+    };
+
     render() {
         return (
             <React.Fragment>
                 <Card className="mb-3">
                     <CardBody>
-                        <div className="flex-column flex-md-row d-flex mb-2">
-                            <div className="mr-md-auto mr-sm-0">
-                                <strong>General detail</strong>
-                            </div>
-                            <ButtonToolbar>
-                                {this.state.wishlistID && this.state.wishlistID !== -1 &&
-                                    (
-                                        <>
-                                            <ButtonGroup>
-                                                <Button color="link" tag={Link}
-                                                        disabled={this.state.dirty}
-                                                        to={`/wishlist/preview/${this.state.wishlistID}`}
-                                                        id="preview"
-                                                        target="_blank"
-                                                >
-                                                    <i className="fa fa-eye"/>
-                                                </Button>
-                                                <UncontrolledTooltip placement="bottom" target="preview">
-                                                    Preview
-                                                </UncontrolledTooltip>
-                                            </ButtonGroup>
-                                            <UncontrolledButtonDropdown className="mr-2">
-                                                <DropdownToggle caret color="secondary" outline>
-                                                    <i className="fa fa-fw fa-share-alt"/>
-                                                </DropdownToggle>
-                                                <DropdownMenu persist>
-                                                    <DropdownItem toggle={false}>
-                                                        <label className="d-flex align-items-middle mb-0">
-                                                            <Toggle
-                                                                checked={!!(this.state.sharable_slug && this.state.sharable_slug !== "")}
-                                                                onChange={(e) => {
-                                                                    if (e.target.checked) {
-                                                                        this.share()
-                                                                    }
-                                                                }}
-                                                            />
-                                                            <span className="ml-2 text-inverse">Share</span>
-                                                        </label>
-                                                    </DropdownItem>
-                                                    {this.state.sharable_slug && this.state.sharable_slug !== "" && (
-                                                        <DropdownItem>
-                                                            <label className="d-flex align-items-middle mb-0">
-                                                                <a href={`#/wishlist/public/${this.state.sharable_slug}`}
-                                                                   rel="noopener noreferrer" target="_blank"
-                                                                   className="small text-decoration-none-light">
-                                                                    <i className="fa fa-fw fa-link mr-2"/>
-                                                                    Sharable link
-                                                                </a>
-                                                            </label>
-                                                        </DropdownItem>
-                                                    )}
-
-                                                </DropdownMenu>
-                                            </UncontrolledButtonDropdown>
-                                            <ButtonGroup id="modalDefault402" className="mr-2">
-                                                <Button className="text-decoration-none align-self-center"
-                                                        id="delete">
-                                                    <i className="fa fa-fw fa-trash"/>
-                                                </Button>
-                                                <UncontrolledTooltip placement="bottom" target="delete">
-                                                    Delete
-                                                </UncontrolledTooltip>
-                                            </ButtonGroup>
-                                            <UncontrolledModal target="modalDefault402" className="modal-danger">
-                                                <ModalHeader className="py-3"/>
-                                                <ModalBody className="table-danger text-center px-5">
-                                                    <i className="fa fa-5x fa-close fa-fw modal-icon mb-3"/>
-                                                    <h6>Danger</h6>
-                                                    <p className="modal-text">
-                                                        {`Are you sure you want to delete${this.state.title ? ` ${this.state.title}` : ``}??`}
-                                                    </p>
-                                                    <UncontrolledModal.Close color="danger" className="mr-2"
-                                                                             onClickFunc={() => this.delete()}
-                                                    >
-                                                        Yes
-                                                    </UncontrolledModal.Close>
-                                                    <UncontrolledModal.Close color="link" className="text-danger">
-                                                        Cancel
-                                                    </UncontrolledModal.Close>
-                                                </ModalBody>
-                                                <ModalFooter className="py-3"/>
-                                            </UncontrolledModal>
-                                        </>
-                                    )}
-                                <ButtonGroup>
-                                    <Button color="primary" id="save"
-                                            disabled={!this.state.dirty}
-                                            onClick={() => this.submit()}
-                                    >
-                                        <i className="fa fa-save"/>
-                                    </Button>
-                                    <UncontrolledTooltip placement="bottom" target="save">
-                                        Save
-                                    </UncontrolledTooltip>
-                                </ButtonGroup>
-                            </ButtonToolbar>
+                        <div className="d-flex flex-column flex-md-row mb-2 align-items-center">
+                            <strong className="mr-auto">General detail</strong>
+                            {this.renderToolbar()}
                         </div>
                     </CardBody>
                     <CreateWishlistHeader
@@ -542,24 +572,7 @@ class CreateWishlist extends React.Component {
                     </a>
                 </CardFooter>
                 <Card className="mb-2">
-                    {Object.entries(this.state.items)
-                        .sort(([a,], [b,]) => a > b ? 1 : -1)
-                        .map((t, k) => {
-                                return (
-                                    <React.Fragment key={k}>
-                                        <CreateWishlistItem
-                                            stocks={this.state.stocks}
-                                            index={Number(t[0])}
-                                            data={t[1]}
-                                            updateItemFunction={this.updateItem}
-                                            deleteFunction={this.deleteItem}
-                                            key={k}
-                                        />
-                                        {(k === Object.keys(this.state.items).length - 1) ? <></> : <hr className="m-1"/>}
-                                    </React.Fragment>
-                                )
-                            }
-                        )}
+                    {this.renderWishlistItems()}
                 </Card>
             </React.Fragment>
         )

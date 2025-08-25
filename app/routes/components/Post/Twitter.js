@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes, {number, object, string} from 'prop-types';
-import {Badge, Media, UncontrolledTooltip} from './../../../components';
+import {Badge, Media} from './../../../components';
 import {exchangeSymbolReprToSymbol, timeSince} from "../../../utilities";
 import DOMPurify from 'dompurify';
 // import twttr from 'twitter-text';
@@ -9,71 +9,67 @@ import './../../../styles/custom.scss';
 
 const get_post_url = id => `https://twitter.com/i/web/status/${id}`;
 
-// function truncate(text) {
-//     if (text.length > 40) {
-//         return text.substring(0, 40) + "...";
-//     } else {
-//         return text;
-//     }
-// }
 
 function Twitter(props) {
-    // const [open, setOpen] = useState(true);
-    return <Media className={`mb-2 ${props.mediaClassName}`}>
-        <Media body>
-            <div className="mb-2">
-                {/*The index based substring replace will fail for different length of special characters by Twitter*/}
-                <span className="newline-format"
-                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(autoLink(props.text, props.entities), {USE_PROFILES: {html: true}})}}>
-                </span>
-                <p className="mb-0">
-                    {props.stocks.map(function (data, index) {
-                        return <Badge pill color={"secondary"} className="mr-1" href={`#/analysis/stock/${data}/news`}
-                                      key={index}>
-                            {exchangeSymbolReprToSymbol(data)}
-                        </Badge>;
-                    })}
-                </p>
-                <a href={get_post_url(props.post_id)} rel="noopener noreferrer" target="_blank"
-                   className="small text-decoration-none-light">
-                    <u>{timeSince(props.created)}</u>
-                </a>
-            </div>
-            <div>
-                <span id="Comment">
-                    <i className="fa fa-comment-o mr-1"/>
+    return (
+        <Media className={`mb-2 ${props.mediaClassName}`}>
+            <Media body>
+                <div className="mb-2">
+                    {/* Tweet Text */}
                     <span
-                        className={"mr-2 " + (props.reply_count >= 0 ? 'text-success' : 'text-danger')}>
-                    {props.reply_count}
+                        className="d-block mb-2"
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                                autoLink(props.text, props.entities),
+                                { USE_PROFILES: { html: true } }
+                            )
+                        }}
+                    />
+                    {/* Stock Badges */}
+                    <div className="mb-1">
+                        {props.stocks.map((data, index) =>
+                            data ? (
+                                <Badge
+                                    pill
+                                    color="light"
+                                    className="border mr-1 text-muted"
+                                    href={`#/analysis/stock/${data}/news`}
+                                    key={index}
+                                >
+                                    {exchangeSymbolReprToSymbol(data)}
+                                </Badge>
+                            ) : null
+                        )}
+                    </div>
+                    {/* Timestamp */}
+                    <a
+                        href={get_post_url(props.post_id)}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className="small text-muted"
+                    >
+                        <u>{timeSince(props.created)}</u>
+                    </a>
+                </div>
+
+                {/* Interaction Bar */}
+                <div className="d-flex align-items-center text-muted small">
+                    <span className="mr-3 d-flex align-items-center hover:text-primary cursor-pointer">
+                        <i className="fa fa-comment-o mr-1" />
+                        {props.reply_count}
                     </span>
-                </span>
-                <span className="mr-2">·</span>
-                <span id="Retweet">
-                    <i className="fa fa-retweet mr-1"/>
-                    <span
-                        className={"mr-2 " + (props.retweet_count >= 0 ? 'text-success' : 'text-danger')}>
-                    {props.retweet_count}
+                    <span className="mr-3 d-flex align-items-center hover:text-success cursor-pointer">
+                        <i className="fa fa-retweet mr-1" />
+                        {props.retweet_count}
                     </span>
-                </span>
-                <span id="Like">
-                    <span className="mr-2">·</span><i className="fa fa-heart-o mr-1"/> <span
-                    className={"mr-2 " + (props.like_count >= 0 ? 'text-success' : 'text-danger')}>
-                    {props.like_count}
+                    <span className="d-flex align-items-center hover:text-danger cursor-pointer">
+                        <i className="fa fa-heart-o mr-1" />
+                        {props.like_count}
                     </span>
-                </span>
-                <UncontrolledTooltip placement="bottom" target="Comment">
-                    Comment
-                </UncontrolledTooltip>
-                <UncontrolledTooltip placement="bottom" target="Retweet">
-                    Retweets
-                </UncontrolledTooltip>
-                <UncontrolledTooltip placement="bottom" target="Like">
-                    Likes
-                </UncontrolledTooltip>
-            </div>
+                </div>
+            </Media>
         </Media>
-    </Media>
-        ;
+    );
 }
 
 Twitter.propTypes = {
