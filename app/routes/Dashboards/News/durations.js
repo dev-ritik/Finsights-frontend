@@ -1,4 +1,3 @@
-
 export const DURATIONS = {
     All: 'All',
     Day: 'Day',
@@ -6,57 +5,62 @@ export const DURATIONS = {
     Week: 'Week',
     Month: 'Month',
     Quarter: 'Quarter',
+    HalfYear: 'HalfYear',
     Year: 'Year',
     // Custom: 'Custom',
 }
 
-const TODAY = new Date()
+const TODAY = new Date();
 
-let YESTERDAY = new Date();
-YESTERDAY.setDate(TODAY.getDate() - 1)
+// Helper function for subtracting days
+const subtractDays = (days) => {
+    const d = new Date(TODAY);
+    d.setDate(d.getDate() - days);
+    return d;
+};
 
-let LAST_WEEK = new Date();
-LAST_WEEK.setDate(TODAY.getDate() - 7)
-
-let LAST_MONTH = new Date();
-LAST_MONTH.setMonth(TODAY.getMonth() - 1)
-
-let LAST_YEAR = new Date();
-LAST_YEAR.setFullYear(TODAY.getFullYear() - 1);
-
-const THIS_QUARTER = new Date(TODAY.getFullYear(), Math.floor(TODAY.getMonth() / 3) * 3, 1);
+// Helper function for subtracting months
+const subtractMonths = (months) => {
+    const d = new Date(TODAY);
+    d.setMonth(d.getMonth() - months);
+    return d;
+};
 
 export const DURATION_DETAILS = {
     [DURATIONS.All]: {
-        from: TODAY,  // Unused
-        to: TODAY,  // Unused
+        from: null, // Means no limit
+        to: TODAY,
     },
     [DURATIONS.Day]: {
-        from: TODAY,
+        from: subtractDays(1),
         to: TODAY,
     },
     [DURATIONS.Yesterday]: {
-        from: YESTERDAY,
-        to: TODAY,
+        from: subtractDays(2),
+        to: subtractDays(1),
     },
     [DURATIONS.Week]: {
-        from: LAST_WEEK,
+        from: subtractDays(7),
         to: TODAY,
     },
     [DURATIONS.Month]: {
-        from: LAST_MONTH,
+        from: subtractMonths(1),
         to: TODAY,
     },
-    [DURATIONS.Quarter]: {
-        from: THIS_QUARTER,
+    [DURATIONS.Quarter]: {     // Last 3 months
+        from: subtractMonths(3),
         to: TODAY,
     },
-    [DURATIONS.Year]: {
-        from: LAST_YEAR,
+    [DURATIONS.HalfYear]: {    // Last 6 months
+        from: subtractMonths(6),
+        to: TODAY,
+    },
+    [DURATIONS.Year]: {        // Last 12 months
+        from: subtractMonths(12),
         to: TODAY,
     },
     // [DURATIONS.Custom]: {
     //     from: TODAY,  // Can be modified
     //     to: TODAY,  // Can be modified
     // }
-}
+};
