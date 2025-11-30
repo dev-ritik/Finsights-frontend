@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@owczar/dashboard-style--airframe": "^0.1.13",
+    "@owczar/dashboard-style--airframe": "^0.2.3",
     "@reduxjs/toolkit": "^1.6.2",
     "ag-grid-community": "^21.0.1",
     "ag-grid-react": "^21.0.1",

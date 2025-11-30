@@ -1,6 +1,12 @@
 # Finsights Frontend
 Frontend for the Finsights project written React js, deployed on GitHub pages.
 
+## Development
+Use node version 14
+```zsh
+eval "$(nodenv init -)"
+nodenv local 14.18.0
+```
 ## Deploy
 ### Deploy to Github pages
 `npm run deploy`
